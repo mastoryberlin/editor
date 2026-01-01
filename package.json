@@ -1,8 +1,8 @@
 {
-  "name": "@umoteam/editor",
+  "name": "@mastoryberlin/editor",
   "version": "9.0.1",
   "type": "module",
-  "description": "Umo Editor is open-source document editor based on Vue3 and Tiptap. Umo Editor provides comprehensive document editing capabilities and AI creation features, supports pagination, supports Markdown syntax, offers basic rich text editing functions, allows for the insertion of various node types in multiple formats, provides a variety of practical tools, and supports setting page styles. It also supports exporting in various formats, printing and print preview, block-level document editing, adding custom extensions, multi-language settings, and a dark theme.",
+  "description": "This is a fork of the Umo Editor for use on the Mastory platform. Umo Editor is an open-source document editor based on Vue3 and Tiptap. Umo Editor provides comprehensive document editing capabilities and AI creation features, supports pagination, supports Markdown syntax, offers basic rich text editing functions, allows for the insertion of various node types in multiple formats, provides a variety of practical tools, and supports setting page styles. It also supports exporting in various formats, printing and print preview, block-level document editing, adding custom extensions, multi-language settings, and a dark theme.",
   "keywords": [
     "umo editor",
     "umodoc editor",
@@ -21,11 +21,17 @@
     "online office",
     "tiptap"
   ],
-  "author": {
-    "name": "umodoc",
-    "email": "contact@umodoc.com",
-    "url": "https://www.umodoc.com"
-  },
+  "authors": [
+    {
+      "name": "umodoc",
+      "email": "contact@umodoc.com",
+      "url": "https://www.umodoc.com"
+    },
+    {
+      "name": "Felix Schwarz",
+      "email": "felix@mastory.io"
+    }
+  ],
   "license": "MIT",
   "homepage": "https://www.umodoc.com",
   "repository": {
@@ -210,5 +216,6 @@
     "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,vue}": [
       "eslint --fix src"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
 }
