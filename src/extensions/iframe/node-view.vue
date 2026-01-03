@@ -33,16 +33,18 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 const options = inject('options')
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 const containerRef = ref(null)
-let selected = $ref(false)
-let maxWidth = $ref(0)
+let selected = ref(false)
+let maxWidth = ref(0)
 
-const nodeStyle = $computed(() => {
+const nodeStyle = computed(() => {
   const { nodeAlign, margin } = node.attrs
   const marginTop =
     margin?.top && margin?.top !== '' ? `${margin.top}px` : undefined
@@ -60,7 +62,7 @@ onMounted(async () => {
   if (containerRef.value) {
     const { offsetWidth } = containerRef.value.$el
 
-    maxWidth = offsetWidth
+    maxWidth.value = offsetWidth
     if (node.attrs.width === null) {
       updateAttributes({ width: offsetWidth })
     }
@@ -70,7 +72,7 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
   updateAttributes({ width, height })
 }
 onClickOutside(containerRef, () => {
-  selected = false
+  selected.value = false
   // updateAttributes({ clickable: false })
 })
 </script>

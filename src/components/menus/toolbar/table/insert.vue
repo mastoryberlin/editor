@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table"
     :text="t('table.insert.text')"
     :tooltip="t('table.insert.tip')"
@@ -56,41 +56,42 @@
         </t-button>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
 const table = Array.from({ length: 8 }, () =>
   Array.from({ length: 10 }, () => ''),
 )
-const selected = $ref({ rows: 0, cols: 0 })
-const withHeaderRow = $ref(true)
+const selected = ref({ rows: 0, cols: 0 })
+const withHeaderRow = ref(true)
 
 const isSelected = (rows: number, cols: number) => {
   return (
-    selected.rows &&
-    selected.rows > rows &&
-    selected.cols &&
-    selected.cols > cols
+    selected.value.rows &&
+    selected.value.rows > rows &&
+    selected.value.cols &&
+    selected.value.cols > cols
   )
 }
 const selectCell = (rows: number, cols: number) => {
-  selected.rows = rows + 1
-  selected.cols = cols + 1
+  selected.value.rows = rows + 1
+  selected.value.cols = cols + 1
 }
 const resetTable = () => {
-  selected.rows = 0
-  selected.cols = 0
+  selected.value.rows = 0
+  selected.value.cols = 0
 }
 const insertTable = () => {
-  const { rows, cols } = selected
+  const { rows, cols } = selected.value
   if (rows === 0 || rows > 1000 || cols === 0 || cols > 30) {
     return
   }
-  editor.value?.chain().focus().insertTable({ rows, cols, withHeaderRow }).run()
+  editor.value?.chain().focus().insertTable({ rows, cols, withHeaderRow: withHeaderRow.value }).run()
   popupVisible.value = false
 }
 </script>

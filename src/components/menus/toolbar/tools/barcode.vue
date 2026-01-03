@@ -1,23 +1,23 @@
 <template>
-  <menus-button
+  <e-menus-button
     :ico="content ? 'edit' : 'barcode'"
     :text="content ? t('tools.barcode.edit') : t('tools.barcode.text')"
     huge
     @menu-click="dialogVisible = true"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       width="720px"
       @confirm="setBarcode"
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="barcode" />
+        <EIcon name="barcode" />
         {{ t('tools.barcode.title') }}
       </template>
       <div class="umo-barcode-container">
         <div class="umo-barcode-toolbar">
-          <menus-button
+          <e-menus-button
             style="width: 126px"
             :text="t('tools.barcode.format')"
             :select-options="formats"
@@ -28,9 +28,9 @@
                 config.format = value
               }
             "
-          ></menus-button>
+          ></e-menus-button>
           <t-divider layout="vertical" />
-          <menus-button
+          <e-menus-button
             style="width: 114px"
             :text="t('tools.barcode.font')"
             :select-options="fonts ?? []"
@@ -41,50 +41,50 @@
                 config.font = value
               }
             "
-          ></menus-button>
+          ></e-menus-button>
           <t-divider layout="vertical" />
-          <menus-toolbar-base-color
+          <e-menus-toolbar-base-color
             :text="t('tools.barcode.lineColor')"
             :default-color="config.lineColor"
             modeless
             @change="(value: any) => (config.lineColor = value)"
           />
-          <menus-toolbar-base-background-color
+          <e-menus-toolbar-base-background-color
             :text="t('tools.barcode.bgColor')"
             :default-color="config.background"
             modeless
             @change="(value: any) => (config.background = value)"
           />
           <t-divider layout="vertical" />
-          <menus-toolbar-base-bold
+          <e-menus-toolbar-base-bold
             :menu-active="config.fontOptions.includes('bold')"
             @menu-click-through="changeFontOptions('bold')"
           />
-          <menus-toolbar-base-italic
+          <e-menus-toolbar-base-italic
             :menu-active="config.fontOptions.includes('italic')"
             @menu-click-through="changeFontOptions('italic')"
           />
           <t-divider layout="vertical" />
-          <menus-toolbar-base-align-left
+          <e-menus-toolbar-base-align-left
             :menu-active="config.textAlign === 'left'"
             @menu-click-through="config.textAlign = 'left'"
           />
-          <menus-toolbar-base-align-center
+          <e-menus-toolbar-base-align-center
             :menu-active="config.textAlign === 'center'"
             @menu-click-through="config.textAlign = 'center'"
           />
-          <menus-toolbar-base-align-right
+          <e-menus-toolbar-base-align-right
             :menu-active="config.textAlign === 'right'"
             @menu-click-through="config.textAlign = 'right'"
           />
           <t-divider layout="vertical" />
-          <menus-button
+          <e-menus-button
             :text="t('tools.barcode.more')"
             menu-type="popup"
             :popup-visible="popupVisible"
             @toggle-popup="togglePopup"
           >
-            <icon name="setting" />
+            <EIcon name="setting" />
             <template #content>
               <div class="umo-barcode-toolbar-more">
                 <t-form size="small" label-align="left">
@@ -178,7 +178,7 @@
                 </t-form>
               </div>
             </template>
-          </menus-button>
+          </e-menus-button>
         </div>
         <div class="umo-barcode-code">
           <t-input
@@ -191,7 +191,7 @@
             :status="renderError && config.content !== '' ? 'error' : 'default'"
           >
             <template #prefixIcon>
-              <icon name="barcode" />
+              <EIcon name="barcode" />
             </template>
           </t-input>
           <div
@@ -215,15 +215,16 @@
           </div>
         </div>
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import JsBarcode from 'jsbarcode'
 import svg64 from 'svg64'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const { content } = defineProps({
   content: {
@@ -234,7 +235,7 @@ const { content } = defineProps({
 
 const { popupVisible, togglePopup } = usePopup()
 
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
@@ -285,22 +286,22 @@ const defaultConfig = {
   margin: 10,
   text: undefined,
 }
-let config = $ref({ ...defaultConfig })
-let changed = $ref(false)
+let config = ref({ ...defaultConfig })
+let changed = ref(false)
 
 const changeFontOptions = (val: string) => {
-  let fontOptions = config.fontOptions.split(' ')
+  let fontOptions = config.value.fontOptions.split(' ')
   if (fontOptions.includes(val)) {
     fontOptions = fontOptions.filter((item: any) => item !== val)
   } else {
     fontOptions.push(val)
   }
-  config.fontOptions = fontOptions.join(' ').trim()
+  config.value.fontOptions = fontOptions.join(' ').trim()
 }
 
 // 生成条形码
-let renderError = $ref(false)
-const barcodeSvgRef = $ref<
+let renderError = ref(false)
+const barcodeSvgRef = ref<
   | (HTMLElement & {
       width: { animVal: { value: number } }
       height: { animVal: { value: number } }
@@ -310,29 +311,29 @@ const barcodeSvgRef = $ref<
 const renderBarcode = async () => {
   try {
     await nextTick()
-    JsBarcode(`${container} #barcode`, config.content, config)
-    renderError = false
+    JsBarcode(`${container} #barcode`, config.value.content, config.value)
+    renderError.value = false
   } catch {
-    renderError = true
+    renderError.value = true
   }
 }
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   (val: boolean) => {
     if (val) {
-      config = content ? JSON.parse(content) : { ...defaultConfig }
+      config.value = content ? JSON.parse(content) : { ...defaultConfig }
       setTimeout(() => {
-        changed = false
+        changed.value = false
       }, 200)
     }
   },
   { immediate: true },
 )
 watch(
-  () => config,
+  () => config.value,
   () => {
-    if (dialogVisible) {
-      changed = true
+    if (dialogVisible.value) {
+      changed.value = true
       void renderBarcode()
     }
   },
@@ -341,14 +342,14 @@ watch(
 
 // 创建或更新条形码
 const setBarcode = () => {
-  if (renderError) {
+  if (renderError.value) {
     useMessage('error', {
       attach: container,
       content: t('tools.barcode.renderError'),
     })
     return
   }
-  if (config.content === '') {
+  if (config.value.content === '') {
     useMessage('error', {
       attach: container,
       content: t('tools.barcode.notEmpty'),
@@ -357,9 +358,9 @@ const setBarcode = () => {
   }
   const id = shortId(10)
   const name = `barcode-${id}.svg`
-  const width = barcodeSvgRef?.width.animVal.value
-  const height = barcodeSvgRef?.height.animVal.value
-  const blob = new Blob([barcodeSvgRef.outerHTML], {
+  const width = barcodeSvgRef.value?.width.animVal.value
+  const height = barcodeSvgRef.value?.height.animVal.value
+  const blob = new Blob([barcodeSvgRef.value.outerHTML], {
     type: 'image/svg+xml',
   })
   const file = new File([blob], name, {
@@ -367,7 +368,7 @@ const setBarcode = () => {
   })
   uploadFileMap.value.set(id, file)
 
-  if (changed) {
+  if (changed.value) {
     editor.value
       ?.chain()
       .focus()
@@ -377,8 +378,8 @@ const setBarcode = () => {
           type: 'barcode',
           name,
           size: file.size,
-          src: svg64(barcodeSvgRef?.outerHTML ?? ''),
-          content: JSON.stringify(config),
+          src: svg64(barcodeSvgRef.value?.outerHTML ?? ''),
+          content: JSON.stringify(config.value),
           width,
           height,
         },
@@ -386,7 +387,7 @@ const setBarcode = () => {
       )
       .run()
   }
-  dialogVisible = false
+  dialogVisible.value = false
 }
 </script>
 

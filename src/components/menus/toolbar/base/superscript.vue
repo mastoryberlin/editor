@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="superscript"
     :text="t('base.superscript')"
     shortcut="Ctrl+."

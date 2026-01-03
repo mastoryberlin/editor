@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="columns"
     :text="t('insert.columns')"
     menu-type="popup"
@@ -21,18 +21,19 @@
         </div>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
-let activeColumn = $ref(0)
+let activeColumn = ref(0)
 
 const columns = [1, 2, 3, 4, 5, 6]
 const setActiveColumn = (column: number) => {
-  activeColumn = column
+  activeColumn.value = column
 }
 const setColumns = (column: number) => {
   editor.value?.chain().focus().setColumns(column, true).run()
@@ -43,7 +44,7 @@ watch(
   () => popupVisible.value,
   (visible: boolean) => {
     if (!visible) {
-      activeColumn = 0
+      activeColumn.value = 0
     }
   },
 )

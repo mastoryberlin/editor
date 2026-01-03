@@ -1,4 +1,4 @@
-import type { InsterContentType, SetContentType } from '@/types'
+import type { InsterContentType, SetContentType } from '~~/editor/types'
 
 export const contentTransform = <T extends InsterContentType | SetContentType>(
   content: T,

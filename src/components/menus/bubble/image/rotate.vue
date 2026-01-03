@@ -1,19 +1,19 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="image-rotate"
     :text="t('bubbleMenu.image.rotateCC')"
     @menu-click="setRotate(-90)"
   />
-  <menus-button
+  <e-menus-button
     :text="t('bubbleMenu.image.rotateC')"
     @menu-click="setRotate(90)"
   >
-    <icon name="image-rotate" style="transform: rotateY(180deg)" />
-  </menus-button>
+    <EIcon name="image-rotate" style="transform: rotateY(180deg)" />
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 

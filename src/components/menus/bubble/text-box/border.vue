@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="border"
     :text="t('bubbleMenu.textBox.border')"
     menu-type="popup"
@@ -20,16 +20,16 @@
             :class="{ active: colorPickerVisible }"
           >
             <span>
-              <icon name="palette-color" />
+              <EIcon name="palette-color" />
               {{ t('bubbleMenu.textBox.borderColor') }}
             </span>
             <div class="arrow">
-              <icon name="arrow-down" />
+              <EIcon name="arrow-down" />
             </div>
           </div>
           <template #content>
             <div class="umo-textbox-border-color-picker">
-              <picker-color default-color="#000" @change="colorChange" />
+              <e-picker-color default-color="#000" @change="colorChange" />
             </div>
           </template>
         </t-popup>
@@ -41,11 +41,11 @@
         >
           <div class="umo-textbox-border-dropdown-item">
             <span>
-              <icon name="border" size="16" />
+              <EIcon name="border" size="16" />
               {{ t('bubbleMenu.textBox.borderStyle') }}
             </span>
             <div class="arrow">
-              <icon name="arrow-down" />
+              <EIcon name="arrow-down" />
             </div>
           </div>
           <t-dropdown-menu>
@@ -65,17 +65,18 @@
         </t-dropdown>
         <div class="umo-textbox-border-dropdown-item" @click="noBorder">
           <span>
-            <icon name="border-none" size="16" />
+            <EIcon name="border-none" size="16" />
             {{ t('bubbleMenu.textBox.noBorder') }}
           </span>
         </div>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
@@ -95,8 +96,8 @@ const styles = [
   { style: 'double', width: 3 },
 ]
 
-const borderColor = $ref('#000')
-let colorPickerVisible = $ref(false)
+const borderColor = ref('#000')
+let colorPickerVisible = ref(false)
 
 const colorChange = (color: any) => {
   const textBox = editor.value ? getSelectionNode(editor.value) : null
@@ -104,7 +105,7 @@ const colorChange = (color: any) => {
     editor.value?.commands.updateAttributes(textBox.type, {
       borderColor: color,
     })
-    colorPickerVisible = false
+    colorPickerVisible.value = false
     popupVisible.value = false
   }
 }
@@ -114,7 +115,7 @@ const styleChange = ({ value }: any) => {
     editor.value?.commands.updateAttributes(textBox.type, {
       borderStyle: value.style,
       borderWidth: value.width,
-      borderColor,
+      borderColor: borderColor.value,
     })
     popupVisible.value = false
   }

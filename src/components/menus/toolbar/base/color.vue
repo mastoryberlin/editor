@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="color"
     :text="text || t('base.color')"
     menu-type="popup"
@@ -16,12 +16,13 @@
       }"
     ></div>
     <template #content>
-      <picker-color :default-color="defaultColor" @change="colorChange" />
+      <e-picker-color :default-color="defaultColor" @change="colorChange" />
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
   text: {
     type: String,
@@ -41,13 +42,13 @@ const emits = defineEmits(['change'])
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
-let currentColor = $ref<string | undefined>()
+let currentColor = ref<string | undefined>()
 const colorChange = (color: string) => {
-  currentColor = color
+  currentColor.value = color
   popupVisible.value = false
 
   if (props.modeless) {
-    emits('change', currentColor)
+    emits('change', currentColor.value)
     return
   }
 

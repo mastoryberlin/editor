@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="page-header"
     :text="page.header ? t('page.header.hide') : t('page.header.show')"
     huge

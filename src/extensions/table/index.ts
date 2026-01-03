@@ -1,4 +1,4 @@
-import Table from '@tiptap/extension-table'
+import { TableKit } from '@tiptap/extension-table'
 import { DOMParser as ProseMirrorDOMParser } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
@@ -35,7 +35,7 @@ const extractStyles = (styleText: string) => {
   return styles
 }
 
-const CustomTable = Table.extend({
+const CustomTable = TableKit.extend({
   addProseMirrorPlugins() {
     return [
       ...(this.parent?.() ?? []),

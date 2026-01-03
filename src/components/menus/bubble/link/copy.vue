@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="copy"
     :text="t('insert.link.copy')"
     hide-text

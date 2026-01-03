@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="page-orientation"
     :text="t('page.orientation.text')"
     menu-type="dropdown"
@@ -18,13 +18,13 @@
             class="icon-orientation"
             :class="{ rotate: item.value === 'landscape' }"
           >
-            <icon name="page" />
+            <EIcon name="page" />
           </div>
           <div class="label">{{ item.label }}</div>
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

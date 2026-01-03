@@ -32,12 +32,14 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 const container = inject('container')
 const options = inject('options')
 const page = inject('page')
-let popupVisible = $ref(false)
+let popupVisible = ref(false)
 
 const formatDateToChinese = (dateStr: string) => {
   const replaceDigits = (num: string) => {
@@ -82,7 +84,7 @@ const datetimeChange = (value: any) => {
     selectDate = formatDateToChinese(value)
   }
   updateAttributes({ date: selectDate, text: selectDate })
-  popupVisible = false
+  popupVisible.value = false
 }
 </script>
 

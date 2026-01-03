@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="align-right"
     :text="t('base.align.right')"
     shortcut="Ctrl+Shift+R"

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="page-background"
     :text="t('page.bg.text')"
     huge
@@ -28,11 +28,11 @@
       >
         <div class="umo-background-more" :class="{ active: moreColorPicker }">
           <div class="umo-background-more-menu">
-            <icon name="palette-color" />
+            <EIcon name="palette-color" />
             <span v-text="t('page.bg.custom')"></span>
           </div>
           <div class="umo-background-more-arrow">
-            <icon name="arrow-down" />
+            <EIcon name="arrow-down" />
           </div>
         </div>
         <template #content>
@@ -46,10 +46,11 @@
         </template>
       </t-popup>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
 const page = inject('page')
@@ -64,7 +65,7 @@ const backgrounds = [
 ]
 
 // 更多颜色
-const moreColorPicker = $ref(false)
+const moreColorPicker = ref(false)
 const backgroundChange = (color: string) => {
   page.value.background = color
 }

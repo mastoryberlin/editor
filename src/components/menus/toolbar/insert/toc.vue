@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="toc"
     :text="t('insert.toc')"
     huge

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="t('print.text')"
     ico="print"
     shortcut="Ctrl+P"
@@ -7,7 +7,7 @@
     huge
     @menu-click="printing = true"
   >
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

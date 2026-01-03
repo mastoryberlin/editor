@@ -1,59 +1,59 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="signature"
     :text="t('tools.signature.text')"
     huge
     @menu-click="dialogVisible = true"
   >
-    <modal
+    <e-modal
       v-model:visible="dialogVisible"
       width="642px"
       @confirm="setSignature"
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="signature" />
+        <EIcon name="signature" />
         {{ t('tools.signature.title') }}
       </template>
       <div class="umo-signature-toolbar">
-        <menus-button
+        <e-menus-button
           ico="undo"
           :text="t('base.undo')"
           hide-text
           @menu-click="signature?.undo()"
         />
-        <menus-button
+        <e-menus-button
           ico="clear-format"
           :text="t('tools.signature.clear')"
           hide-text
           @menu-click="signature?.clear()"
         />
         <t-divider layout="vertical" />
-        <menus-button
+        <e-menus-button
           :text="t('tools.signature.lineWidth')"
           menu-type="dropdown"
           hide-text
           :select-options="lineWidthOptions"
           @click="changeLineWidth"
         >
-          <icon name="highlight" />
-        </menus-button>
-        <menus-toolbar-base-color
+          <EIcon name="highlight" />
+        </e-menus-button>
+        <e-menus-toolbar-base-color
           :text="t('tools.signature.lineColor')"
           modeless
           :default-color="options.color"
           @change="changeLineColor"
         />
-        <menus-button
+        <e-menus-button
           :text="t('tools.signature.smooth')"
           :menu-active="openSmooth"
           hide-text
           @menu-click="changeSmooth"
         >
-          <icon name="highlight" />
-        </menus-button>
+          <EIcon name="highlight" />
+        </e-menus-button>
         <t-divider layout="vertical" />
-        <menus-button
+        <e-menus-button
           ico="image-reset"
           :text="t('tools.signature.reset')"
           hide-text
@@ -63,22 +63,23 @@
       <div class="umo-signature-container" :data-tip="t('tools.signature.tip')">
         <canvas ref="signatureRef" />
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import SmoothSignature from 'smooth-signature'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const editor = inject('editor')
 const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
-let dialogVisible = $ref(false)
-let openSmooth = $ref(false)
+let dialogVisible = ref(false)
+let openSmooth = ref(false)
 
-const lineWidthOptions = $ref([
+const lineWidthOptions = ref([
   { content: '2', value: 2 },
   { content: '3', value: 3 },
   { content: '4', value: 4 },
@@ -87,46 +88,46 @@ const lineWidthOptions = $ref([
   { content: '7', value: 7 },
   { content: '8', value: 8 },
 ])
-const options = $ref({
+const options = ref({
   width: 600,
   height: 200,
   minWidth: 4,
   maxWidth: 4,
   color: '#000',
-  openSmooth,
+  openSmooth: openSmooth.value,
   scale: 2,
 })
-let signature = $ref(null)
-const signatureRef = $ref(null)
+let signature = ref(null)
+const signatureRef = ref(null)
 
 const reuseOptions = () => {
-  signature.width = 600
-  signature.height = 200
-  signature.minWidth = 4
-  signature.maxWidth = 4
-  signature.color = '#000'
-  signature.openSmooth = false
-  openSmooth = false
+  signature.value.width = 600
+  signature.value.height = 200
+  signature.value.minWidth = 4
+  signature.value.maxWidth = 4
+  signature.value.color = '#000'
+  signature.value.openSmooth = false
+  openSmooth.value = false
 }
 
 const changeLineColor = (color: string) => {
-  signature.color = color
+  signature.value.color = color
 }
 const changeLineWidth = ({ value }: { value: number }) => {
-  signature.minWidth = value
-  signature.maxWidth = value
+  signature.value.minWidth = value
+  signature.value.maxWidth = value
 }
 const changeSmooth = () => {
-  openSmooth = !openSmooth
-  signature.openSmooth = openSmooth
-  signature.maxWidth = openSmooth ? signature.minWidth * 2 : signature.minWidth
+  openSmooth.value = !openSmooth.value
+  signature.value.openSmooth = openSmooth.value
+  signature.value.maxWidth = openSmooth.value ? signature.value.minWidth * 2 : signature.value.minWidth
 }
 
 const setSignature = async () => {
   try {
     const id = shortId(10)
     const name = `seal-${id}.png`
-    const image = signature.getPNG()
+    const image = signature.value.getPNG()
     const file = await fetch(image)
       .then((res) => res.blob())
       .then((blob) => new File([blob], name, { type: blob.type }))
@@ -146,7 +147,7 @@ const setSignature = async () => {
         previewType: null,
       })
       .run()
-    dialogVisible = false
+    dialogVisible.value = false
   } catch {
     useMessage('error', {
       attach: container,
@@ -156,16 +157,16 @@ const setSignature = async () => {
 }
 
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   async (val: any) => {
     if (val) {
-      if (!signature) {
+      if (!signature.value) {
         await nextTick()
-        signature = new SmoothSignature(signatureRef, options)
+        signature.value = new SmoothSignature(signatureRef.value, options.value)
       }
     } else {
-      signature?.clear()
-      signature = null
+      signature.value?.clear()
+      signature.value = null
     }
   },
   { immediate: true },

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="t('base.highlight.text')"
     shortcut="Ctrl+Shift+H"
     menu-type="dropdown"
@@ -24,22 +24,23 @@
           :divider="item.divider"
           @click="highlightChange(item as HighlightOption)"
         >
-          <icon name="highlight" />
+          <EIcon name="highlight" />
           <span>{{ item.label }}</span>
         </t-dropdown-item>
         <t-dropdown-item
           class="umo-text-highlight-menu umo-clear-format-menu"
           @click="clearFormat()"
         >
-          <icon name="clear-format" />
+          <EIcon name="clear-format" />
           <span v-text="t('base.highlight.clear')"></span>
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const editor = inject('editor')
 
 interface HighlightOption {
@@ -69,7 +70,7 @@ const options: HighlightOption[] = [
   },
 ]
 
-let highlight = $ref<HighlightOption | undefined>()
+let highlight = ref<HighlightOption | undefined>()
 const highlightChange = (item: HighlightOption) => {
   if (!item) {
     highlightChange(options[0])
@@ -81,12 +82,12 @@ const highlightChange = (item: HighlightOption) => {
   if (item.color) {
     editor.value?.chain().focus().setColor(item.color).run()
   }
-  highlight = item
+  highlight.value = item
 }
 const clearFormat = () => {
   editor.value?.chain().focus().unsetHighlight().run()
   editor.value?.chain().focus().unsetColor().run()
-  highlight = undefined
+  highlight.value = undefined
 }
 </script>
 

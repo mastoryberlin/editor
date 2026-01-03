@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="undo"
     :text="t('base.undo')"
     shortcut="Ctrl+Z"

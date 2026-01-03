@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="t('base.lineHeight.text')"
     ico="line-height"
     menu-type="dropdown"

@@ -5,18 +5,19 @@
     :editor="editor!"
     :tippy-options="tippyOpitons"
   >
-    <menus-bubble-menus
+    <e-menus-bubble-menus
       v-if="options?.document?.enableBubbleMenu && !assistant"
     >
       <template #bubble_menu="props">
         <slot name="bubble_menu" v-bind="props" />
       </template>
-    </menus-bubble-menus>
-    <ai-assistant-input v-if="options?.ai?.assistant?.enabled && assistant" />
+    </e-menus-bubble-menus>
+    <e-ai-assistant-input v-if="options?.ai?.assistant?.enabled && assistant" />
   </bubble-menu>
 </template>
 
 <script setup lang="ts">
+
 import { BubbleMenu } from '@tiptap/vue-3'
 import type { Instance } from 'tippy.js'
 
@@ -26,20 +27,20 @@ const assistant = inject('assistant')
 const options = inject('options')
 
 // 气泡菜单
-let tippyInstance = $ref<Instance | null>(null)
-const tippyOpitons = $ref<Partial<Instance>>({
+let tippyInstance = ref<Instance | null>(null)
+const tippyOpitons = ref<Partial<Instance>>({
   appendTo: () =>
     document.querySelector(`${container} .umo-zoomable-container`)!,
   maxWidth: 580,
   zIndex: 110,
   onShow(instance: Instance) {
-    tippyInstance = instance
+    tippyInstance.value = instance
   },
   onHide() {
     assistant.value = false
   },
   onDestroy() {
-    tippyInstance = null
+    tippyInstance.value = null
   },
 })
 
@@ -47,8 +48,8 @@ const tippyOpitons = $ref<Partial<Instance>>({
 watch(
   () => [assistant.value],
   (visible: any[]) => {
-    if (tippyInstance) {
-      tippyInstance?.setProps({
+    if (tippyInstance.value) {
+      tippyInstance.value?.setProps({
         placement: visible.includes(true) ? 'bottom' : 'top',
       })
     }
@@ -57,9 +58,9 @@ watch(
 
 // 销毁 tippy
 onUnmounted(() => {
-  if (tippyInstance) {
-    tippyInstance.destroy()
-    tippyInstance = null
+  if (tippyInstance.value) {
+    tippyInstance.value.destroy()
+    tippyInstance.value = null
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="equal-proportion"
     :text="t('bubbleMenu.image.proportion')"
     :menu-active="proportionActive"
@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="node-duplicate"
     :text="t('blockMenu.duplicate')"
     @menu-click="duplicateNode"
@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import type { Node } from '@tiptap/pm/model'
 
-import { getSelectionNode } from '@/extensions/selection'
-import { shortId } from '@/utils/short-id'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const editor = inject('editor')
 

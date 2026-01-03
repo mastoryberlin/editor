@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="math"
     :text="t('insert.math')"
     huge

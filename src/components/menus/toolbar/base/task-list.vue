@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="task-list"
     :text="t('list.task.text')"
     shortcut="Ctrl+Shift+9"
@@ -31,7 +31,7 @@
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

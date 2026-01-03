@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="node-delete"
     :text="t('insert.link.remove')"
     hide-text

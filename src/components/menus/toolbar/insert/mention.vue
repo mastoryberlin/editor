@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="mention"
     :text="t('insert.mention')"
     huge

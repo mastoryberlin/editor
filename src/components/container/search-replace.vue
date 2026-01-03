@@ -1,5 +1,5 @@
 <template>
-  <modal
+  <e-modal
     class="umo-search-replace-dialog"
     :visible="searchReplace"
     :footer="false"
@@ -9,7 +9,7 @@
     @close="searchReplace = false"
   >
     <template #header>
-      <icon name="search-replace" />
+      <EIcon name="search-replace" />
       {{ t('search.title') }}
     </template>
     <div class="umo-search-replace-container">
@@ -37,7 +37,7 @@
           variant="text"
           @click="next"
         >
-          <icon name="arrow-down" class="icon-next" />
+          <EIcon name="arrow-down" class="icon-next" />
         </t-button>
         <t-button
           :disabled="resultLength === 0"
@@ -45,7 +45,7 @@
           variant="text"
           @click="previous"
         >
-          <icon name="arrow-down" class="icon-prev" />
+          <EIcon name="arrow-down" class="icon-prev" />
         </t-button>
       </div>
       <div class="umo-replace-text">
@@ -85,26 +85,27 @@
         ></t-button>
       </div>
     </div>
-  </modal>
+  </e-modal>
 </template>
 
 <script setup lang="ts">
-import { getSelectionText } from '@/extensions/selection'
+
+import { getSelectionText } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 const searchReplace = inject('searchReplace')
 
-let searchText = $ref<string>('')
-let replaceText = $ref<string>('')
-const caseSensitive = $ref<boolean>(false)
+let searchText = ref<string>('')
+let replaceText = ref<string>('')
+const caseSensitive = ref<boolean>(false)
 
 const resultLength = computed(
   () => editor.value?.storage.searchAndReplace?.results.length ?? 0,
 )
 
 const clear = () => {
-  searchText = ''
-  replaceText = ''
+  searchText.value = ''
+  replaceText.value = ''
   editor.value?.commands.resetIndex()
 }
 
@@ -115,9 +116,9 @@ const search = (clearIndex = false) => {
   if (clearIndex) {
     editor.value.commands.resetIndex()
   }
-  editor.value.commands.setSearchTerm(searchText)
-  editor.value.commands.setReplaceTerm(replaceText)
-  editor.value.commands.setCaseSensitive(caseSensitive)
+  editor.value.commands.setSearchTerm(searchText.value)
+  editor.value.commands.setReplaceTerm(replaceText.value)
+  editor.value.commands.setCaseSensitive(caseSensitive.value)
 }
 
 const goToSelection = () => {
@@ -137,7 +138,7 @@ const goToSelection = () => {
 }
 
 watch(
-  () => searchText.trim(),
+  () => searchText.value.trim(),
   (val: string, oldVal: string) => {
     if (!val) {
       clear()
@@ -148,12 +149,12 @@ watch(
   },
 )
 watch(
-  () => replaceText.trim(),
+  () => replaceText.value.trim(),
   (val: string, oldVal: string) => (val === oldVal ? null : search()),
 )
 
 watch(
-  () => caseSensitive,
+  () => caseSensitive.value,
   (val: boolean, oldVal: boolean) => {
     if (val !== oldVal) {
       search(true)
@@ -181,7 +182,7 @@ const replaceAll = () => editor.value?.commands.replaceAll()
 watch(
   () => searchReplace.value,
   (visible: boolean) => {
-    searchText = visible ? getSelectionText(editor.value) : ''
+    searchText.value = visible ? getSelectionText(editor.value) : ''
   },
 )
 </script>

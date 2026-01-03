@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="format-painter"
     :text="t('base.formatPainter.text')"
     :tooltip="t('base.formatPainter.tip')"

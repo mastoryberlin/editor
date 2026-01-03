@@ -1,11 +1,11 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="share"
     :text="t('export.share.text')"
     huge
     @menu-click="dialogVisible = true"
   />
-  <modal
+  <e-modal
     :visible="dialogVisible"
     width="420px"
     :confirm-btn="t('export.share.copy')"
@@ -13,7 +13,7 @@
     @close="dialogVisible = false"
   >
     <template #header>
-      <icon name="share" />
+      <EIcon name="share" />
       {{ t('export.share.text') }}
     </template>
     <div class="umo-share-container">
@@ -25,13 +25,14 @@
         autosize
       ></t-textarea>
     </div>
-  </modal>
+  </e-modal>
 </template>
 
 <script setup lang="ts">
+
 const options = inject('options')
 const container = inject('container')
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 
 const copyLink = () => {
   const { copy } = useClipboard({ source: options.value.shareUrl })
@@ -40,7 +41,7 @@ const copyLink = () => {
     attach: container,
     content: t('export.share.copied'),
   })
-  dialogVisible = false
+  dialogVisible.value = false
 }
 </script>
 

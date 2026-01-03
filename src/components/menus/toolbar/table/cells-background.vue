@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-cells-background"
     :text="t('table.cellBgColor.text')"
     :tooltip="t('table.cellBgColor.tip')"
@@ -10,9 +10,9 @@
     @toggle-popup="togglePopup"
   >
     <template #content>
-      <picker-color default-color="" @change="colorChange" />
+      <e-picker-color default-color="" @change="colorChange" />
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

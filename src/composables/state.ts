@@ -1,6 +1,7 @@
 import type { RemovableRef } from '@vueuse/core'
+import { useStorage } from '@vueuse/core'
 
-import type { DocumentOptions, SupportedLocale } from '@/types'
+import type { DocumentOptions, SupportedLocale } from '~~/editor/types'
 
 export type StateKey = 'toolbar' | 'document' | 'recent' | 'print'
 export type StateValue<T extends StateKey> = T extends 'toolbar'
@@ -24,7 +25,7 @@ export type StateValue<T extends StateKey> = T extends 'toolbar'
           ? SupportedLocale
           : never
 
-export function useState<T extends StateKey>(
+export function useEditorState<T extends StateKey>(
   key: T,
   options: any,
 ): RemovableRef<StateValue<T>> {

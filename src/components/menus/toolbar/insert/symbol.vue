@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="symbol"
     :text="t('insert.symbol')"
     menu-type="popup"
@@ -24,7 +24,7 @@
         </template>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

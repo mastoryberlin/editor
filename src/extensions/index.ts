@@ -7,10 +7,12 @@ import Focus from '@tiptap/extension-focus'
 import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
 import History from '@tiptap/extension-history'
+import Mathematics from '@tiptap/extension-mathematics'
 import Placeholder from '@tiptap/extension-placeholder'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import TableRow from '@tiptap/extension-table-row'
+import { getHierarchicalIndexes, TableOfContents } from '@tiptap/extension-table-of-contents'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import TextColor from '@tiptap/extension-text-style'
@@ -19,18 +21,12 @@ import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import type { Editor, Extension } from '@tiptap/vue-3'
 import { ColumnsExtension as Columns } from '@tiptap-extend/columns'
-import Mathematics from '@tiptap-pro/extension-mathematics'
-import NodeRange from '@tiptap-pro/extension-node-range'
-import { getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents'
-import { TableOfContents } from '@tiptap-pro/extension-table-of-contents'
-
-import type { UmoEditorOptions } from '@/types'
-import { getImageDimensions } from '@/utils/file'
-import { shortId } from '@/utils/short-id'
+import type { UmoEditorOptions } from '~~/editor/types'
+import { getImageDimensions } from '~~/editor/src/utils/file'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 import Audio from './audio'
 import Bookmark from './bookmark'
-import BreakMarks from './break-marks'
 import BulletList from './bullet-list'
 import Callout from './callout'
 import CodeBlock from './code-block'
@@ -121,9 +117,6 @@ export const getDefaultExtensions = ({
     bookmark: Bookmark.configure({
       class: 'umo-editor-bookmark',
     }),
-    'hard-break': BreakMarks.configure({
-      visible: page?.showBreakMarks,
-    }),
     hr: Hr,
     toc: Toc,
     'text-box': TextBox,
@@ -188,7 +181,7 @@ export const getDefaultExtensions = ({
 
     // 其他
     Selection,
-    NodeRange,
+    // NodeRange,
     TableOfContents.configure({
       getIndex: getHierarchicalIndexes,
       scrollParent: () =>
@@ -259,7 +252,7 @@ export const getDefaultExtensions = ({
 
 export const inputAndPasteRules = (options: any) => {
   let enableRules: boolean | Extension[] = true
-  const $document = useState('document', options)
+  const $document = useEditorState('document', () => options)
   if (
     !options.value.document?.enableMarkdown ||
     !$document.value?.enableMarkdown

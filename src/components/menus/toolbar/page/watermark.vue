@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="watermark"
     :text="t('page.watermark.text')"
     huge
@@ -10,7 +10,7 @@
     <template #content>
       <div class="umo-watermark-container">
         <div class="umo-watermark-toolbar">
-          <menus-button
+          <e-menus-button
             style="width: 140px"
             :tooltip="t('page.watermark.fontFamily')"
             menu-type="select"
@@ -21,8 +21,8 @@
                 updateWatermark({ fontFamily: value })
               }
             "
-          ></menus-button>
-          <menus-button
+          ></e-menus-button>
+          <e-menus-button
             menu-type="input"
             :tooltip="t('page.watermark.fontSize')"
           >
@@ -42,8 +42,8 @@
               "
             >
             </t-input-number>
-          </menus-button>
-          <menus-toolbar-base-color
+          </e-menus-button>
+          <e-menus-toolbar-base-color
             v-if="page.watermark"
             :text="t('page.watermark.fontColor')"
             :default-color="page.watermark?.fontColor"
@@ -54,7 +54,7 @@
               }
             "
           />
-          <menus-toolbar-base-bold
+          <e-menus-toolbar-base-bold
             v-if="page.watermark"
             :menu-active="page.watermark.fontWeight === 'bold'"
             @menu-click-through="
@@ -107,7 +107,7 @@
         ></t-button>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
@@ -183,10 +183,10 @@ const clearWatermark = () => {
         }
       }
       &.compact .bg {
-        background-image: url('@/assets/images/watermark-compact.png');
+        background-image: url('~~/editor/src/assets/images/watermark-compact.png');
       }
       &.spacious .bg {
-        background-image: url('@/assets/images/watermark-spacious.png');
+        background-image: url('~~/editor/src/assets/images/watermark-spacious.png');
       }
     }
   }

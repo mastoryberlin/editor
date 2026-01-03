@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="word"
     :text="t('base.importWord.text')"
     huge
@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { loadResource } from '@/utils/load-resource'
+import { loadResource } from '~~/editor/src/utils/load-resource'
 
 const container = inject('container')
 const editor = inject('editor')

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="bullet-list"
     :text="t('list.bullet.text')"
     shortcut="Ctrl+Shift+8"
@@ -13,7 +13,7 @@
   >
     <template #content>
       <div class="umo-bullet-list-group">
-        <tooltip
+        <e-tooltip
           v-for="item in options"
           :key="item.value"
           :content="item.label"
@@ -28,13 +28,14 @@
               :name="`bullet-list-${item.value}`"
             />
           </div>
-        </tooltip>
+        </e-tooltip>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
@@ -44,13 +45,13 @@ const options = [
   { label: t('list.bullet.square'), value: 'square' },
 ]
 
-let listStyleType = $ref('')
+let listStyleType = ref('')
 watch(
   () => popupVisible.value,
   (val: boolean) => {
     if (val && editor.value) {
       const { listType } = editor.value.getAttributes('bulletList')
-      listStyleType = listType
+      listStyleType.value = listType
     }
   },
 )
@@ -68,7 +69,7 @@ const toggleBulletList = (listType: string) => {
       ?.updateAttributes('bulletList', { listType })
       ?.run()
   }
-  listStyleType = listType
+  listStyleType.value = listType
   popupVisible.value = false
 }
 </script>

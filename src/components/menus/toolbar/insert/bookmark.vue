@@ -1,11 +1,11 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="bookmark"
     :text="t('insert.bookmark.text')"
     huge
     @menu-click="dialogVisible = true"
   />
-  <modal
+  <e-modal
     :visible="dialogVisible"
     width="420px"
     draggable
@@ -15,7 +15,7 @@
     @close="dialogVisible = false"
   >
     <template #header>
-      <icon name="bookmark" />
+      <EIcon name="bookmark" />
       {{ t('insert.bookmark.set') }}
     </template>
     <div class="umo-bookmark-container">
@@ -43,15 +43,15 @@
             @active-change="onActiveChange"
           >
             <template #operation="{ row }">
-              <tooltip :content="t('insert.bookmark.delete')">
+              <e-tooltip :content="t('insert.bookmark.delete')">
                 <t-button
                   size="small"
                   shape="square"
                   variant="text"
                   @click="rowDelete(row)"
-                  ><icon name="node-delete"
+                  ><EIcon name="node-delete"
                 /></t-button>
-              </tooltip>
+              </e-tooltip>
             </template>
           </t-table>
         </t-form-item>
@@ -62,17 +62,18 @@
         </t-form-item>
       </t-form>
     </div>
-  </modal>
+  </e-modal>
 </template>
 <script setup lang="ts">
+
 const container = inject('container')
 const editor = inject('editor')
 const page = inject('page')
 
 // 弹窗口显示隐藏 true显示 默认隐藏
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 // 书签名称
-let bookmarkText = $ref('')
+let bookmarkText = ref('')
 // 书签数据
 let bookmarkData: any = []
 // 书签表格显示列
@@ -95,11 +96,11 @@ const bookmarkColumns = [
 // 书签插入
 const insertBookmark = () => {
   // 书签名称不为空时不处理
-  if (bookmarkText) {
+  if (bookmarkText.value) {
     let existbmName = ''
     if (bookmarkData.length > 0) {
       for (const item of bookmarkData) {
-        if (item.bookmarkRowName === bookmarkText) {
+        if (item.bookmarkRowName === bookmarkText.value) {
           existbmName = item.bookmarkRowName
           break
         }
@@ -107,12 +108,12 @@ const insertBookmark = () => {
     }
     // 存在-1
     if (!existbmName) {
-      if (editor.value?.commands.setBookmark({ bookmarkName: bookmarkText })) {
-        dialogVisible = false
+      if (editor.value?.commands.setBookmark({ bookmarkName: bookmarkText.value })) {
+        dialogVisible.value = false
       }
     } else {
       if (editor.value?.commands.focusBookmark(existbmName)) {
-        dialogVisible = false
+        dialogVisible.value = false
       }
     }
   } else {
@@ -129,7 +130,7 @@ const insertBookmark = () => {
 }
 const onActiveChange = (highlightRowKeys: any, ctx: any) => {
   // 重置文档
-  bookmarkText = ctx.currentRowData?.bookmarkRowName
+  bookmarkText.value = ctx.currentRowData?.bookmarkRowName
 }
 // 这个方法本来也想封装到addCommands 中，但经过多次验证，每次都会有一个额外的事务异常
 const rowDelete = (row: any) => {
@@ -154,24 +155,24 @@ const rowDelete = (row: any) => {
           tr.removeMark(pos, pos + element.outerText.length),
         )
       }
-      dialogVisible = false
+      dialogVisible.value = false
     }
   }
 }
 const getCurWordAllBookmark = () => {
   try {
-    bookmarkText = ''
+    bookmarkText.value = ''
     editor.value?.commands.getAllBookmarks(function (_data: any) {
       bookmarkData = _data
     })
   } catch (e) {
-    dialogVisible = false
+    dialogVisible.value = false
   }
 }
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   () => {
-    if (dialogVisible) {
+    if (dialogVisible.value) {
       getCurWordAllBookmark()
     }
   },

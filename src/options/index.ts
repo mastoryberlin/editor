@@ -19,7 +19,7 @@ import type {
   Template,
   UmoEditorOptions,
   WebPageItem,
-} from '@/types'
+} from '~~/editor/types'
 
 import { defaultAiOptions } from './ai'
 import { defaultDicts } from './dicts'

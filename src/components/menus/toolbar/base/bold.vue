@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="bold"
     :text="t('base.bold')"
     shortcut="Ctrl+B"

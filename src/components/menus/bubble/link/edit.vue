@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="edit"
     :text="t('insert.link.edit')"
     menu-type="popup"
@@ -42,43 +42,44 @@
         </t-form>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const emits = defineEmits(['show-bubble', 'hide-bubble'])
 
 const { popupVisible, togglePopup } = usePopup()
 
 const editor = inject('editor')
 
-let text = $ref('')
-let href = $ref('')
-const error = $ref({ text: false, href: false })
+let text = ref('')
+let href = ref('')
+const error = ref({ text: false, href: false })
 const insertLink = () => {
-  if (text === '') {
-    error.text = true
+  if (text.value === '') {
+    error.value.text = true
     return
   }
   if (
-    !href.startsWith('http://') &&
-    !href.startsWith('https://') &&
-    !href.startsWith('ftp://') &&
-    !href.startsWith('ftps://') &&
-    !href.startsWith('mailto://')
+    !href.value.startsWith('http://') &&
+    !href.value.startsWith('https://') &&
+    !href.value.startsWith('ftp://') &&
+    !href.value.startsWith('ftps://') &&
+    !href.value.startsWith('mailto://')
   ) {
-    error.href = true
+    error.value.href = true
     return
   }
-  error.text = false
-  error.href = false
+  error.value.text = false
+  error.value.href = false
   editor.value
     .chain()
     .extendMarkRange('link')
     .updateAttributes('link', {
-      href,
+      href: href.value,
     })
-    .insertContent(text)
+    .insertContent(text.value)
     .run()
   popupVisible.value = false
 }
@@ -92,13 +93,13 @@ watch(
   (val: boolean) => {
     if (val) {
       const { meta } = editor.value.storage.link
-      text = meta.target.textContent
-      href = meta.href ?? ''
+      text.value = meta.target.textContent
+      href.value = meta.href ?? ''
     } else {
-      text = ''
-      href = ''
-      error.text = false
-      error.href = false
+      text.value = ''
+      href.value = ''
+      error.value.text = false
+      error.value.href = false
     }
   },
 )

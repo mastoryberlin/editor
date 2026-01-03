@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     v-if="options.templates && options.templates.length"
     ico="template"
     :text="t('insert.template')"
@@ -29,7 +29,7 @@
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

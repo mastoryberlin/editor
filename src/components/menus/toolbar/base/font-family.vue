@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="t('base.fontFamily.text')"
     menu-type="select"
     hide-text
@@ -37,19 +37,20 @@
         >
       </t-option>
     </t-option-group>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import { isString } from '@tool-belt/type-predicates'
 
 const editor = inject('editor')
 const options = inject('options')
-const $toolbar = useState('toolbar', options)
-const $recent = useState('recent', options)
+const $toolbar = useEditorState('toolbar', () => options)
+const $recent = useEditorState('recent', () => options)
 const typeWriterIsRunning = inject('typeWriterIsRunning')
 
-const usedFonts = $ref<string[]>([])
+const usedFonts = ref<string[]>([])
 // https://www.cnblogs.com/gaidalou/p/8479452.html
 const fontDetect = (font?: string) => {
   if (!font) {
@@ -119,10 +120,10 @@ const allFonts = computed(() => {
       children: getFontsByValues($recent.value.fonts) as any,
     })
   }
-  if (usedFonts.length > 0) {
+  if (usedFonts.value.length > 0) {
     all.unshift({
       label: t('base.fontFamily.used'),
-      children: getFontsByValues(usedFonts) as any,
+      children: getFontsByValues(usedFonts.value) as any,
     })
   }
   return all
@@ -135,8 +136,8 @@ const getUsedFonts = () => {
   if (matches) {
     for (const item of matches) {
       const font = item.replace('"fontFamily":"', '').replace('"', '')
-      if (!usedFonts.includes(font)) {
-        usedFonts.push(font)
+      if (!usedFonts.value.includes(font)) {
+        usedFonts.value.push(font)
       }
     }
   }

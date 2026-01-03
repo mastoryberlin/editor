@@ -40,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+
 // tiptap 组件
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 // 拖拽组件
@@ -48,30 +50,30 @@ import Drager from 'es-drager'
 import {
   calbaseConfigData,
   calbaseConfigOptions,
-} from '@/extensions/echarts/cal-service'
+} from '~~/editor/src/extensions/echarts/cal-service'
 // 引入 echart 服务 用此方法初始化加载 cdn echart.js 脚本 否则
-import { loadResource } from '@/utils/load-resource'
+import { loadResource } from '~~/editor/src/utils/load-resource'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 const options = inject('options')
 const containerRef = ref(null)
-let maxWidth = $ref(0)
-let selected = $ref(false)
+let maxWidth = ref(0)
+let selected = ref(false)
 let chart: any = null
-let chartOption = $ref(null)
+let chartOption = ref(null)
 
 // 加载数据
 onMounted(async () => {
   await nextTick()
-  maxWidth = containerRef.value?.$el.offsetWidth
+  maxWidth.value = containerRef.value?.$el.offsetWidth
   if (node.attrs.width === null) {
-    updateAttributes({ width: maxWidth })
+    updateAttributes({ width: maxWidth.value })
   }
   await loadData()
 })
 
 // 初始化样式，需要在 margin 和 nodeAlign 里面增加 name 才可以
-const nodeStyle = $computed(() => {
+const nodeStyle = computed(() => {
   const { nodeAlign, margin } = node.attrs
   const marginTop =
     margin?.top && margin?.top !== '' ? `${margin.top}px` : undefined
@@ -97,7 +99,7 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
 // })
 
 onClickOutside(containerRef, () => {
-  selected = false
+  selected.value = false
 })
 // 数据加载
 const loadData = async () => {
@@ -134,7 +136,7 @@ const loadData = async () => {
     if (chart !== null) {
       chart.dispose()
       chart = null
-      chartOption = null
+      chartOption.value = null
     }
     if (mode === 1) {
       if (chartConfig !== null) {
@@ -147,13 +149,13 @@ const loadData = async () => {
         if (resOptions !== null) {
           chart = echarts.init(document.getElementById(`chart-${id}`))
           chart.setOption(resOptions)
-          chartOption = resOptions
+          chartOption.value = resOptions
         }
       }
     } else if (chartOptions !== null) {
       chart = echarts.init(document.getElementById(`chart-${id}`))
       chart.setOption(chartOptions)
-      chartOption = chartOptions
+      chartOption.value = chartOptions
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="strike"
     :text="t('base.strike')"
     shortcut="Ctrl+Shift+X"

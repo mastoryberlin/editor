@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="
       converting
         ? t('bubbleMenu.image.removingBg')
@@ -8,26 +8,27 @@
     :disabled="converting"
     @menu-click="removeBg"
   >
-    <icon v-if="!converting" name="image-remove-background" />
-    <icon v-else class="umo-image-loading" name="loading" />
-  </menus-button>
+    <EIcon v-if="!converting" name="image-remove-background" />
+    <EIcon v-else class="umo-image-loading" name="loading" />
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import { removeBackground } from '@imgly/background-removal'
 
-import { updateAttributesWithoutHistory } from '@/extensions/file'
-import { getSelectionNode } from '@/extensions/selection'
+import { updateAttributesWithoutHistory } from '~~/editor/src/extensions/file'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 const options = inject('options')
 const uploadFileMap = inject('uploadFileMap')
 
-let converting = $ref(false)
+let converting = ref(false)
 const removeBg = async () => {
   const image = editor.value ? getSelectionNode(editor.value) : null
   const { src, id } = image?.attrs ?? {}
-  converting = true
+  converting.value = true
   const blob = await removeBackground(src, {
     publicPath: `${options.value.cdnUrl}/libs/imgly/background-removal-data/`,
   })
@@ -48,7 +49,7 @@ const removeBg = async () => {
       pos,
     )
   }
-  converting = false
+  converting.value = false
 }
 </script>
 

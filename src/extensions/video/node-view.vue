@@ -44,10 +44,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 
-import { mediaPlayer } from '@/utils/player'
+import { mediaPlayer } from '~~/editor/src/utils/player'
 
 import { updateAttributesWithoutHistory } from '../file'
 
@@ -58,13 +60,13 @@ const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
 
 const containerRef = ref(null)
-let selected = $ref(false)
-const videoRef = $ref<HTMLVideoElement | null>(null)
-let player = $ref<Plyr | null>(null)
-let maxWidth = $ref(0)
-let maxHeight = $ref(0)
+let selected = ref(false)
+const videoRef = ref<HTMLVideoElement | null>(null)
+let player = ref<Plyr | null>(null)
+let maxWidth = ref(0)
+let maxHeight = ref(0)
 
-const nodeStyle = $computed(() => {
+const nodeStyle = computed(() => {
   const { nodeAlign, margin } = node.attrs
   const marginTop =
     margin?.top && margin?.top !== '' ? `${margin.top}px` : undefined
@@ -79,7 +81,7 @@ const nodeStyle = $computed(() => {
 
 onMounted(async () => {
   await nextTick()
-  player = mediaPlayer(videoRef)
+  player.value = mediaPlayer(videoRef.value)
   if (node.attrs.uploaded || !node.attrs.id) {
     return
   }
@@ -102,10 +104,10 @@ onMounted(async () => {
 })
 const onLoad = () => {
   if (node.attrs.width === null) {
-    const { clientWidth = 0, clientHeight = 0 } = videoRef ?? {}
-    maxWidth = containerRef.value?.$el.clientWidth ?? 0
+    const { clientWidth = 0, clientHeight = 0 } = videoRef.value ?? {}
+    maxWidth.value = containerRef.value?.$el.clientWidth ?? 0
     const ratio = clientWidth / clientHeight
-    maxHeight = containerRef.value?.$el.clientWidth / ratio
+    maxHeight.value = containerRef.value?.$el.clientWidth / ratio
     updateAttributes({
       width: (200 * ratio).toFixed(2),
     })
@@ -120,13 +122,13 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
   updateAttributes({ width, height })
 }
 onBeforeUnmount(() => {
-  if (player) {
-    player?.destroy()
+  if (player.value) {
+    player.value?.destroy()
   }
 })
 
 onClickOutside(containerRef, () => {
-  selected = false
+  selected.value = false
 })
 </script>
 

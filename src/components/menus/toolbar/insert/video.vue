@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="video"
     :text="t('insert.video')"
     huge

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="line-number"
     :text="t('page.lineNumber')"
     :menu-active="page.showLineNumber"

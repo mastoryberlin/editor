@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="link"
     :text="t('insert.link.text')"
     menu-type="popup"
@@ -42,37 +42,38 @@
         </t-form>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { getSelectionText } from '@/extensions/selection'
+
+import { getSelectionText } from '~~/editor/src/extensions/selection'
 
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
-let text = $ref('')
-let href = $ref('')
-const error = $ref({ text: false, href: false })
+let text = ref('')
+let href = ref('')
+const error = ref({ text: false, href: false })
 const insertLink = () => {
-  if (text === '') {
-    error.text = true
+  if (text.value === '') {
+    error.value.text = true
     return
   }
   if (
-    !href.startsWith('http://') &&
-    !href.startsWith('https://') &&
-    !href.startsWith('ftp://') &&
-    !href.startsWith('ftps://') &&
-    !href.startsWith('mailto://')
+    !href.value.startsWith('http://') &&
+    !href.value.startsWith('https://') &&
+    !href.value.startsWith('ftp://') &&
+    !href.value.startsWith('ftps://') &&
+    !href.value.startsWith('mailto://')
   ) {
-    error.href = true
+    error.value.href = true
     return
   }
-  error.text = false
-  error.href = false
-  editor.value?.commands.setLink({ href, target: '_blank' })
-  editor.value?.chain().focus().insertContent(text).run()
+  error.value.text = false
+  error.value.href = false
+  editor.value?.commands.setLink({ href: href.value, target: '_blank' })
+  editor.value?.chain().focus().insertContent(text.value).run()
   popupVisible.value = false
 }
 const removeLink = () => {
@@ -84,13 +85,13 @@ watch(
   () => popupVisible.value,
   (val: boolean) => {
     if (val) {
-      text = editor.value ? getSelectionText(editor.value) : ''
-      href = editor?.value?.getAttributes('link').href ?? ''
+      text.value = editor.value ? getSelectionText(editor.value) : ''
+      href.value = editor?.value?.getAttributes('link').href ?? ''
     } else {
-      text = ''
-      href = ''
-      error.text = false
-      error.href = false
+      text.value = ''
+      href.value = ''
+      error.value.text = false
+      error.value.href = false
     }
   },
 )

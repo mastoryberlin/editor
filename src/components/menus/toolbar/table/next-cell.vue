@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-next-cell"
     :text="t('table.nextCell')"
     shortcut="Tab"
@@ -12,5 +12,5 @@
 <script setup lang="ts">
 const editor = inject('editor')
 const options = inject('options')
-const $toolbar = useState('toolbar', options)
+const $toolbar = useEditorState('toolbar', () => options)
 </script>

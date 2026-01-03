@@ -1,4 +1,4 @@
-import type { AssistantOptions } from '@/types'
+import type { AssistantOptions } from '~~/editor/types'
 
 export const defaultAiOptions: {
   assistant: AssistantOptions

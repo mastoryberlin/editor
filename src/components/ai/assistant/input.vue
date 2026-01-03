@@ -2,7 +2,7 @@
   <div class="umo-assistant-container">
     <div class="umo-assistant-input">
       <div class="ai-icon">
-        <icon name="assistant" />
+        <EIcon name="assistant" />
       </div>
       <t-textarea
         ref="inputRef"
@@ -27,7 +27,7 @@
     </div>
     <div class="umo-assistant-result">
       <div class="close">
-        <tooltip :content="t('assistant.exit')">
+        <e-tooltip :content="t('assistant.exit')">
           <t-button
             v-if="!generating"
             size="small"
@@ -36,9 +36,9 @@
             theme="default"
             @click="exitAssistant"
           >
-            <icon name="exit" size="14" />
+            <EIcon name="exit" size="14" />
           </t-button>
-        </tooltip>
+        </e-tooltip>
       </div>
       <div class="commands-container">
         <div class="title" v-text="t('assistant.commands')"></div>
@@ -64,7 +64,7 @@
         <div class="actions">
           <div v-if="!result.error" class="main">
             <t-button theme="primary" @click="replaceContent">
-              <icon name="check" />
+              <EIcon name="check" />
               {{ t('assistant.replace') }}
             </t-button>
             <t-button
@@ -72,7 +72,7 @@
               theme="default"
               @click="insertContentAtAfter"
             >
-              <icon name="table-add-column-before" />
+              <EIcon name="table-add-column-before" />
               {{ t('assistant.insertAfter') }}
             </t-button>
             <t-button
@@ -80,40 +80,40 @@
               theme="default"
               @click="insertContentAtBelow"
             >
-              <icon name="table-add-row-after" />
+              <EIcon name="table-add-row-after" />
               {{ t('assistant.insertBelow') }}
             </t-button>
           </div>
           <div class="secondary">
-            <tooltip v-if="!result.error" :content="t('assistant.copy')">
+            <e-tooltip v-if="!result.error" :content="t('assistant.copy')">
               <t-button
                 variant="text"
                 shape="square"
                 theme="default"
                 @click="copyResult"
               >
-                <icon name="copy" /> </t-button
-            ></tooltip>
-            <tooltip :content="t('assistant.rewrite')">
+                <EIcon name="copy" /> </t-button
+            ></e-tooltip>
+            <e-tooltip :content="t('assistant.rewrite')">
               <t-button
                 variant="text"
                 shape="square"
                 theme="default"
                 @click="rewrite"
               >
-                <icon name="reload" />
+                <EIcon name="reload" />
               </t-button>
-            </tooltip>
-            <tooltip :content="t('assistant.delete')">
+            </e-tooltip>
+            <e-tooltip :content="t('assistant.delete')">
               <t-button
                 variant="text"
                 shape="square"
                 theme="default"
                 @click="deleteResult"
               >
-                <icon name="node-delete" />
+                <EIcon name="node-delete" />
               </t-button>
-            </tooltip>
+            </e-tooltip>
           </div>
         </div>
       </div>
@@ -122,15 +122,16 @@
 </template>
 
 <script setup lang="ts">
+
 import { isString } from '@tool-belt/type-predicates'
 
-import { getSelectionText, setSelectionText } from '@/extensions/selection'
+import { getSelectionText, setSelectionText } from '~~/editor/src/extensions/selection'
 import type {
   AssistantContent,
   AssistantPayload,
   AssistantResult,
   CommandItem,
-} from '@/types'
+} from '~~/editor/types'
 
 const container = inject('container')
 const editor = inject('editor')
@@ -138,8 +139,8 @@ const assistant = inject('assistant')
 const options = inject('options')
 
 const inputRef = ref<HTMLElement | null>(null)
-let command = $ref<string>('')
-const result = $ref<AssistantResult>({
+let command = ref<string>('')
+const result = ref<AssistantResult>({
   prompt: '',
   content: '',
   error: false,
@@ -148,16 +149,16 @@ const generating = ref<boolean>(false)
 
 const send = async () => {
   generating.value = true
-  result.error = false
-  result.prompt = ''
-  result.content = ''
+  result.value.error = false
+  result.value.prompt = ''
+  result.value.content = ''
 
   const { locale } = useI18n()
 
   const payload: AssistantPayload = {
     lang: locale.value,
     input: editor.value ? getSelectionText(editor.value) : '',
-    command,
+    command: command.value,
     output: 'rich-text',
   }
 
@@ -173,9 +174,9 @@ const send = async () => {
       content,
     )
     const errorHandler = () => {
-      if (result.content.startsWith('[ERROR]: ')) {
-        result.error = true
-        result.content = result.content.replace('[ERROR]: ', '')
+      if (result.value.content.startsWith('[ERROR]: ')) {
+        result.value.error = true
+        result.value.content = result.value.content.replace('[ERROR]: ', '')
       }
     }
 
@@ -183,11 +184,11 @@ const send = async () => {
       const stream = new WritableStream({
         write(chunk) {
           errorHandler()
-          result.content += chunk
+          result.value.content += chunk
         },
         close() {
           generating.value = false
-          result.command = command
+          result.value.command = command.value
         },
       })
       void data.pipeTo(stream)
@@ -196,9 +197,9 @@ const send = async () => {
 
     if (isString(data)) {
       generating.value = false
-      result.command = command
+      result.value.command = command.value
       errorHandler()
-      result.content = data
+      result.value.content = data
       return
     }
 
@@ -222,9 +223,9 @@ const send = async () => {
 }
 
 const insertCommand = ({ value, autoSend }: CommandItem) => {
-  command = l(value ?? '') ?? ''
-  result.command = l(value ?? '') ?? ''
-  result.content = ''
+  command.value = l(value ?? '') ?? ''
+  result.value.command = l(value ?? '') ?? ''
+  result.value.content = ''
   inputRef.value?.focus()
   if (autoSend !== false) {
     void send()
@@ -240,7 +241,7 @@ const replaceContent = () => {
   // 记录插入前的选区位置
   const { from, to } = editor.value?.state.selection ?? {}
   const prevDocLength = editor.value?.state.doc.content.size ?? 0
-  editor.value?.chain().insertContent(result.content).run()
+  editor.value?.chain().insertContent(result.value.content).run()
   setSelectionText(editor.value, prevDocLength, from, to)
   exitAssistant()
 }
@@ -249,7 +250,7 @@ const insertContentAtAfter = () => {
   const { to } = editor.value?.state.selection ?? {}
   const prevDocLength = editor.value?.state.doc.content.size ?? 0
   if (to) {
-    editor.value?.chain().insertContentAt(to, result.content).focus().run()
+    editor.value?.chain().insertContentAt(to, result.value.content).focus().run()
     setSelectionText(editor.value, prevDocLength, to, to)
   }
 
@@ -261,7 +262,7 @@ const insertContentAtBelow = () => {
   const { to } = editor.value?.state.selection ?? {}
   const prevDocLength = editor.value?.state.doc.content.size ?? 0
   if (to) {
-    editor.value?.chain().insertContentAt(to, result.content).focus().run()
+    editor.value?.chain().insertContentAt(to, result.value.content).focus().run()
     setSelectionText(editor.value, prevDocLength, to, to)
   }
   exitAssistant()
@@ -269,7 +270,7 @@ const insertContentAtBelow = () => {
 
 const copyResult = () => {
   const { copy } = useClipboard({
-    source: ref(result.content),
+    source: ref(result.value.content),
   })
   void copy()
   useMessage('success', {
@@ -279,17 +280,17 @@ const copyResult = () => {
 }
 
 const rewrite = () => {
-  const { command: resultCommand } = result
+  const { command: resultCommand } = result.value
   if (resultCommand) {
-    command = resultCommand
+    command.value = resultCommand
   }
   void send()
 }
 
 const deleteResult = () => {
-  command = ''
-  result.prompt = ''
-  result.content = ''
+  command.value = ''
+  result.value.prompt = ''
+  result.value.content = ''
 }
 </script>
 

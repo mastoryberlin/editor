@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-delete-column"
     :text="t('table.deleteColumn.text')"
     :hide-text="$toolbar.mode === 'classic'"
@@ -12,7 +12,7 @@
 const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
-const $toolbar = useState('toolbar', options)
+const $toolbar = useEditorState('toolbar', () => options)
 
 const deleteColumn = () => {
   const dialog = useConfirm({

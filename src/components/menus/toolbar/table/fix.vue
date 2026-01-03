@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-fix"
     :text="t('table.fix.text')"
     :tooltip="t('table.fix.tip')"

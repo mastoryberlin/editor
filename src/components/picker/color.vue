@@ -56,11 +56,11 @@
     >
       <div class="umo-color-picker-more" :class="{ active: moreColorPicker }">
         <div class="umo-color-picker-more-menu">
-          <icon name="palette-color" />
+          <EIcon name="palette-color" />
           <span v-text="t('colorPicker.more')"></span>
         </div>
         <div class="umo-color-picker-more-arrow">
-          <icon name="arrow-down" />
+          <EIcon name="arrow-down" />
         </div>
       </div>
       <template #content>
@@ -78,6 +78,7 @@
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
   defaultColor: {
     type: String,
@@ -89,14 +90,14 @@ const emits = defineEmits(['change'])
 const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
-const $recent = useState('recent', options)
+const $recent = useEditorState('recent', () => options)
 // prettier-ignore
 const standardColors = ['#B12318', '#EB3323', '#F6C143', '#FFFE55', '#A0CD63', '#4FAD5B', '#4CAFEA', '#2D70BA', '#06215C', '#68389B']
 
-const color = $ref(props.defaultColor)
+const color = ref(props.defaultColor)
 
 // 更多颜色
-const moreColorPicker = $ref(false)
+const moreColorPicker = ref(false)
 const colorChange = (color: string, ctx?: { trigger: string }) => {
   if (ctx && ctx.trigger !== 'palette-saturation-brightness') {
     return
@@ -113,7 +114,7 @@ const colorChange = (color: string, ctx?: { trigger: string }) => {
   emits('change', color)
 }
 watch(
-  () => moreColorPicker,
+  () => moreColorPicker.value,
   (visible: boolean) => {
     if (visible) {
       editor.value?.commands.focus(undefined, { scrollIntoView: false })

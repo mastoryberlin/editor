@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="tag"
     :text="t('insert.tag')"
     huge

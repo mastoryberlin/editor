@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :menu-active="editor?.getAttributes('iframe')?.clickable"
     ico="clickable"
     :text="t('bubbleMenu.webpage.clickable')"
@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 

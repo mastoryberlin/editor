@@ -1,11 +1,11 @@
 <template>
-  <menus-button
+  <e-menus-button
     :ico="content ? 'edit' : 'diagrams'"
     :text="content ? t('tools.diagrams.edit') : t('tools.diagrams.text')"
     huge
     @menu-click="dialogVisible = true"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       :footer="false"
       destroy-on-close
@@ -14,20 +14,21 @@
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="diagrams" />
+        <EIcon name="diagrams" />
         {{ content ? t('tools.diagrams.edit') : t('tools.diagrams.text') }}
       </template>
       <div v-if="loading" class="umo-diagrams-loading">
         <t-loading :text="t('tools.diagrams.loading')" size="small" />
       </div>
       <div class="umo-diagrams-container"></div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import DiagramEditor from '@/utils/diagram-editor'
-import { shortId } from '@/utils/short-id'
+
+import DiagramEditor from '~~/editor/src/utils/diagram-editor'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const props = defineProps({
   content: {
@@ -41,15 +42,15 @@ const editor = inject('editor')
 const options = inject('options')
 const uploadFileMap = inject('uploadFileMap')
 
-let dialogVisible = $ref(false)
-let loading = $ref(false)
+let dialogVisible = ref(false)
+let loading = ref(false)
 const diagramEditor = new DiagramEditor({
   domain: (options.value.diagrams?.domain ?? '') as string,
   params: (options.value.diagrams?.params ?? {}) as Record<string, any>,
   container: `${container} .umo-diagrams-container`,
 })
 
-let image = $ref<
+let image = ref<
   | {
       id: string
       type: string
@@ -70,7 +71,7 @@ const messageListener = async (evt: MessageEvent) => {
 
   const { event, bounds, data } = JSON.parse(evt.data)
   if (event === 'load') {
-    loading = false
+    loading.value = false
   }
   if (event === 'export') {
     if (!props.content || (props.content && props.content !== data)) {
@@ -82,7 +83,7 @@ const messageListener = async (evt: MessageEvent) => {
         .then((res) => res.blob())
         .then((blob) => new File([blob], name, { type: blob.type }))
       uploadFileMap.value.set(id, file)
-      image = {
+      image.value = {
         id,
         type: 'diagrams',
         name,
@@ -93,30 +94,30 @@ const messageListener = async (evt: MessageEvent) => {
         content: data,
       }
     }
-    dialogVisible = false
+    dialogVisible.value = false
     return
   }
   if (event === 'exit') {
-    dialogVisible = false
+    dialogVisible.value = false
   }
 }
 
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   async (val: boolean) => {
     if (!val) {
       window.removeEventListener('message', messageListener)
       diagramEditor.stopEditing()
-      if (image?.type) {
-        editor.value?.chain().focus().setImage(image, !!props.content).run()
+      if (image.value?.type) {
+        editor.value?.chain().focus().setImage(image.value, !!props.content).run()
       }
       return
     }
     await nextTick()
-    loading = true
+    loading.value = true
     diagramEditor.edit(props.content ?? '')
     window.addEventListener('message', messageListener)
-    image = undefined
+    image.value = undefined
   },
   { immediate: true },
 )

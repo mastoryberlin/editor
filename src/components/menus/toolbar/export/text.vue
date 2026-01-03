@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="text"
     :text="t('export.text')"
     huge

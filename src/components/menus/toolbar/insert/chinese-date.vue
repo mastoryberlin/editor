@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="date"
     :text="t('insert.date')"
     menu-type="dropdown"

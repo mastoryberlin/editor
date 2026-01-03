@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="new-window"
     :text="t('bubbleMenu.webpage.open')"
     @menu-click="openImage"
@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 

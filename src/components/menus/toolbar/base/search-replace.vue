@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="search-replace"
     :text="t('search.text')"
     shortcut="Ctrl+F"

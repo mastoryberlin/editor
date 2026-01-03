@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="ordered-list"
     :text="t('list.ordered.text')"
     shortcut="Ctrl+Shift+7"
@@ -13,7 +13,7 @@
   >
     <template #content>
       <div class="umo-ordered-list-group">
-        <tooltip
+        <e-tooltip
           v-for="item in options"
           :key="item.value"
           :content="item.label"
@@ -28,7 +28,7 @@
               :name="`ordered-list-${item.value}`"
             />
           </div>
-        </tooltip>
+        </e-tooltip>
       </div>
       <div class="umo-ordered-list-divider"></div>
       <div
@@ -49,10 +49,11 @@
         </t-input-number>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
@@ -77,13 +78,13 @@ const options = [
 ]
 
 // 列表类型
-let listStyleType = $ref('left')
+let listStyleType = ref('left')
 watch(
   () => popupVisible.value,
   (val: boolean) => {
     if (val && editor.value) {
       const { listType } = editor.value.getAttributes('orderedList')
-      listStyleType = listType
+      listStyleType.value = listType
     }
   },
 )
@@ -101,18 +102,18 @@ const toggleOrderedList = (listType: string) => {
       .updateAttributes('orderedList', { listType })
       .run()
   }
-  listStyleType = listType
+  listStyleType.value = listType
   popupVisible.value = false
 }
 
 // 起始编号
-let startAt = $ref(1)
+let startAt = ref(1)
 const changeOrderedListStart = () => {
   if (editor.value) {
     editor.value
       .chain()
       .focus()
-      .updateAttributes('orderedList', { start: startAt })
+      .updateAttributes('orderedList', { start: startAt.value })
       .run()
   }
 }
@@ -120,9 +121,9 @@ watch(
   () => popupVisible.value,
   (val: boolean) => {
     if (val && editor.value) {
-      startAt = editor.value.getAttributes('orderedList').start
+      startAt.value = editor.value.getAttributes('orderedList').start
     } else {
-      startAt = 1
+      startAt.value = 1
     }
   },
 )

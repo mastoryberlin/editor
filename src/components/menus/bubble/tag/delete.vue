@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="node-delete"
     :text="t('bubbleMenu.tag.delete')"
     @menu-click="editor?.chain().focus().deleteSelection().run()"

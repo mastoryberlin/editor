@@ -20,28 +20,30 @@
   <template
     v-if="editor && !destroyed && !page.preview?.enabled && editor.isEditable"
   >
-    <menus-context-block
+    <e-menus-context-block
       v-if="options.document?.enableBlockMenu && page.zoomLevel === 100"
     />
-    <menus-bubble
+    <e-menus-bubble
       v-if="options.document?.enableBubbleMenu"
       v-show="!editor?.view?.painter?.enabled && !editor?.isEmpty"
     >
       <template #bubble_menu="props">
         <slot name="bubble_menu" v-bind="props" />
       </template>
-    </menus-bubble>
-    <menus-bubble-link v-if="editor?.storage?.link?.edit" />
+    </e-menus-bubble>
+    <e-menus-bubble-link v-if="editor?.storage?.link?.edit" />
   </template>
 </template>
 
 <script setup lang="ts">
-import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { getDefaultExtensions, inputAndPasteRules } from '@/extensions'
-import { contentTransform } from '@/utils/content-transform'
-import { addHistory } from '@/utils/history-record'
-import { loadResource } from '@/utils/load-resource'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import { useThrottleFn } from '@vueuse/core'
+
+import { getDefaultExtensions, inputAndPasteRules } from '~~/editor/src/extensions'
+import { contentTransform } from '~~/editor/src/utils/content-transform'
+import { addHistory } from '~~/editor/src/utils/history-record'
+import { loadResource } from '~~/editor/src/utils/load-resource'
 
 const destroyed = inject('destroyed')
 const page = inject('page')
@@ -52,9 +54,9 @@ const historyRecords = inject('historyRecords')
 // 助手
 const assistant = inject('assistant')
 
-const $document = useState('document', options)
+const $document = useEditorState('document', () => options)
 
-const defaultLineHeight = $computed(
+const defaultLineHeight = computed(
   () =>
     options.value.dicts?.lineHeights?.find((item: any) => item.default)?.value,
 )
@@ -114,6 +116,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="less">
-@import '@/assets/styles/editor.less';
-@import '@/assets/styles/drager.less';
+@import '~~/editor/src/assets/styles/editor.less';
+@import '~~/editor/src/assets/styles/drager.less';
 </style>

@@ -117,7 +117,7 @@ const copyCode = () => {
 </script>
 
 <style lang="less">
-@import '@/assets/styles/_mixins.less';
+@import '~~/editor/src/assets/styles/_mixins.less';
 
 .umo-code-block {
   display: block !important;

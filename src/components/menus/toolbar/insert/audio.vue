@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="audio"
     :text="t('insert.audio')"
     huge

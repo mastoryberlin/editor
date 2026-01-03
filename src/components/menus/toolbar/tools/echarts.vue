@@ -1,18 +1,18 @@
 <template>
-  <menus-button
+  <e-menus-button
     :ico="'echarts'"
     :text="t('tools.echarts.text')"
     huge
     @menu-click="menuClick"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       width="960px"
       @confirm="setConfirm"
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="echarts" />
+        <EIcon name="echarts" />
         {{ isAdd ? t('tools.echarts.add') : t('tools.echarts.edit') }}
       </template>
       <div v-if="dialogVisible" class="umo-echarts-container">
@@ -210,20 +210,21 @@
           </div>
         </div>
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import { Input } from 'tdesign-vue-next'
 
 import {
   calbaseConfigData,
   calbaseConfigOptions,
-} from '@/extensions/echarts/cal-service'
-import { getSelectionNode } from '@/extensions/selection'
-import { loadResource } from '@/utils/load-resource'
-import { shortId } from '@/utils/short-id'
+} from '~~/editor/src/extensions/echarts/cal-service'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
+import { loadResource } from '~~/editor/src/utils/load-resource'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const { mode } = defineProps({
   mode: {
@@ -237,15 +238,15 @@ const editor = inject('editor')
 const options = inject('options')
 
 // 弹窗口显示隐藏 true 显示 默认隐藏
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 // 弹窗后标题是编辑还是新增，true: 新增 fasle: 编辑
-let isAdd = $ref(true)
+let isAdd = ref(true)
 // 界面显示模式
-let modelMode = $ref(0)
+let modelMode = ref(0)
 // 当前节点缓存信息
-let curNode = $ref(null)
+let curNode = ref(null)
 // sourceOptions 高级模型-配置信息信息
-let sourceOptions = $ref(null)
+let sourceOptions = ref(null)
 
 // 高级模式下 mychart 展示对象
 let sourceChart: any = null
@@ -253,24 +254,24 @@ let sourceChart: any = null
 let settingChart: any = null
 
 // 基础模型下默认设置界面，0: 图形界面 1: 数据界面
-let baseModeSet = $ref(0)
+let baseModeSet = ref(0)
 // baseConfig 可视化界面下的配置，需要保存的动态数据
-let baseConfig = $ref({ data: [], config: {} })
+let baseConfig = ref({ data: [], config: {} })
 // 基础数据，不会改变的数据
 let baseData: any = {}
 // 弹出窗显示
 const menuClick = () => {
-  if (dialogVisible) {
+  if (dialogVisible.value) {
     return
   }
-  baseModeSet = 0 // 默认打开都是设置界面
+  baseModeSet.value = 0 // 默认打开都是设置界面
 
   const openAddMode = () => {
-    isAdd = true
-    modelMode = options.value.echarts?.mode
-    sourceOptions = null
+    isAdd.value = true
+    modelMode.value = options.value.echarts?.mode
+    sourceOptions.value = null
     initBaseConfig()
-    dialogVisible = true
+    dialogVisible.value = true
   }
 
   // 新增模式
@@ -278,47 +279,47 @@ const menuClick = () => {
     openAddMode()
     return
   }
-  curNode = getSelectionNode(editor.value)
+  curNode.value = getSelectionNode(editor.value)
   // 选中节点为 echarts 节点时，去读取界面上的配置信息
-  if (curNode?.type?.name !== 'echarts') {
+  if (curNode.value?.type?.name !== 'echarts') {
     openAddMode()
     return
   }
 
   // 更新模式
-  isAdd = false
-  modelMode = curNode.attrs?.mode
-  sourceOptions = null
-  if (curNode.attrs?.chartOptions !== null) {
-    sourceOptions = JSON.stringify(curNode.attrs?.chartOptions)
+  isAdd.value = false
+  modelMode.value = curNode.value.attrs?.mode
+  sourceOptions.value = null
+  if (curNode.value.attrs?.chartOptions !== null) {
+    sourceOptions.value = JSON.stringify(curNode.value.attrs?.chartOptions)
   }
   initBaseConfig()
-  loadBaseConfig(curNode.attrs?.chartConfig)
+  loadBaseConfig(curNode.value.attrs?.chartConfig)
   // 弹窗点击显示
-  dialogVisible = true
+  dialogVisible.value = true
 }
 // 弹窗点击确定时，对父界面的影响设置
 const setConfirm = () => {
   let resOptions = {
     id: '',
     name: '',
-    mode: modelMode,
+    mode: modelMode.value,
     chartOptions: null,
     chartConfig: null,
     describe: '',
     nodeAlign: 'center',
     margin: {},
   }
-  if (!isAdd) {
-    resOptions = JSON.parse(JSON.stringify(curNode.attrs))
+  if (!isAdd.value) {
+    resOptions = JSON.parse(JSON.stringify(curNode.value.attrs))
   } else {
     resOptions.id = shortId()
-    resOptions.mode = modelMode
+    resOptions.mode = modelMode.value
   }
   if (resOptions.mode === 1) {
     // 可配置模式
-    const newData = calbaseConfigData(baseConfig.data)
-    resOptions.chartConfig = { data: newData, config: baseConfig.config } as any
+    const newData = calbaseConfigData(baseConfig.value.data)
+    resOptions.chartConfig = { data: newData, config: baseConfig.value.config } as any
 
     if (settingChart === null) {
       const dialog = useAlert({
@@ -335,7 +336,7 @@ const setConfirm = () => {
   } else {
     // 源码模式
     try {
-      resOptions.chartOptions = JSON.parse(sourceOptions)
+      resOptions.chartOptions = JSON.parse(sourceOptions.value)
     } catch (e) {
       const dialog = useAlert({
         attach: container,
@@ -390,16 +391,16 @@ const setConfirm = () => {
     options.value.onFileUpload(fileBlob, resOptions.id, 'echarts')
   }
   //
-  if (!isAdd) {
+  if (!isAdd.value) {
     editor.value.commands.updateEcharts(resOptions)
   } else {
     editor.value.commands.setEcharts(resOptions)
   }
-  dialogVisible = false
+  dialogVisible.value = false
 }
 
 watch(
-  () => [sourceOptions, modelMode, baseConfig.config, baseModeSet],
+  () => [sourceOptions.value, modelMode.value, baseConfig.value.config, baseModeSet.value],
   async () => {
     try {
       disposeChart()
@@ -420,13 +421,13 @@ const loadModeEchart = async () => {
     disposeChart()
     const _curDomSetting = document.getElementById('echartsSettingModeId')
     const _curDomSource = document.getElementById('echartsSourceModeId')
-    if (modelMode === 1 && _curDomSetting !== null) {
+    if (modelMode.value === 1 && _curDomSetting !== null) {
       //  实际的参数设置
-      const newData = calbaseConfigData(baseConfig.data)
+      const newData = calbaseConfigData(baseConfig.value.data)
       if (!(newData === null || newData.length === 0)) {
         const newOptions = calbaseConfigOptions(
           JSON.parse(JSON.stringify(newData)),
-          JSON.parse(JSON.stringify(baseConfig.config)),
+          JSON.parse(JSON.stringify(baseConfig.value.config)),
           options.value,
         )
 
@@ -438,17 +439,17 @@ const loadModeEchart = async () => {
         }
       }
     } else if (
-      modelMode === 0 &&
-      sourceOptions !== null &&
+      modelMode.value === 0 &&
+      sourceOptions.value !== null &&
       _curDomSource !== null
     ) {
       sourceChart = echarts.init(_curDomSource)
       try {
-        const calOptions = normalizeJsonString(sourceOptions)
-        if (calOptions !== sourceOptions) {
-          sourceOptions = calOptions
+        const calOptions = normalizeJsonString(sourceOptions.value)
+        if (calOptions !== sourceOptions.value) {
+          sourceOptions.value = calOptions
         }
-        sourceChart.setOption(JSON.parse(sourceOptions))
+        sourceChart.setOption(JSON.parse(sourceOptions.value))
       } catch (e) {
         disposeChart()
       }
@@ -524,7 +525,7 @@ const initBaseConfig = () => {
               }
             }
           }
-          baseConfig.data.splice(context.rowIndex, 1, newData)
+          baseConfig.value.data.splice(context.rowIndex, 1, newData)
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -553,9 +554,9 @@ const initBaseConfig = () => {
     { code: 'right', name: t('tools.echarts.set.right') }, // "居右"
   ]
   //
-  baseConfig = { data: [], config: {} }
+  baseConfig.value = { data: [], config: {} }
   //
-  baseConfig.data = [
+  baseConfig.value.data = [
     { tabkey: shortId(), A: '', B: '系列1', C: '系列2', D: '系列3' },
     { tabkey: shortId(), A: '类别 1', B: 4.3, C: 2.4, D: 2 },
     { tabkey: shortId(), A: '类别 2', B: 2.5, C: 4.4, D: 2 },
@@ -563,18 +564,18 @@ const initBaseConfig = () => {
     { tabkey: shortId(), A: '类别 4', B: 4.5, C: 2.8, D: 5 },
   ]
   for (let i = 0; i < 17; i++) {
-    baseConfig.data.push({ tabkey: shortId(), A: '', B: '', C: '', D: '' })
+    baseConfig.value.data.push({ tabkey: shortId(), A: '', B: '', C: '', D: '' })
   }
 
   // config 默认值
-  baseConfig.config.seriesType = 'bar'
-  baseConfig.config.smooth = false // 平滑折线
-  baseConfig.config.legend = true // 图例 是否显示图例
-  baseConfig.config.legendorient = 'horizontal' // 图例方向 默认水平
-  baseConfig.config.legendlocation = 'bottom' // 图例位置底部
-  baseConfig.config.legendleft = 'center' // 图例横向位置 居中
-  baseConfig.config.titleText = '' // 标题名称
-  baseConfig.config.titleleft = 'center' // 标题位置
+  baseConfig.value.config.seriesType = 'bar'
+  baseConfig.value.config.smooth = false // 平滑折线
+  baseConfig.value.config.legend = true // 图例 是否显示图例
+  baseConfig.value.config.legendorient = 'horizontal' // 图例方向 默认水平
+  baseConfig.value.config.legendlocation = 'bottom' // 图例位置底部
+  baseConfig.value.config.legendleft = 'center' // 图例横向位置 居中
+  baseConfig.value.config.titleText = '' // 标题名称
+  baseConfig.value.config.titleleft = 'center' // 标题位置
 }
 // 从缓存配置中读取数据到当前展示配置中
 const loadBaseConfig = (cachebaseConfig: any) => {
@@ -582,18 +583,18 @@ const loadBaseConfig = (cachebaseConfig: any) => {
     return
   }
   if (cachebaseConfig.data !== null && cachebaseConfig.data.length > 0) {
-    baseConfig.data = cachebaseConfig.data
+    baseConfig.value.data = cachebaseConfig.data
   }
-  for (const item of baseConfig.data) {
+  for (const item of baseConfig.value.data) {
     item.tabkey = shortId()
   }
   for (let i = 0; i < 10; i++) {
-    baseConfig.data.push({ tabkey: shortId(), A: '', B: '' })
+    baseConfig.value.data.push({ tabkey: shortId(), A: '', B: '' })
   }
   if (cachebaseConfig.config !== null) {
     for (const attr1 in cachebaseConfig.config) {
-      if (baseConfig.config[attr1] !== null) {
-        baseConfig.config[attr1] = cachebaseConfig.config[attr1]
+      if (baseConfig.value.config[attr1] !== null) {
+        baseConfig.value.config[attr1] = cachebaseConfig.config[attr1]
       }
     }
   }
@@ -605,7 +606,7 @@ const editableCellState = () => {
 </script>
 
 <style lang="less" scoped>
-@import '@/assets/styles/_mixins.less';
+@import '~~/editor/src/assets/styles/_mixins.less';
 
 .umo-echarts-container {
   min-height: 300px;

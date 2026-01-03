@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="color"
     :text="t('bubbleMenu.tag.color')"
     menu-type="popup"
@@ -8,9 +8,9 @@
     @toggle-popup="togglePopup"
   >
     <template #content>
-      <picker-color default-color="transparent" @change="colorChange" />
+      <e-picker-color default-color="transparent" @change="colorChange" />
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

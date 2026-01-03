@@ -1,6 +1,6 @@
 <template>
   <div v-if="$toolbar.show" class="umo-toolbar-container">
-    <toolbar-ribbon
+    <e-toolbar-ribbon
       v-if="$toolbar.mode === 'ribbon'"
       :menus="toolbarMenus"
       :current-menu="currentMenu"
@@ -13,8 +13,8 @@
       >
         <slot :name="`toolbar_${item}`" v-bind="props" />
       </template>
-    </toolbar-ribbon>
-    <toolbar-classic
+    </e-toolbar-ribbon>
+    <e-toolbar-classic
       v-if="$toolbar.mode === 'classic'"
       :menus="toolbarMenus"
       :current-menu="currentMenu"
@@ -27,7 +27,7 @@
       >
         <slot :name="`toolbar_${item}`" v-bind="props" />
       </template>
-    </toolbar-classic>
+    </e-toolbar-classic>
     <div class="umo-toolbar-actions" :class="$toolbar.mode">
       <t-popup
         v-if="
@@ -105,7 +105,7 @@
           variant="text"
           size="small"
         >
-          <icon name="expand-down" />
+          <EIcon name="expand-down" />
           <span class="umo-button-text">{{ t('toolbar.toggle') }}</span>
         </t-button>
         <template #dropdown>
@@ -118,32 +118,35 @@
             :active="item.value === $toolbar.mode"
           >
             <template #prefixIcon>
-              <icon :name="item.prefixIcon" />
+              <EIcon :name="item.prefixIcon" />
             </template>
           </t-dropdown-menu>
         </template>
       </t-dropdown>
     </div>
   </div>
-  <tooltip v-else :content="t('toolbar.show')" placement="bottom-right">
+  <e-tooltip v-else :content="t('toolbar.show')" placement="bottom-right">
     <div class="umo-show-toolbar" @click="$toolbar.show = true">
-      <icon name="arrow-down" />
+      <EIcon name="arrow-down" />
     </div>
-  </tooltip>
+  </e-tooltip>
 </template>
 
 <script setup lang="ts">
-import type { DropdownOption } from 'tdesign-vue-next'
 
-import { timeAgo } from '@/utils/time-ago'
+import type { DropdownOption } from 'tdesign-vue-next'
+import { useOnline } from '@vueuse/core'
+
+import { timeAgo } from '~~/editor/src/utils/time-ago'
 const emits = defineEmits(['menu-change'])
+const { t } = useI18n()
 
 const container = inject('container')
 const editor = inject('editor')
 const savedAt = inject('savedAt')
 const options = inject('options')
-const $toolbar = useState('toolbar', options)
-let statusPopup = $ref(false)
+const $toolbar = useEditorState('toolbar', () => options)
+let statusPopup = ref(false)
 const online = useOnline()
 
 // 工具栏菜单
@@ -161,9 +164,9 @@ if (options.value.toolbar?.menus) {
     (item: any) => defaultToolbarMenus.filter((menu) => menu.value === item)[0],
   )
 }
-let currentMenu = $ref(toolbarMenus[0].value)
+let currentMenu = ref(toolbarMenus[0].value)
 const menuChange = (menu: string) => {
-  currentMenu = menu
+  currentMenu.value = menu
   emits('menu-change', menu)
 }
 // 监听如果当前编辑元素为table则切换到table菜单
@@ -171,9 +174,9 @@ watch(
   () => editor.value?.isActive('table'),
   (val: boolean, oldVal: boolean) => {
     if (val) {
-      currentMenu = 'table'
+      currentMenu.value = 'table'
     } else if (!val && oldVal) {
-      currentMenu = 'base'
+      currentMenu.value = 'base'
     }
   },
 )
@@ -210,12 +213,12 @@ const toggleToolbarMode = ({ value }: DropdownOption) => {
 const saveContentMethod = inject('saveContent') as () => void
 const saveContent = () => {
   saveContentMethod()
-  statusPopup = false
+  statusPopup.value = false
 }
 
 // 从缓存中恢复文档
 const setContentFromCache = () => {
-  const document = useState('document', options)
+  const document = useEditorState('document', () => options)
   const { content } = document.value
   if (!content || content === '' || content === '<p></p>') {
     const dialog = useAlert({
@@ -229,7 +232,7 @@ const setContentFromCache = () => {
     })
     return
   }
-  statusPopup = false
+  statusPopup.value = false
   editor.value?.chain().setContent(content, true).focus().run()
 }
 </script>

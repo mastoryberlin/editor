@@ -1,23 +1,23 @@
 <template>
-  <menus-button
+  <e-menus-button
     :ico="content ? 'edit' : 'qrcode'"
     :text="content ? t('tools.qrcode.edit') : t('tools.qrcode.text')"
     huge
     @menu-click="menuClick"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       width="695px"
       @confirm="setQrcode"
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="qrcode" />
+        <EIcon name="qrcode" />
         {{ content ? t('tools.qrcode.edit') : t('tools.qrcode.text') }}
       </template>
       <div class="umo-qrcode-container">
         <div class="umo-qrcode-toolbar">
-          <menus-button
+          <e-menus-button
             style="width: 126px"
             :text="t('tools.qrcode.level')"
             :select-options="levels"
@@ -28,8 +28,8 @@
                 config.ecl = value
               }
             "
-          ></menus-button>
-          <menus-button
+          ></e-menus-button>
+          <e-menus-button
             menu-type="input"
             :tooltip="t('tools.qrcode.paddingTip')"
           >
@@ -46,8 +46,8 @@
                 ><span v-text="t('tools.qrcode.padding')"></span
               ></template>
             </t-input-number>
-          </menus-button>
-          <menus-button menu-type="input" :tooltip="t('tools.qrcode.widthTip')">
+          </e-menus-button>
+          <e-menus-button menu-type="input" :tooltip="t('tools.qrcode.widthTip')">
             <t-input-number
               v-model="config.width"
               size="small"
@@ -61,15 +61,15 @@
                 ><span v-text="t('tools.qrcode.width')"></span
               ></template>
             </t-input-number>
-          </menus-button>
+          </e-menus-button>
           <t-divider layout="vertical" />
-          <menus-toolbar-base-color
+          <e-menus-toolbar-base-color
             :text="t('tools.qrcode.color')"
             :default-color="config.color"
             modeless
             @change="(value: any) => (config.color = value)"
           />
-          <menus-toolbar-base-background-color
+          <e-menus-toolbar-base-background-color
             :text="t('tools.qrcode.bgColor')"
             :default-color="config.background"
             modeless
@@ -107,15 +107,16 @@
           </div>
         </div>
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import { qrcode } from 'pure-svg-code'
 import svg64 from 'svg64'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const { content } = defineProps({
   content: {
@@ -124,14 +125,14 @@ const { content } = defineProps({
   },
 })
 
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 const editor = inject('editor')
 const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
 
 const menuClick = () => {
   renderQrcode()
-  dialogVisible = true
+  dialogVisible.value = true
 }
 
 const levels = [
@@ -150,39 +151,39 @@ const defaultConfig = {
   ecl: 'M',
 }
 
-let config = $ref({ ...defaultConfig })
-let changed = $ref(false)
+let config = ref({ ...defaultConfig })
+let changed = ref(false)
 
-let svgCode = $ref<string | null>(null)
-let renderError = $ref(false)
+let svgCode = ref<string | null>(null)
+let renderError = ref(false)
 const renderQrcode = () => {
   try {
-    svgCode = null
-    config.height = config.width
-    svgCode = qrcode(config)
-    renderError = false
+    svgCode.value = null
+    config.value.height = config.value.width
+    svgCode.value = qrcode(config.value)
+    renderError.value = false
   } catch {
-    svgCode = null
-    renderError = true
+    svgCode.value = null
+    renderError.value = true
   }
 }
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   (val: boolean) => {
     if (val) {
-      config = content ? JSON.parse(content) : { ...defaultConfig }
+      config.value = content ? JSON.parse(content) : { ...defaultConfig }
       setTimeout(() => {
-        changed = false
+        changed.value = false
       }, 200)
     }
   },
   { immediate: true },
 )
 watch(
-  () => config,
+  () => config.value,
   () => {
-    if (dialogVisible) {
-      changed = true
+    if (dialogVisible.value) {
+      changed.value = true
       renderQrcode()
     }
   },
@@ -191,14 +192,14 @@ watch(
 
 // 创建或更新条形码
 const setQrcode = () => {
-  if (renderError || !svgCode) {
+  if (renderError.value || !svgCode.value) {
     useMessage('error', {
       attach: container,
       content: t('tools.qrcode.renderError'),
     })
     return
   }
-  if (config.content === '') {
+  if (config.value.content === '') {
     useMessage('error', {
       attach: container,
       content: t('tools.qrcode.notEmpty'),
@@ -206,17 +207,17 @@ const setQrcode = () => {
     return
   }
   const id = shortId(10)
-  const { width, height } = config
-  const src = svg64(svgCode)
+  const { width, height } = config.value
+  const src = svg64(svgCode.value)
   const name = `qrcode-${id}.svg`
-  const blob = new Blob([svgCode], {
+  const blob = new Blob([svgCode.value], {
     type: 'image/svg+xml',
   })
   const file = new File([blob], name, {
     type: 'image/svg+xml',
   })
   uploadFileMap.value.set(id, file)
-  if (changed) {
+  if (changed.value) {
     editor.value
       ?.chain()
       .focus()
@@ -227,7 +228,7 @@ const setQrcode = () => {
           name,
           size: file.size,
           src,
-          content: JSON.stringify(config),
+          content: JSON.stringify(config.value),
           width,
           height,
         },
@@ -235,7 +236,7 @@ const setQrcode = () => {
       )
       .run()
   }
-  dialogVisible = false
+  dialogVisible.value = false
 }
 </script>
 

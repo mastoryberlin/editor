@@ -1,12 +1,12 @@
 <template>
-  <modal
+  <e-modal
     :visible="visible"
     width="450px"
     @close="emits('close')"
     @confirm="onConfirm"
   >
     <template #header>
-      <icon name="page-margin" />
+      <EIcon name="page-margin" />
       {{ t('pageOptions.title') }}
     </template>
     <div class="umo-page-options-container">
@@ -20,11 +20,11 @@
             variant="default-filled"
           >
             <t-radio-button value="landscape">
-              <icon class="icon-rotate" name="page" />
+              <EIcon class="icon-rotate" name="page" />
               {{ t('page.orientation.landscape') }}
             </t-radio-button>
             <t-radio-button value="portrait">
-              <icon name="page" />
+              <EIcon name="page" />
               {{ t('page.orientation.portrait') }}
             </t-radio-button>
           </t-radio-group>
@@ -231,10 +231,11 @@
         </t-form-item>
       </t-form>
     </div>
-  </modal>
+  </e-modal>
 </template>
 
 <script setup lang="ts">
+
 import type { InputNumberValue } from 'tdesign-vue-next'
 
 const props = defineProps({
@@ -249,12 +250,12 @@ const container = inject('container')
 const page = inject('page')
 const options = inject('options')
 
-let pageOptions = $ref({})
+let pageOptions = ref({})
 watch(
   () => props.visible,
   (visible: boolean) => {
     if (visible) {
-      pageOptions = JSON.parse(JSON.stringify(page.value))
+      pageOptions.value = JSON.parse(JSON.stringify(page.value))
     }
   },
   { immediate: true },
@@ -262,18 +263,18 @@ watch(
 
 // 页面大小
 const selectPageSize = (value: number) => {
-  pageOptions.size = options.value?.dicts?.pageSizes[value]
+  pageOptions.value.size = options.value?.dicts?.pageSizes[value]
 }
 const inputPageSize = (value: number, field: 'width' | 'height') => {
-  pageOptions.size ??= {
+  pageOptions.value.size ??= {
     width: 0,
     height: 0,
   }
   if (!value || value < 10) {
-    Reflect.set(pageOptions.size, field, 10)
+    Reflect.set(pageOptions.value.size, field, 10)
     return
   }
-  pageOptions.size.label = t('pageOptions.size.custom')
+  pageOptions.value.size.label = t('pageOptions.size.custom')
 }
 
 // 页边距
@@ -284,28 +285,28 @@ const selectPageMargin = (margin: {
   top: number
   layout?: 'narrow' | 'moderate' | 'wide' | 'custom'
 }) => {
-  pageOptions.margin = margin
+  pageOptions.value.margin = margin
 }
 const inputPageMargin = (
   value: number,
   field: 'top' | 'bottom' | 'left' | 'right' | 'layout',
 ) => {
-  pageOptions.margin ??= {
+  pageOptions.value.margin ??= {
     right: 0,
     left: 0,
     bottom: 0,
     top: 0,
   }
   if (!value || value < 0) {
-    Reflect.set(pageOptions.margin, field, 0)
+    Reflect.set(pageOptions.value.margin, field, 0)
     return
   }
-  pageOptions.margin.layout = 'custom'
-  selectPageMargin(pageOptions.margin)
+  pageOptions.value.margin.layout = 'custom'
+  selectPageMargin(pageOptions.value.margin)
 }
 
 const onConfirm = () => {
-  page.value = pageOptions
+  page.value = pageOptions.value
   emits('close')
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="t('base.quote')"
     ico="quote"
     shortcut="Ctrl+Shift+B"

@@ -1,23 +1,24 @@
 <template>
   <div ref="linkBubbleRef" class="umo-editor-bubble-menu">
-    <menus-bubble-link-open @hide-bubble="hideBubble" />
+    <e-menus-bubble-link-open @hide-bubble="hideBubble" />
     <div class="umo-bubble-menu-divider"></div>
-    <menus-bubble-link-edit
+    <e-menus-bubble-link-edit
       ico="edit"
       @show-bubble="showBubble"
       @hide-bubble="hideBubble"
     />
-    <menus-bubble-link-copy @hide-bubble="hideBubble" />
-    <menus-bubble-link-unlink @hide-bubble="hideBubble" />
+    <e-menus-bubble-link-copy @hide-bubble="hideBubble" />
+    <e-menus-bubble-link-unlink @hide-bubble="hideBubble" />
   </div>
 </template>
 
 <script setup lang="ts">
+
 import tippy from 'tippy.js'
 
 import MenusBubbleLinkCopy from './copy.vue'
 
-const linkBubbleRef = $ref(null)
+const linkBubbleRef = ref(null)
 const container = inject('container')
 const editor = inject('editor')
 let tippyInstance: any = null
@@ -30,7 +31,7 @@ onMounted(() => {
   tippyInstance = tippy(meta.target, {
     trigger: 'click',
     placement: 'top-start',
-    content: linkBubbleRef,
+    content: linkBubbleRef.value,
     interactive: true,
     allowHTML: true,
     zIndex: 110,

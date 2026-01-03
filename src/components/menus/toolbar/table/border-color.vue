@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table"
     :text="t('table.borderColor')"
     menu-type="popup"
@@ -9,9 +9,9 @@
     @toggle-popup="togglePopup"
   >
     <template #content>
-      <picker-color default-color="" @change="colorBorderChange" />
+      <e-picker-color default-color="" @change="colorBorderChange" />
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

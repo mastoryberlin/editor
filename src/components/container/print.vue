@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+
 const container = inject('container')
 const editor = inject('editor')
 const printing = inject('printing')
@@ -10,8 +11,8 @@ const exportFile = inject('exportFile')
 const page = inject('page')
 const options = inject('options')
 
-const iframeRef = $ref<HTMLIFrameElement | null>(null)
-let iframeCode = $ref('')
+const iframeRef = ref<HTMLIFrameElement | null>(null)
+let iframeCode = ref('')
 const getStylesHtml = () => {
   return Array.from(document.querySelectorAll('link, style'))
     .map((item) => item.outerHTML)
@@ -57,7 +58,7 @@ const prepareEchartsForPrint = (htmlContent: any) => {
   return tempDiv.innerHTML
 }
 
-const defaultLineHeight = $computed(
+const defaultLineHeight = computed(
   () =>
     options.value.dicts?.lineHeights.find(
       (item: { default: any }) => item.default,
@@ -109,7 +110,7 @@ const getIframeCode = () => {
       <div id="sprite-plyr" style="display: none;">
       ${getPlyrSprite()}
       </div>
-      <div class="umo-editor-container" style="line-height: ${defaultLineHeight};" aria-expanded="false">
+      <div class="umo-editor-container" style="line-height: ${defaultLineHeight.value};" aria-expanded="false">
         <div class="tiptap umo-editor" translate="no">
           ${getContentHtml()}
         </div>
@@ -136,7 +137,7 @@ const getIframeCode = () => {
 
 const printPage = () => {
   editor.value?.commands.blur()
-  iframeCode = getIframeCode()
+  iframeCode.value = getIframeCode()
 
   const dialog = useConfirm({
     attach: container,
@@ -147,7 +148,7 @@ const printPage = () => {
     onConfirm() {
       dialog.destroy()
       setTimeout(() => {
-        iframeRef?.contentWindow?.print()
+        iframeRef.value?.contentWindow?.print()
       }, 300)
     },
     onClosed() {

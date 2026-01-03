@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="outdent"
     :text="t('base.outdent')"
     shortcut="Shift+Tab"

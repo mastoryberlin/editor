@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="remove"
     :text="t('bubbleMenu.callout.removeEmoji')"
     @menu-click="removeEmoji"
@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const emits = defineEmits(['change'])
 

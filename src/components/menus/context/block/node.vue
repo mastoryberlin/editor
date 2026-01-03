@@ -7,7 +7,7 @@
     :destroy-on-close="false"
     :popup-props="popupProps"
   >
-    <menus-button
+    <e-menus-button
       class="umo-block-menu-button"
       :menu-active="menuActive"
       ico="block-add"
@@ -22,7 +22,7 @@
         "
         divider
       >
-        <menus-button
+        <e-menus-button
           ico="assistant"
           :text="t('assistant.text')"
           :tooltip="false"
@@ -33,7 +33,7 @@
         {{ t('blockMenu.insert') }}
       </t-dropdown-item>
       <t-dropdown-item>
-        <menus-button
+        <e-menus-button
           ico="table"
           :text="t('table.insert.text')"
           :tooltip="false"
@@ -41,29 +41,29 @@
         />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('image')">
-        <menus-toolbar-insert-image :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-image :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('video')">
-        <menus-toolbar-insert-video :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-video :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('audio')">
-        <menus-toolbar-insert-audio :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-audio :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('file')">
-        <menus-toolbar-insert-file :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-file :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('code-block')">
-        <menus-toolbar-insert-code-block
+        <e-menus-toolbar-insert-code-block
           :huge="false"
           shortcut-text="Ctrl+Alt+C"
           :tooltip="false"
         />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('callout')">
-        <menus-toolbar-insert-callout :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-callout :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('hr')">
-        <menus-button
+        <e-menus-button
           ico="hr"
           :text="t('insert.hr.text')"
           :tooltip="false"
@@ -71,41 +71,41 @@
         />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('toc')">
-        <menus-toolbar-insert-toc :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-toc :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('text-box')">
-        <menus-toolbar-insert-text-box :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-text-box :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('web-page')">
-        <menus-toolbar-insert-web-page :huge="false" :tooltip="false" />
+        <e-menus-toolbar-insert-web-page :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('qrcode')">
-        <menus-toolbar-tools-qrcode :huge="false" :tooltip="false" />
+        <e-menus-toolbar-tools-qrcode :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('barcode')">
-        <menus-toolbar-tools-barcode :huge="false" :tooltip="false" />
+        <e-menus-toolbar-tools-barcode :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('signature')">
-        <menus-toolbar-tools-signature :huge="false" :tooltip="false" />
+        <e-menus-toolbar-tools-signature :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('seal')">
-        <menus-toolbar-tools-seal :huge="false" :tooltip="false" />
+        <e-menus-toolbar-tools-seal :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('diagrams')">
-        <menus-toolbar-tools-diagrams :huge="false" :tooltip="false" />
+        <e-menus-toolbar-tools-diagrams :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('echarts')">
-        <menus-toolbar-tools-echarts
+        <e-menus-toolbar-tools-echarts
           :huge="false"
           :tooltip="false"
           mode="add"
         />
       </t-dropdown-item>
       <t-dropdown-item v-if="!disableMenu('mermaid')">
-        <menus-toolbar-tools-mermaid :huge="false" :tooltip="false" />
+        <e-menus-toolbar-tools-mermaid :huge="false" :tooltip="false" />
       </t-dropdown-item>
       <t-dropdown-item v-if="options.templates.length > 0">
-        <menus-button
+        <e-menus-button
           ico="template"
           :text="t('blockMenu.template')"
           :tooltip="false"
@@ -130,7 +130,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Template } from '@/types'
+
+import type { Template } from '~~/editor/types'
 
 const emits = defineEmits<{
   dropdownVisible: (visible: boolean) => void
@@ -142,13 +143,13 @@ const blockMenu = inject('blockMenu')
 const assistant = inject('assistant')
 const options = inject('options')
 
-let menuActive = $ref(false)
+let menuActive = ref(false)
 const popupProps = {
   attach: `${container} .umo-main-container`,
   onVisibleChange(visible: boolean) {
     editor.value.commands.focus()
     blockMenu.value = visible
-    menuActive = visible
+    menuActive.value = visible
     emits('dropdownVisible', visible)
   },
 }

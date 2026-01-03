@@ -1,6 +1,6 @@
 <template>
   <div class="umo-main-container">
-    <container-toc
+    <EContainerToc
       v-if="pageOptions.showToc"
       @close="pageOptions.showToc = false"
     />
@@ -50,11 +50,11 @@
             ></div>
           </div>
           <div class="umo-page-node-content">
-            <editor>
+            <EEditor>
               <template #bubble_menu="props">
                 <slot name="bubble_menu" v-bind="props" />
               </template>
-            </editor>
+            </EEditor>
           </div>
           <div class="umo-page-node-footer" contenteditable="false">
             <div
@@ -82,8 +82,8 @@
       size="small"
       :offset="['25px', '30px']"
     />
-    <container-search-replace />
-    <container-print />
+    <EContainerSearchReplace />
+    <EContainerPrint />
   </div>
   <div v-if="viewerVisible" class="umo-viewer-container">
     <umo-viewer
@@ -95,16 +95,17 @@
 </template>
 
 <script setup lang="ts">
+
 import UmoViewer from '@umoteam/viewer'
 
-import type { WatermarkOption } from '@/types'
+import type { WatermarkOption } from '~~/editor/types'
 
 const container = inject('container')
 const imageViewer = inject('imageViewer')
 const pageOptions = inject('page')
 
 // 页面大小
-const pageSize = $computed(() => {
+const pageSize = computed(() => {
   const { width, height } = pageOptions.value.size ?? { width: 0, height: 0 }
   return {
     width: pageOptions.value.orientation === 'portrait' ? width : height,
@@ -112,19 +113,19 @@ const pageSize = $computed(() => {
   }
 })
 // 页面缩放后的大小
-const pageZoomWidth = $computed(() => {
+const pageZoomWidth = computed(() => {
   if (pageOptions.value.layout === 'web') {
     return '100%'
   }
-  return `calc(${pageSize.width}cm * ${pageOptions.value.zoomLevel ? pageOptions.value.zoomLevel / 100 : 1})`
+  return `calc(${pageSize.value.width}cm * ${pageOptions.value.zoomLevel ? pageOptions.value.zoomLevel / 100 : 1})`
 })
 
 // 页面内容变化后更新页面高度
-let pageZoomHeight = $ref('')
+let pageZoomHeight = ref('')
 const setPageZoomHeight = async () => {
   await nextTick()
   if (pageOptions.value.layout === 'web') {
-    pageZoomHeight = 'auto'
+    pageZoomHeight.value = 'auto'
     return
   }
   const el = document.querySelector(`${container} .umo-page-content`)
@@ -132,7 +133,7 @@ const setPageZoomHeight = async () => {
     console.warn('The element <.umo-page-content> does not exist.')
     return
   }
-  pageZoomHeight = `${(el.clientHeight * (pageOptions.value.zoomLevel ?? 1)) / 100}px`
+  pageZoomHeight.value = `${(el.clientHeight * (pageOptions.value.zoomLevel ?? 1)) / 100}px`
 }
 onMounted(() => {
   void setPageZoomHeight()
@@ -160,7 +161,7 @@ watch(
 )
 
 // 水印
-const watermarkOptions = $ref<{
+const watermarkOptions = ref<{
   x: number
   y?: number
   width?: number
@@ -174,26 +175,26 @@ watch(
   () => pageOptions.value.watermark,
   ({ type }: Partial<WatermarkOption> = { type: '' }) => {
     if (type === 'compact') {
-      watermarkOptions.width = 320
-      watermarkOptions.y = 240
+      watermarkOptions.value.width = 320
+      watermarkOptions.value.y = 240
     } else {
-      watermarkOptions.width = 480
-      watermarkOptions.y = 360
+      watermarkOptions.value.width = 480
+      watermarkOptions.value.y = 360
     }
   },
   { deep: true, immediate: true },
 )
 
 // 图片预览
-let previewImages = $ref<string[]>([])
-let currentImageIndex = $ref<number>(0)
+let previewImages = ref<string[]>([])
+let currentImageIndex = ref<number>(0)
 
 watch(
   () => imageViewer.value.visible,
   async (visible: boolean) => {
     if (!visible) {
-      previewImages = []
-      currentImageIndex = 0
+      previewImages.value = []
+      currentImageIndex.value = 0
       return
     }
     await nextTick()
@@ -203,9 +204,9 @@ watch(
     Array.from(images).forEach((image, index) => {
       const src = (image as HTMLImageElement).getAttribute('src')
       const nodeId = (image as HTMLImageElement).getAttribute('data-id')
-      previewImages.push(src)
+      previewImages.value.push(src)
       if (nodeId === imageViewer.value.current) {
-        currentImageIndex = index
+        currentImageIndex.value = index
       }
     })
   },
@@ -214,10 +215,10 @@ watch(
 // 文档预览
 const options = inject('options')
 const viewer = inject('viewer')
-let viewerVisible = $ref(false)
+let viewerVisible = ref(false)
 const { locale } = useI18n()
 const getVanillaHTML = inject('getVanillaHTML')
-const viewerOptions = $ref({
+const viewerOptions = ref({
   lang: locale.value,
   theme: options.value.theme,
   mode: ['html'],
@@ -228,8 +229,8 @@ const viewerOptions = $ref({
   showAside: false,
 })
 watch(viewer, async (visible: boolean) => {
-  viewerOptions.html = visible ? await getVanillaHTML() : ''
-  viewerVisible = visible
+  viewerOptions.value.html = visible ? await getVanillaHTML() : ''
+  viewerVisible.value = visible
 })
 </script>
 

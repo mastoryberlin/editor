@@ -7,7 +7,7 @@
           <span
             :class="item.className ? 'keyboard-shortcut-' + item.className : ''"
           >
-            <icon v-if="item.icon" :name="item.icon" />
+            <EIcon v-if="item.icon" :name="item.icon" />
             <span
               v-else-if="item.html"
               class="shortcut-icon"
@@ -32,12 +32,13 @@
 </template>
 
 <script setup lang="ts">
-import { getShortcut } from '@/utils/shortcut'
+
+import { getShortcut } from '~~/editor/src/utils/shortcut'
 
 const options = inject('options')
-const $document = useState('document', options)
+const $document = useEditorState('document', () => options)
 
-const shortcuts = $ref<
+const shortcuts = ref<
   {
     title: string
     items: {
@@ -106,7 +107,7 @@ const shortcuts = $ref<
 ])
 
 if ($document.value.enableMarkdown) {
-  shortcuts.push({
+  shortcuts.value.push({
     title: t('shortcut.markdown'),
     items: [
       {

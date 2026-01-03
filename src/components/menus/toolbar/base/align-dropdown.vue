@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :ico="`align-${textAlign}`"
     :text="t('base.align.title')"
     menu-type="popup"
@@ -10,14 +10,14 @@
   >
     <template #content>
       <div class="umo-text-align-group">
-        <menus-toolbar-base-align-left />
-        <menus-toolbar-base-align-center />
-        <menus-toolbar-base-align-right />
-        <menus-toolbar-base-align-justify />
-        <menus-toolbar-base-align-distributed />
+        <e-menus-toolbar-base-align-left />
+        <e-menus-toolbar-base-align-center />
+        <e-menus-toolbar-base-align-right />
+        <e-menus-toolbar-base-align-justify />
+        <e-menus-toolbar-base-align-distributed />
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

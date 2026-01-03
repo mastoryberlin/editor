@@ -1,7 +1,7 @@
 import { VueRenderer } from '@tiptap/vue-3'
 import tippy from 'tippy.js'
 
-import type { UserItem } from '@/types'
+import type { UserItem } from '~~/editor/types'
 
 import Mentions from './mentions.vue'
 

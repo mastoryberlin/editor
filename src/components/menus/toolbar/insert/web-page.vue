@@ -1,11 +1,11 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="web-page"
     :text="t('insert.web.text')"
     huge
     @menu-click="dialogVisible = true"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       width="480px"
       :confirm-btn="t('insert.web.insert')"
@@ -13,7 +13,7 @@
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="web-page" />
+        <EIcon name="web-page" />
         {{ t('insert.web.title') }}
       </template>
       <div class="umo-web-page-container">
@@ -52,11 +52,12 @@
           </t-form-item>
         </t-form>
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
   pageType: {
     type: Number,
@@ -70,9 +71,9 @@ const props = defineProps({
 const editor = inject('editor')
 const options = inject('options')
 
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 
-const webPages = $ref([
+const webPages = ref([
   {
     label: t('insert.web.text'),
     icon: '<svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="40" height="32" rx="3" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M4 11a3 3 0 0 1 3-3h34a3 3 0 0 1 3 3v9H4v-9z" stroke="currentColor" stroke-width="4"/><circle r="2" transform="matrix(0 -1 -1 0 10 14)" fill="currentColor"/><circle r="2" transform="matrix(0 -1 -1 0 16 14)" fill="currentColor"/></svg>',
@@ -80,7 +81,7 @@ const webPages = $ref([
       url.startsWith('http://') || url.startsWith('https://'),
   },
 ])
-const formData = $ref({
+const formData = ref({
   type: '',
   url: '',
   error: false,
@@ -90,18 +91,18 @@ onMounted(() => {
   if (options.value.webPages.length > 0) {
     options.value.webPages.forEach((item: any) => {
       item.label = l(item.label)
-      webPages.push(item)
+      webPages.value.push(item)
     })
   }
 })
 
 const insertWebPage = () => {
-  const { validate, transformURL } = webPages[formData.type]
+  const { validate, transformURL } = webPages.value[formData.value.type]
   if (!editor.value) {
     return
   }
-  if (validate && !validate(formData.url)) {
-    formData.error = true
+  if (validate && !validate(formData.value.url)) {
+    formData.value.error = true
     return
   }
   editor.value
@@ -109,24 +110,24 @@ const insertWebPage = () => {
     .focus()
     .setParagraph()
     .setIframe({
-      type: formData.type,
-      src: transformURL ? transformURL(formData.url) : formData.url,
+      type: formData.value.type,
+      src: transformURL ? transformURL(formData.value.url) : formData.value.url,
     })
     .run()
-  formData.error = false
-  dialogVisible = false
+  formData.value.error = false
+  dialogVisible.value = false
 }
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   (visible: boolean) => {
     if (visible) {
-      formData.type = props.pageType
-      formData.url = props.pageUrl
-      formData.error = false
+      formData.value.type = props.pageType
+      formData.value.url = props.pageUrl
+      formData.value.error = false
     } else {
-      formData.type = ''
-      formData.url = ''
-      formData.error = false
+      formData.value.type = ''
+      formData.value.url = ''
+      formData.value.error = false
     }
   },
 )

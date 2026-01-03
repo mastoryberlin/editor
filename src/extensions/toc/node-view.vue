@@ -26,6 +26,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import { TextSelection } from '@tiptap/pm/state'
 import { NodeViewWrapper } from '@tiptap/vue-3'
 
@@ -39,7 +41,7 @@ interface TocItem {
   children?: TocItem[]
 }
 // 最终可视化数据
-let tocTreeData = $ref([])
+let tocTreeData = ref([])
 let watchTreeData: TocItem[] = [] // 可视化监听数据
 const buildTocTree = (tocArray: Record<string, any>[]): TocItem[] => {
   const root: TocItem[] = []
@@ -75,7 +77,7 @@ watch(
     const curTocTreeData = buildTocTree(toc)
     if (JSON.stringify(watchTreeData) !== JSON.stringify(curTocTreeData)) {
       watchTreeData = curTocTreeData
-      tocTreeData = JSON.parse(JSON.stringify(curTocTreeData))
+      tocTreeData.value = JSON.parse(JSON.stringify(curTocTreeData))
     }
   },
   { immediate: true },

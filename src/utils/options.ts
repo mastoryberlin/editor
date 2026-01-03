@@ -1,7 +1,7 @@
 import { isRecord } from '@tool-belt/type-predicates'
 
-import { defaultOptions, ojbectSchema } from '@/options'
-import type { UmoEditorOptions } from '@/types'
+import { defaultOptions, ojbectSchema } from '~~/editor/src/options'
+import type { UmoEditorOptions } from '~~/editor/types'
 
 export const getOpitons = <T extends MaybeRef<UmoEditorOptions>>(
   propsOptions: T,

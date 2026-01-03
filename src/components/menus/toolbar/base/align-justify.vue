@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="align-justify"
     :text="t('base.align.justify')"
     shortcut="Ctrl+Shift+J"

@@ -1,7 +1,7 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 import { TextSelection } from '@tiptap/pm/state'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 export interface BookmarkOptions {
   /**

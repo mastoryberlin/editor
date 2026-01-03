@@ -32,7 +32,7 @@
           @click="menuClick"
         >
           <div class="umo-button-content">
-            <slot />
+            <slot></slot>
             <template v-if="ico">
               <span
                 v-if="ico?.startsWith('<')"
@@ -40,7 +40,7 @@
                 v-html="ico"
               >
               </span>
-              <icon v-else class="umo-button-icon" :name="ico" />
+              <EIcon v-else class="umo-button-icon" :name="ico" />
             </template>
             <p class="umo-button-text">{{ text }}</p>
             <kbd v-if="shortcutText" class="umo-button-kbd">
@@ -66,7 +66,7 @@
             "
           >
             <div class="umo-button-content" @click="menuClick">
-              <slot />
+              <slot></slot>
               <template v-if="ico">
                 <span
                   v-if="ico?.startsWith('<')"
@@ -74,7 +74,7 @@
                   v-html="ico"
                 >
                 </span>
-                <icon v-else class="umo-button-icon" :name="ico" />
+                <EIcon v-else class="umo-button-icon" :name="ico" />
               </template>
               <p class="umo-button-text">{{ text }}</p>
               <kbd v-if="shortcutText" class="umo-button-kbd">
@@ -99,10 +99,10 @@
                 destroyOnClose: true,
                 attach: container,
               }"
-              @click="attrs.onChange as any"
+              @click="attrs.onChange"
             >
               <span class="umo-button-icon-arrow umo-button-handle">
-                <icon name="arrow-down" />
+                <EIcon name="arrow-down" />
               </span>
               <slot v-if="!selectOptions" name="dropmenu" />
             </t-dropdown>
@@ -120,7 +120,7 @@
               destroyOnClose: true,
               attach: container,
             }"
-            @click="attrs.onChange as any"
+            @click="attrs.onChange"
           >
             <t-button
               class="umo-menu-button has-arrow"
@@ -137,7 +137,7 @@
               "
             >
               <div class="umo-button-content" @click="menuClick">
-                <slot />
+                <slot></slot>
                 <template v-if="ico">
                   <span
                     v-if="ico?.startsWith('<')"
@@ -145,7 +145,7 @@
                     v-html="ico"
                   >
                   </span>
-                  <icon v-else class="umo-button-icon" :name="ico" />
+                  <EIcon v-else class="umo-button-icon" :name="ico" />
                 </template>
                 <p class="umo-button-text">{{ text }}</p>
                 <kbd v-if="shortcutText" class="umo-button-kbd">{{
@@ -155,14 +155,14 @@
                   v-if="$toolbar.mode === 'ribbon'"
                   class="umo-button-icon-arrow"
                 >
-                  <icon name="arrow-down" />
+                  <EIcon name="arrow-down" />
                 </span>
               </div>
               <span
                 v-if="$toolbar.mode === 'classic'"
                 class="umo-button-icon-arrow"
               >
-                <icon name="arrow-down" />
+                <EIcon name="arrow-down" />
               </span>
             </t-button>
             <slot v-if="!selectOptions" name="dropmenu" />
@@ -187,7 +187,7 @@
           "
           @change="menuClick"
         >
-          <slot />
+          <slot></slot>
         </t-select>
       </template>
       <template v-else-if="menuType === 'popup'">
@@ -206,7 +206,7 @@
             "
           >
             <div class="umo-button-content" @click="menuClick">
-              <slot />
+              <slot></slot>
               <template v-if="ico">
                 <span
                   v-if="ico?.startsWith('<')"
@@ -214,7 +214,7 @@
                   v-html="ico"
                 >
                 </span>
-                <icon v-else class="umo-button-icon" :name="ico" />
+                <EIcon v-else class="umo-button-icon" :name="ico" />
               </template>
               <p class="umo-button-text">{{ text }}</p>
               <kbd v-if="shortcutText" class="umo-button-kbd">
@@ -237,7 +237,7 @@
                 class="umo-button-icon-arrow umo-button-handle"
                 @click="togglePopup(!popupVisible)"
               >
-                <icon name="arrow-down" />
+                <EIcon name="arrow-down" />
               </span>
               <template #content>
                 <div ref="popupContentRef" class="umo-popup-content">
@@ -250,7 +250,7 @@
                 class="umo-button-icon-arrow umo-button-handle"
                 @click="togglePopup(!popupVisible)"
               >
-                <icon name="arrow-down" />
+                <EIcon name="arrow-down" />
               </span>
             </t-popup>
           </t-button>
@@ -279,7 +279,7 @@
               @click="togglePopup(!popupVisible)"
             >
               <div class="umo-button-content">
-                <slot />
+                <slot></slot>
                 <template v-if="ico">
                   <span
                     v-if="ico?.startsWith('<')"
@@ -287,7 +287,7 @@
                     v-html="ico"
                   >
                   </span>
-                  <icon v-else class="umo-button-icon" :name="ico" />
+                  <EIcon v-else class="umo-button-icon" :name="ico" />
                 </template>
                 <p class="umo-button-text">{{ text }}</p>
                 <kbd v-if="shortcutText" class="umo-button-kbd">{{
@@ -297,14 +297,14 @@
                   v-if="$toolbar.mode === 'ribbon'"
                   class="umo-button-icon-arrow"
                 >
-                  <icon name="arrow-down" />
+                  <EIcon name="arrow-down" />
                 </span>
               </div>
               <span
                 v-if="$toolbar.mode === 'classic'"
                 class="umo-button-icon-arrow"
               >
-                <icon name="arrow-down" />
+                <EIcon name="arrow-down" />
               </span>
             </t-button>
             <template #content>
@@ -316,17 +316,19 @@
         </template>
       </template>
       <template v-else>
-        <slot />
+        <slot></slot>
       </template>
     </div>
   </t-tooltip>
 </template>
 
 <script setup lang="ts">
+import { onClickOutside } from "@vueuse/core"
+
 import { isString } from '@tool-belt/type-predicates'
 import type { DropdownOption } from 'tdesign-vue-next'
 
-import { getShortcut } from '@/utils/shortcut'
+import { getShortcut } from '~~/editor/src/utils/shortcut'
 
 const { selectVisible } = useSelect()
 
@@ -412,7 +414,7 @@ const attrs = useAttrs()
 const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
-const $toolbar = useState('toolbar', options)
+const $toolbar = useEditorState('toolbar', () => options)
 const menuClick = (...args: any[]) => {
   if (attrs.onMenuClickThrough) {
     ;(attrs.onMenuClickThrough as (...args: any[]) => void)(...args)
@@ -421,11 +423,11 @@ const menuClick = (...args: any[]) => {
   }
 }
 
-const tooltipVisible = $ref(false)
-let tooltipForceHide = $ref(false)
+const tooltipVisible = ref(false)
+let tooltipForceHide = ref(false)
 const popupVisileChange = (visible: boolean) => {
   // 隐藏 Tooltip，适用于 select、dropdown、popup 等子组件展开时，隐藏 Tooltip
-  tooltipForceHide = visible
+  tooltipForceHide.value = visible
 }
 const getTooltipContent = () => {
   if (props.tooltip === false) {
@@ -442,7 +444,7 @@ const getTooltipContent = () => {
 watch(
   () => props.popupVisible,
   (val: boolean) => {
-    tooltipForceHide = val
+    tooltipForceHide.value = val
   },
 )
 

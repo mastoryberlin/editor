@@ -48,11 +48,13 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const container = inject('container')
-const bubbleMenu = $ref(false)
+const bubbleMenu = ref(false)
 
 const selectEmoji = (emoji: string) => {
   updateAttributes({

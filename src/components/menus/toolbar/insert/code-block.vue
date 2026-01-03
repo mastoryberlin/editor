@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="code-block"
     :text="t('insert.codeBlock')"
     shortcut="Ctrl+Alt+C"

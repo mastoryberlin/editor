@@ -10,8 +10,8 @@
       class="umo-block-menu-hander"
       :class="`umo-selected-node-${selectedNode?.type?.name || 'unknown'} `"
     >
-      <menus-context-block-node @dropdown-visible="dropdownVisible" />
-      <menus-context-block-common
+      <e-menus-context-block-node @dropdown-visible="dropdownVisible" />
+      <e-menus-context-block-common
         v-if="
           !editor.isEmpty ||
           editor.isActive('table') ||
@@ -26,15 +26,15 @@
 </template>
 
 <script setup lang="ts">
-import DragHandle from '@tiptap-pro/extension-drag-handle-vue-3'
+import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
 import type { Instance } from 'tippy.js'
 
 const editor = inject('editor')
-let selectedNode = $ref(null)
-let selectedNodePos = $ref(null)
+let selectedNode = ref(null)
+let selectedNodePos = ref(null)
 
-let tippyInstance = $ref<Instance | null>(null)
-const tippyOpitons = $ref<Partial<Instance>>({
+let tippyInstance = ref<Instance | null>(null)
+const tippyOpitons = ref<Partial<Instance>>({
   zIndex: 20,
   popperOptions: {
     modifiers: [
@@ -45,14 +45,14 @@ const tippyOpitons = $ref<Partial<Instance>>({
     ],
   },
   onMount(instance: Instance) {
-    tippyInstance = instance
+    tippyInstance.value = instance
   },
 })
 
 const nodeChange = ({ node, pos }: { node: Node | null; pos: number }) => {
-  selectedNode = node ?? null
+  selectedNode.value = node ?? null
   if (pos !== null) {
-    selectedNodePos = pos
+    selectedNodePos.value = pos
   }
 }
 

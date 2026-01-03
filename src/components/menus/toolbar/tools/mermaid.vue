@@ -1,11 +1,11 @@
 <template>
-  <menus-button
+  <e-menus-button
     :ico="content ? 'edit' : 'mermaid'"
     :text="content ? t('tools.mermaid.edit') : t('tools.mermaid.text')"
     huge
     @menu-click="menuClick"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       icon="mermaid"
       width="960px"
@@ -13,7 +13,7 @@
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="mermaid" />
+        <EIcon name="mermaid" />
         {{ content ? t('tools.mermaid.edit') : t('tools.mermaid.text') }}
       </template>
       <div class="umo-mermaid-container">
@@ -35,15 +35,16 @@
           ></div>
         </div>
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import mermaid from 'mermaid'
 import svg64 from 'svg64'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const props = defineProps({
   content: {
@@ -52,7 +53,7 @@ const props = defineProps({
   },
 })
 
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 const editor = inject('editor')
 const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
@@ -70,36 +71,36 @@ const mermaidInit = () => {
 }
 
 const menuClick = () => {
-  dialogVisible = true
+  dialogVisible.value = true
   mermaidInit()
 }
 
 // 渲染 Mermaid
 const defaultCode = 'graph TB\na-->b'
-let mermaidCode = $ref('')
-let svgCode = $ref('')
-const mermaidRef = $ref<HTMLElement | null>(null)
+let mermaidCode = ref('')
+let svgCode = ref('')
+const mermaidRef = ref<HTMLElement | null>(null)
 const renderMermaid = async () => {
   try {
-    const { svg } = await mermaid.render('mermaid-svg', mermaidCode)
-    svgCode = svg
+    const { svg } = await mermaid.render('mermaid-svg', mermaidCode.value)
+    svgCode.value = svg
   } catch {
-    svgCode = ''
+    svgCode.value = ''
   }
 }
 watch(
-  () => dialogVisible,
+  () => dialogVisible.value,
   (val: boolean) => {
     if (val) {
-      mermaidCode = props.content ?? defaultCode
+      mermaidCode.value = props.content ?? defaultCode
     }
   },
   { immediate: true },
 )
 watch(
-  () => mermaidCode,
+  () => mermaidCode.value,
   async () => {
-    if (dialogVisible) {
+    if (dialogVisible.value) {
       await nextTick()
       void renderMermaid()
     }
@@ -109,16 +110,16 @@ watch(
 
 // 创建或更新 Mermaid
 const setMermaid = () => {
-  if (mermaidCode === '') {
+  if (mermaidCode.value === '') {
     useMessage('error', {
       attach: container,
       content: t('tools.mermaid.notEmpty'),
     })
     return
   }
-  if (!props.content || (props.content && props.content !== mermaidCode)) {
+  if (!props.content || (props.content && props.content !== mermaidCode.value)) {
     const id = shortId(10)
-    const svg = mermaidRef.querySelector('svg')
+    const svg = mermaidRef.value.querySelector('svg')
     const { width, height } = svg.getBoundingClientRect()
     const name = `mermaid-${shortId()}.svg`
     const blob = new Blob([svg.outerHTML], {
@@ -137,8 +138,8 @@ const setMermaid = () => {
           type: 'mermaid',
           name,
           size: file.size,
-          src: svg64(svgCode),
-          content: mermaidCode,
+          src: svg64(svgCode.value),
+          content: mermaidCode.value,
           width,
           height,
           equalProportion: false,
@@ -147,7 +148,7 @@ const setMermaid = () => {
       )
       .run()
   }
-  dialogVisible = false
+  dialogVisible.value = false
 }
 </script>
 

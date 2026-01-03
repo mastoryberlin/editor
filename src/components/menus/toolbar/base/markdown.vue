@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     v-if="options.document?.enableMarkdown"
     :text="t('base.markdown.text')"
     ico="markdown"
@@ -18,7 +18,7 @@
 const container = inject('container')
 const destroyed = inject('destroyed')
 const options = inject('options')
-const $document = useState('document', options)
+const $document = useEditorState('document', () => options)
 
 const toggleMarkdownMode = () => {
   const dialog = useConfirm({

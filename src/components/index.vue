@@ -23,7 +23,7 @@
       }"
     >
       <header class="umo-toolbar">
-        <toolbar
+        <EToolbar
           :key="toolbarKey"
           @menu-change="(event: any) => emits('menuChange', event)"
         >
@@ -34,17 +34,17 @@
           >
             <slot :name="`toolbar_${item}`" v-bind="slotProps" />
           </template>
-        </toolbar>
+        </EToolbar>
       </header>
       <main class="umo-main">
-        <container-page>
+        <EContainerPage>
           <template #bubble_menu="slotProps">
             <slot name="bubble_menu" v-bind="slotProps" />
           </template>
-        </container-page>
+        </EContainerPage>
       </main>
       <footer class="umo-footer">
-        <statusbar />
+        <!-- <e-statusbar /> -->
       </footer>
     </div>
   </t-config-provider>
@@ -68,10 +68,10 @@ import type {
 import enConfig from 'tdesign-vue-next/esm/locale/en_US'
 import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
 
-import { getSelectionNode, getSelectionText } from '@/extensions/selection'
-import { getTypewriterRunState } from '@/extensions/type-writer'
-import { i18n } from '@/i18n'
-import { propsOptions } from '@/options'
+import { getSelectionNode, getSelectionText } from '~~/editor/src/extensions/selection'
+import { getTypewriterRunState } from '~~/editor/src/extensions/type-writer'
+import { i18n } from '~~/editor/src/i18n'
+import { propsOptions } from '~~/editor/src/options'
 import type {
   InsterContentOptions,
   InsterContentType,
@@ -79,22 +79,24 @@ import type {
   SetContentOptions,
   SetContentType,
   UmoEditorOptions,
-} from '@/types'
+} from '~~/editor/types'
 import type {
   AutoSaveOptions,
   DocumentOptions,
   SupportedLocale,
   WatermarkOption,
-} from '@/types'
-import { contentTransform } from '@/utils/content-transform'
-import { consoleCopyright } from '@/utils/copyright'
+} from '~~/editor/types'
+import { contentTransform } from '~~/editor/src/utils/content-transform'
+import { consoleCopyright } from '~~/editor/src/utils/copyright'
 import {
   addHistory,
   redoHistoryRecord,
   undoHistoryRecord,
-} from '@/utils/history-record'
-import { getOpitons } from '@/utils/options'
-import { shortId } from '@/utils/short-id'
+} from '~~/editor/src/utils/history-record'
+import { getOpitons } from '~~/editor/src/utils/options'
+import { shortId } from '~~/editor/src/utils/short-id'
+import { useStorage } from '@vueuse/core'
+
 const { toBlob, toJpeg, toPng } = domToImage
 
 defineOptions({ name: 'UmoEditor' })
@@ -135,7 +137,7 @@ const historyRecords = ref({
   isUndoRedo: false, // 标记是否正在执行撤销/重做操作
 })
 
-const container = $ref(`#umo-editor-${shortId(4)}`)
+const container = ref(`#umo-editor-${shortId(4)}`)
 const defaultOptions = inject('defaultOptions', {})
 const options = ref<UmoEditorOptions>(getOpitons(props, defaultOptions))
 const editor = ref<Editor | null>(null)
@@ -153,7 +155,7 @@ const uploadFileMap = ref(new Map())
 // const bookmark = ref(false)
 const destroyed = ref(false)
 const typeWriterIsRunning = ref(false)
-provide('container', container)
+provide('container', container.value)
 provide('options', options)
 provide('editor', editor)
 provide('savedAt', savedAt)
@@ -221,14 +223,14 @@ watch(
   },
 )
 
-const $toolbar = useState('toolbar', options)
-const $document = useState('document', options)
+const $toolbar = useEditorState('toolbar', () => options)
+const $document = useEditorState('document', () => options)
 
-let toolbarKey = $ref(shortId())
+let toolbarKey = ref(shortId())
 watch(
   () => [options.value.document?.readOnly, editor.value?.isEditable],
   () => {
-    toolbarKey = shortId()
+    toolbarKey.value = shortId()
   },
 )
 
@@ -271,26 +273,26 @@ watch(
 )
 
 // 定时保存
-let contentUpdated = $ref(false)
-let isFirstUpdate = $ref(true)
-let autoSaveInterval = $ref<NodeJS.Timeout | null>(null)
+let contentUpdated = ref(false)
+let isFirstUpdate = ref(true)
+let autoSaveInterval = ref<NodeJS.Timeout | null>(null)
 const clearAutoSaveInterval = () => {
-  if (autoSaveInterval !== null) {
-    clearInterval(autoSaveInterval)
-    autoSaveInterval = null
+  if (autoSaveInterval.value !== null) {
+    clearInterval(autoSaveInterval.value)
+    autoSaveInterval.value = null
   }
 }
 watch(
-  () => contentUpdated,
+  () => contentUpdated.value,
   (val: boolean) => {
     const { autoSave } = options.value.document ?? {}
     if (!autoSave?.enabled) {
       return
     }
-    if (isFirstUpdate) {
-      isFirstUpdate = false
+    if (isFirstUpdate.value) {
+      isFirstUpdate.value = false
       setTimeout(() => {
-        contentUpdated = false
+        contentUpdated.value = false
       })
       return
     }
@@ -298,9 +300,9 @@ watch(
       clearAutoSaveInterval()
       return
     }
-    autoSaveInterval = setInterval(() => {
+    autoSaveInterval.value = setInterval(() => {
       void saveContent()
-      contentUpdated = false
+      contentUpdated.value = false
       clearAutoSaveInterval()
     }, autoSave.interval)
   },
@@ -318,7 +320,7 @@ watch(
     })
     editor.value.on('update', ({ editor }) => {
       emits('changed', { editor })
-      contentUpdated = true
+      contentUpdated.value = true
     })
     editor.value.on('selectionUpdate', ({ editor }) => {
       emits('changed:selection', { editor })
@@ -466,6 +468,7 @@ watch(
 // i18n Setup
 // @ts-ignore
 const { t, locale, mergeLocaleMessage } = useI18n()
+const l = t
 const $locale = useStorage('umo-editor:locale', options.value.locale)
 locale.value = $locale.value
 consoleCopyright()
@@ -478,7 +481,7 @@ const getLocaleMessage = (lang: SupportedLocale) => {
 }
 mergeLocaleMessage(locale.value, getLocaleMessage(locale.value))
 const { appContext } = getCurrentInstance() ?? {}
-if (appContext) {
+if (appContext.config) {
   appContext.config.globalProperties.t = t
   appContext.config.globalProperties.l = l
 }
@@ -490,7 +493,7 @@ watch(
 )
 
 // Global Locale Config
-const localeConfig = $ref<Record<string, GlobalConfigProvider>>({
+const localeConfig = ref<Record<string, GlobalConfigProvider>>({
   'zh-CN': cnConfig as unknown as GlobalConfigProvider,
   'en-US': enConfig as unknown as GlobalConfigProvider,
 })
@@ -838,7 +841,7 @@ const getImage = async (format: 'blob' | 'jpeg' | 'png' = 'blob') => {
   try {
     page.value.zoomLevel = 100
     const node = document.querySelector(
-      `${container} .umo-page-content`,
+      `${container.value} .umo-page-content`,
     ) as HTMLElement
     if (format === 'blob') {
       return await toBlob(node)
@@ -873,7 +876,7 @@ const getVanillaHTML = async () => {
   }
   await nextTick()
   const pageNode = document
-    .querySelector(`${container} .umo-page-content`)
+    .querySelector(`${container.value} .umo-page-content`)
     ?.cloneNode(true) as HTMLElement
   if (!readOnly) {
     options.value.document.readOnly = false
@@ -1012,7 +1015,7 @@ const reset = (silent: boolean) => {
     return
   }
   const dialog = useConfirm({
-    attach: container,
+    attach: container.value,
     theme: 'warning',
     header: t('resetAll.title'),
     body: t('resetAll.message'),
@@ -1045,7 +1048,7 @@ const saveContent = async (showMessage = true) => {
   }
   try {
     useMessage('loading', {
-      attach: container,
+      attach: container.value,
       content: t('save.saving'),
       placement: 'bottom',
       closeBtn: true,
@@ -1083,7 +1086,7 @@ const saveContent = async (showMessage = true) => {
     if (saveBack.status === 'error') {
       if (saveBack.showMessage) {
         useMessage('error', {
-          attach: container,
+          attach: container.value,
           content: saveBack.message ?? t('save.failed'),
           placement: 'bottom',
           offset: [0, -20],
@@ -1094,7 +1097,7 @@ const saveContent = async (showMessage = true) => {
     emits('saved')
     if (saveBack.showMessage) {
       useMessage('success', {
-        attach: container,
+        attach: container.value,
         content: saveBack.message ?? t('save.success'),
         placement: 'bottom',
         offset: [0, -20],
@@ -1107,7 +1110,7 @@ const saveContent = async (showMessage = true) => {
     if (saveBack.showMessage) {
       const error = e as Error
       useMessage('error', {
-        attach: container,
+        attach: container.value,
         content: error?.message ? error.message : t('save.error'),
         placement: 'bottom',
         offset: [0, -20],
@@ -1304,19 +1307,19 @@ defineExpose({
   setBookmark,
   deleteBookmark,
   useAlert(pramas: DialogOptions) {
-    return useAlert({ attach: container, ...pramas })
+    return useAlert({ attach: container.value, ...pramas })
   },
   useConfirm(pramas: DialogOptions) {
-    return useConfirm({ attach: container, ...pramas })
+    return useConfirm({ attach: container.value, ...pramas })
   },
   useMessage(type: string, pramas: MessageOptions) {
-    return useMessage(type, { attach: container, ...pramas })
+    return useMessage(type, { attach: container.value, ...pramas })
   },
 })
 </script>
 
 <style lang="less">
-@import '@/assets/styles/index.less';
+@import '~~/editor/src/assets/styles/index.less';
 
 .umo-editor-container {
   --td-brand-color: var(--umo-primary-color);
@@ -1344,7 +1347,7 @@ defineExpose({
   &.preview-mode {
     &.laser-pointer {
       .umo-main {
-        cursor: url('@/assets/images/laser-pointer.svg'), auto;
+        cursor: url('~~/editor/src/assets/images/laser-pointer.svg'), auto;
       }
     }
     .umo-toolbar {

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="viewer"
     :text="t('base.viewer')"
     huge

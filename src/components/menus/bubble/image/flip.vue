@@ -1,21 +1,21 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="image-flip"
     :text="t('bubbleMenu.image.flipX')"
     :menu-active="flipYActive"
     @menu-click="setFlip('flipY')"
   />
-  <menus-button
+  <e-menus-button
     :text="t('bubbleMenu.image.flipY')"
     :menu-active="flipXActive"
     @menu-click="setFlip('flipX')"
   >
-    <icon name="image-flip" style="transform: rotate(90deg)" />
-  </menus-button>
+    <EIcon name="image-flip" style="transform: rotate(90deg)" />
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 

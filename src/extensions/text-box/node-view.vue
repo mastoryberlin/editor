@@ -45,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 
@@ -53,9 +55,9 @@ const { node, updateAttributes } = defineProps(nodeViewProps)
 const options = inject('options')
 
 const containerRef = ref(null)
-const contentRef = $ref(null)
-let selected = $ref(false)
-let disabled = $ref(false)
+const contentRef = ref(null)
+let selected = ref(false)
+let disabled = ref(false)
 
 const onRotate = ({ angle }: { angle: number }) => {
   updateAttributes({ angle })
@@ -68,18 +70,18 @@ const onDrag = ({ left, top }: { left: number; top: number }) => {
 }
 
 onClickOutside(containerRef, () => {
-  selected = false
-  disabled = false
+  selected.value = false
+  disabled.value = false
 })
 
 const editTextBox = () => {
-  disabled = true
+  disabled.value = true
   const range = document.createRange()
-  range.selectNodeContents(contentRef.$el)
+  range.selectNodeContents(contentRef.value.$el)
   const sel = window.getSelection()
   sel?.removeAllRanges()
   sel?.addRange(range)
-  contentRef.$el.focus()
+  contentRef.value.$el.focus()
 }
 </script>
 

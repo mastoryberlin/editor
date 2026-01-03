@@ -1,7 +1,7 @@
 <template>
   <div v-if="!page.preview?.enabled" class="umo-status-bar">
     <div class="umo-status-bar-left">
-      <tooltip :content="page.showToc ? t('toc.hide') : t('toc.show')">
+      <e-tooltip :content="page.showToc ? t('toc.hide') : t('toc.show')">
         <t-button
           class="umo-status-bar-button"
           :class="{ active: page.showToc }"
@@ -9,10 +9,10 @@
           size="small"
           @click="page.showToc = !page.showToc"
         >
-          <icon name="toc" color="red" />
+          <EIcon name="toc" color="red" />
         </t-button>
-      </tooltip>
-      <tooltip
+      </e-tooltip>
+      <e-tooltip
         v-if="options.document?.enableSpellcheck"
         :content="
           $document?.enableSpellcheck
@@ -27,40 +27,40 @@
           size="small"
           @click="toggleSpellcheck"
         >
-          <icon name="spellcheck" color="red" />
+          <EIcon name="spellcheck" color="red" />
         </t-button>
-      </tooltip>
-      <tooltip :content="t('shortcut.title')">
+      </e-tooltip>
+      <e-tooltip :content="t('shortcut.title')">
         <t-button
           class="umo-status-bar-button"
           variant="text"
           size="small"
           @click="showShortcut = true"
         >
-          <icon name="shortcut" />
+          <EIcon name="shortcut" />
         </t-button>
-      </tooltip>
-      <tooltip :content="t('resetAll.title')">
+      </e-tooltip>
+      <e-tooltip :content="t('resetAll.title')">
         <t-button
           class="umo-status-bar-button"
           variant="text"
           size="small"
           @click="reset(false)"
         >
-          <icon name="clear-cache" />
+          <EIcon name="clear-cache" />
         </t-button>
-      </tooltip>
+      </e-tooltip>
       <!-- 请遵循开源协议，勿删除或隐藏版权信息！ -->
-      <tooltip :content="t('about.title')">
+      <e-tooltip :content="t('about.title')">
         <t-button
           class="umo-status-bar-button"
           variant="text"
           size="small"
           @click="about = !about"
         >
-          <icon name="about" />
+          <EIcon name="about" />
         </t-button>
-      </tooltip>
+      </e-tooltip>
       <div class="umo-status-bar-split"></div>
       <t-dropdown
         :attach="container"
@@ -77,7 +77,7 @@
           variant="text"
           size="small"
         >
-          <icon :name="`layout-${page.layout}`" />
+          <EIcon :name="`layout-${page.layout}`" />
           {{ currentLayout.content }}
           <icon
             name="arrow-down"
@@ -95,7 +95,7 @@
             @click="page.layout = item.value"
           >
             <div class="umo-layout-dropdown-item">
-              <icon :name="`layout-${item.value}`" size="16" />
+              <EIcon :name="`layout-${item.value}`" size="16" />
               {{ item.content }}
             </div>
           </t-dropdown-item>
@@ -151,7 +151,7 @@
       </t-popup>
     </div>
     <div class="umo-status-bar-right">
-      <tooltip
+      <e-tooltip
         :content="
           page.preview?.enabled ? t('preview.disable') : t('preview.title')
         "
@@ -163,10 +163,10 @@
           size="small"
           @click="togglePreview"
         >
-          <icon name="preview" />
+          <EIcon name="preview" />
         </t-button>
-      </tooltip>
-      <tooltip
+      </e-tooltip>
+      <e-tooltip
         :content="`${fullscreen?.isFullscreen ? t('fullscreen.disable') : t('fullscreen.title')} (${getShortcut('Ctrl+F11')})`"
       >
         <t-button
@@ -175,12 +175,12 @@
           size="small"
           @click="toggleFullscreen"
         >
-          <icon :name="fullscreen ? 'full-screen-exit' : 'full-screen'" />
+          <EIcon :name="fullscreen ? 'full-screen-exit' : 'full-screen'" />
         </t-button>
-      </tooltip>
+      </e-tooltip>
       <div class="umo-status-bar-split"></div>
       <div v-if="page.layout === 'page'" class="umo-zoom-level-bar">
-        <tooltip :content="`${t('zoom.zoomOut')} (${getShortcut('Ctrl-')})`">
+        <e-tooltip :content="`${t('zoom.zoomOut')} (${getShortcut('Ctrl-')})`">
           <t-button
             class="umo-status-bar-button"
             variant="text"
@@ -188,9 +188,9 @@
             :disabled="(page.zoomLevel ?? 21) <= 20"
             @click="zoomOut"
           >
-            <icon name="minus" />
+            <EIcon name="minus" />
           </t-button>
-        </tooltip>
+        </e-tooltip>
         <t-slider
           v-model="page.zoomLevel"
           class="umo-zoom-level-slider"
@@ -206,7 +206,7 @@
           }"
           :label="t('zoom.level') + '${value}%%'"
         />
-        <tooltip :content="`${t('zoom.zoomIn')} (${getShortcut('Ctrl+')})`">
+        <e-tooltip :content="`${t('zoom.zoomIn')} (${getShortcut('Ctrl+')})`">
           <t-button
             class="umo-status-bar-button"
             variant="text"
@@ -214,10 +214,10 @@
             :disabled="!!(page.zoomLevel && page.zoomLevel >= 500)"
             @click="zoomIn"
           >
-            <icon name="plus" />
+            <EIcon name="plus" />
           </t-button>
-        </tooltip>
-        <tooltip :content="`${t('zoom.autoWidth')} (${getShortcut('Ctrl0')})`">
+        </e-tooltip>
+        <e-tooltip :content="`${t('zoom.autoWidth')} (${getShortcut('Ctrl0')})`">
           <t-button
             class="umo-status-bar-button"
             :class="{ active: page.autoWidth }"
@@ -225,10 +225,10 @@
             size="small"
             @click="autoWidth(true)"
           >
-            <icon name="auto-width" />
+            <EIcon name="auto-width" />
           </t-button>
-        </tooltip>
-        <tooltip :content="`${t('zoom.reset')} (${getShortcut('Ctrl1')})`">
+        </e-tooltip>
+        <e-tooltip :content="`${t('zoom.reset')} (${getShortcut('Ctrl1')})`">
           <t-button
             class="umo-status-bar-button auto-width"
             variant="text"
@@ -238,7 +238,7 @@
           >
             {{ page.zoomLevel }}%
           </t-button>
-        </tooltip>
+        </e-tooltip>
       </div>
       <t-dropdown
         :attach="container"
@@ -261,20 +261,20 @@
     <div v-if="countdownValue !== ''" class="umo-preview-countdown">
       {{ countdownValue }}
     </div>
-    <statusbar-countdown
+    <e-statusbar-countdown
       :visible="countdownSetting"
       @visible-change="(visible: boolean) => (countdownSetting = visible)"
       @countdown-change="countdownChange"
       @exit-preivew="exitPreview"
       @close="countdownSetting = false"
     >
-      <tooltip :content="t('preview.countdown.title')">
+      <e-tooltip :content="t('preview.countdown.title')">
         <div class="item" :class="{ active: countdownSetting }">
-          <icon name="time" />
+          <EIcon name="time" />
         </div>
-      </tooltip>
-    </statusbar-countdown>
-    <tooltip :content="t('preview.laserPointer')">
+      </e-tooltip>
+    </e-statusbar-countdown>
+    <e-tooltip :content="t('preview.laserPointer')">
       <div
         class="item"
         :class="{ active: page.preview?.laserPointer }"
@@ -283,35 +283,35 @@
           (page.preview.laserPointer = !page.preview.laserPointer)
         "
       >
-        <icon name="laser-pointer" />
+        <EIcon name="laser-pointer" />
       </div>
-    </tooltip>
-    <tooltip :content="`${t('zoom.zoomOut')} (${getShortcut('Ctrl-')})`">
+    </e-tooltip>
+    <e-tooltip :content="`${t('zoom.zoomOut')} (${getShortcut('Ctrl-')})`">
       <div class="item" @click="zoomOut">
-        <icon name="minus" />
+        <EIcon name="minus" />
       </div>
-    </tooltip>
-    <tooltip :content="`${t('zoom.autoWidth')} (${getShortcut('Ctrl0')})`">
+    </e-tooltip>
+    <e-tooltip :content="`${t('zoom.autoWidth')} (${getShortcut('Ctrl0')})`">
       <div
         class="item"
         :class="{ active: page.autoWidth }"
         @click="autoWidth(true)"
       >
-        <icon name="auto-width" />
+        <EIcon name="auto-width" />
       </div>
-    </tooltip>
-    <tooltip :content="`${t('zoom.zoomIn')} (${getShortcut('Ctrl+')})`">
+    </e-tooltip>
+    <e-tooltip :content="`${t('zoom.zoomIn')} (${getShortcut('Ctrl+')})`">
       <div class="item" @click="zoomIn">
-        <icon name="plus" />
+        <EIcon name="plus" />
       </div>
-    </tooltip>
-    <tooltip :content="`${t('preview.disable')} (${getShortcut('Esc')})`">
+    </e-tooltip>
+    <e-tooltip :content="`${t('preview.disable')} (${getShortcut('Esc')})`">
       <div class="item" @click="togglePreview">
-        <icon name="exit" />
+        <EIcon name="exit" />
       </div>
-    </tooltip>
+    </e-tooltip>
   </div>
-  <statusbar-about :visible="about" @close="about = false" />
+  <e-statusbar-about :visible="about" @close="about = false" />
   <t-drawer
     v-model:visible="showShortcut"
     :attach="container"
@@ -323,35 +323,36 @@
   >
     <template #header>
       <div class="umo-shortcuts-drawer-header">
-        <icon name="shortcut" />
+        <EIcon name="shortcut" />
         {{ t('shortcut.title') }}
       </div>
     </template>
-    <statusbar-shortcuts />
+    <e-statusbar-shortcuts />
   </t-drawer>
 </template>
 
 <script setup lang="ts">
+import { useFullscreen } from '@vueuse/core'
+
 import type { UseFullscreenReturn } from '@vueuse/core'
 import type { DropdownOption } from 'tdesign-vue-next'
 
-import type { SupportedLocale } from '@/types'
-import { getShortcut } from '@/utils/shortcut'
+import { getShortcut } from '~~/editor/src/utils/shortcut'
 
 const { locale } = useI18n()
 const container = inject('container')
 const editor = inject('editor')
 const page = inject('page')
 const options = inject('options')
-const $document = useState('document', options)
+const $document = useEditorState('document', () => options)
 
 // 快捷键抽屉
-const showShortcut = $ref(false)
+const showShortcut = ref(false)
 
 const reset = inject('reset') as (silent: boolean) => void
 
 // 字数统计
-const showWordCount = $ref(false)
+const showWordCount = ref(false)
 const selectionCharacters = computed(() => {
   if (editor.value) {
     const { selection } = editor.value.state
@@ -366,10 +367,10 @@ const selectionCharacters = computed(() => {
 })
 
 // 关于 Umo Editor
-const about = $ref(false)
+const about = ref(false)
 
 // 页面布局
-const showLayoutSelect = $ref(false)
+const showLayoutSelect = ref(false)
 const layouts = computed(() => {
   return options.value.page.layouts.map((item: string) => {
     return { content: t(`layout.${item}`), value: item }
@@ -391,9 +392,9 @@ const toggleFullscreen = () => {
   fullscreen.value = !fullscreen.value
 }
 
-let documentFullscreen: UseFullscreenReturn = $ref(null)
+let documentFullscreen = ref<UseFullscreenReturn>(null)
 onMounted(() => {
-  documentFullscreen = useFullscreen(document.querySelector(container))
+  documentFullscreen.value = useFullscreen(document.querySelector(container))
 })
 
 // 演示模式
@@ -429,28 +430,28 @@ watch(
 )
 
 // 演示模式倒计时
-const countdownSetting = $ref(false)
-let countdownValue = $ref('')
+const countdownSetting = ref(false)
+let countdownValue = ref('')
 const countdownChange = (value: string) => {
-  countdownValue = value
+  countdownValue.value = value
 }
 
 watch(
   () => page.value.preview?.enabled,
   (enabled: boolean) => {
     if (enabled) {
-      void documentFullscreen.enter()
+      void documentFullscreen.value.enter()
       if (page.value.layout === 'page') {
         autoWidth(false, 10)
       }
     } else {
-      void documentFullscreen.exit()
+      void documentFullscreen.value.exit()
       zoomReset()
     }
   },
 )
 watch(
-  () => documentFullscreen?.isFullscreen,
+  () => documentFullscreen.value?.isFullscreen,
   (isFullscreen: boolean) => {
     if (!isFullscreen) {
       exitPreview()

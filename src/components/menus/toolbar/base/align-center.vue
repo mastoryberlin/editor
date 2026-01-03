@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     :text="t('base.align.center')"
     ico="align-center"
     shortcut="Ctrl+Shift+E"

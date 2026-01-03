@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="image-draggable"
     :text="t('bubbleMenu.image.draggable')"
     :menu-active="editor?.getAttributes('image')?.draggable"
@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="redo"
     :text="t('base.redo')"
     shortcut="Ctrl+Y / Ctrl+Shift+Z"

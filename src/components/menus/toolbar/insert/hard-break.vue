@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="hard-break"
     :text="t('insert.hardBreak')"
     huge

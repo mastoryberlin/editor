@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="margin"
     :text="t('base.margin.text')"
     menu-type="popup"
@@ -40,17 +40,18 @@
         </t-button>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
-let marginTop = $ref('')
-let marginBottom = $ref('')
+let marginTop = ref('')
+let marginBottom = ref('')
 
 const setMarginValue = () => {
   if (popupVisible.value) {
@@ -60,23 +61,23 @@ const setMarginValue = () => {
     }
     const { margin } = node.attrs
     if (margin?.top) {
-      marginTop = margin.top.replace(/px/g, '')
+      marginTop.value = margin.top.replace(/px/g, '')
     }
     if (margin?.bottom) {
-      marginBottom = margin.bottom.replace(/px/g, '')
+      marginBottom.value = margin.bottom.replace(/px/g, '')
     }
   } else {
-    marginTop = ''
-    marginBottom = ''
+    marginTop.value = ''
+    marginBottom.value = ''
   }
 }
 
 const setMargin = () => {
   editor.value?.commands.setMargin({
-    top: marginTop && marginTop !== '' ? marginTop?.toString() : undefined,
+    top: marginTop.value && marginTop.value !== '' ? marginTop.value?.toString() : undefined,
     bottom:
-      marginBottom && marginBottom !== ''
-        ? marginBottom?.toString()
+      marginBottom.value && marginBottom.value !== ''
+        ? marginBottom.value?.toString()
         : undefined,
   })
 }

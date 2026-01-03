@@ -9,20 +9,21 @@
       @enter="onInput"
     >
       <template #suffixIcon>
-        <icon name="plus" size="14" @click="onInput(value)" />
+        <EIcon name="plus" size="14" @click="onInput(value)" />
       </template>
     </t-input>
   </div>
 </template>
 
 <script setup lang="ts">
+
 const editor = inject('editor')
-let value = $ref('')
+let value = ref('')
 
 const setValue = () => {
   const attrs = editor.value?.getAttributes('tag')
   if (attrs?.text) {
-    value = attrs.text
+    value.value = attrs.text
   }
 }
 

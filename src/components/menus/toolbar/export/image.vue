@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="image"
     :text="t('export.image.text')"
     menu-type="dropdown"

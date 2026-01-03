@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="hr"
     :text="t('insert.hr.text')"
     menu-type="popup"
@@ -38,21 +38,22 @@
           >
             <span v-text="t('insert.hr.color')"></span>
             <div class="arrow">
-              <icon name="arrow-down" />
+              <EIcon name="arrow-down" />
             </div>
           </div>
           <template #content>
             <div class="umo-page-divider-color-picker">
-              <picker-color default-color="#000" @change="colorChange" />
+              <e-picker-color default-color="#000" @change="colorChange" />
             </div>
           </template>
         </t-popup>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
 const editor = inject('editor')
@@ -69,24 +70,24 @@ const options = [
   { label: t('insert.hr.wavy'), value: 'wavy' },
 ]
 
-let currentColor = $ref('#000')
-let colorPickerVisible = $ref(false)
+let currentColor = ref('#000')
+let colorPickerVisible = ref(false)
 const colorChange = (color: string) => {
-  currentColor = color
-  colorPickerVisible = false
+  currentColor.value = color
+  colorPickerVisible.value = false
 }
 
 const setHr = ({ value }: { value: string }) => {
   if (!value || !editor.value) {
     return
   }
-  editor.value.chain().focus().setHr({ type: value, color: currentColor }).run()
+  editor.value.chain().focus().setHr({ type: value, color: currentColor.value }).run()
   popupVisible.value = false
 }
 </script>
 
 <style lang="less" scoped>
-@import '@/assets/styles/_mixins.less';
+@import '~~/editor/src/assets/styles/_mixins.less';
 
 .umo-page-divider-dropdown {
   width: 200px;

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="select-all"
     :text="t('base.selectAll')"
     shortcut="Ctrl+A"

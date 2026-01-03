@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="file"
     :text="t('insert.file')"
     huge

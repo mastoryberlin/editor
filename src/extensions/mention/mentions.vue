@@ -19,6 +19,8 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 const props = defineProps({
   items: {
     type: Array,
@@ -30,12 +32,12 @@ const props = defineProps({
   },
 })
 
-let selectedIndex = $ref(0)
+let selectedIndex = ref(0)
 
 watch(
   () => props.items,
   () => {
-    selectedIndex = 0
+    selectedIndex.value = 0
   },
 )
 
@@ -62,15 +64,15 @@ const onKeyDown = ({ event }: any) => {
 }
 
 const upHandler = () => {
-  selectedIndex = (selectedIndex + props.items.length - 1) % props.items.length
+  selectedIndex.value = (selectedIndex.value + props.items.length - 1) % props.items.length
 }
 
 const downHandler = () => {
-  selectedIndex = (selectedIndex + 1) % props.items.length
+  selectedIndex.value = (selectedIndex.value + 1) % props.items.length
 }
 
 const enterHandler = () => {
-  selectItem(selectedIndex)
+  selectItem(selectedIndex.value)
 }
 
 const selectItem = (index: number) => {

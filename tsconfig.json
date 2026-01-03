@@ -30,10 +30,6 @@
       "./types/imports.d.ts",
       "./types/components.d.ts"
     ],
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/types": ["./types"]
-    },
     "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"]
   },
   "vueCompilerOptions": {

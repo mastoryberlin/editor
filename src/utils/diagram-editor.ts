@@ -68,7 +68,7 @@ class DiagramEditor {
     const params = Object.keys(this.params)
       .map((key) => `${key}=${this.params[key as keyof typeof this.params]}`)
       .join('&')
-    const { locale } = useI18n()
+    const locale = ref('en')
     const lang = locales[locale.value as keyof typeof locales]
     const frame = document.createElement('iframe')
     frame.setAttribute('class', 'umo-diagrams-iframe')

@@ -1,9 +1,9 @@
 <template>
   <div class="umo-toc-container">
     <div class="umo-toc-title">
-      <icon class="icon-toc" name="toc" /> {{ t('toc.title') }}
+      <EIcon class="icon-toc" name="toc" /> {{ t('toc.title') }}
       <div class="umo-dialog__close" @click="$emit('close')">
-        <icon name="close" />
+        <EIcon name="close" />
       </div>
     </div>
     <div class="umo-toc-content umo-scrollbar">
@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { TextSelection } from '@tiptap/pm/state'
 
 const container = inject('container')
@@ -40,7 +41,7 @@ interface TocItem {
   children?: TocItem[]
 }
 // 最终可视化数据
-let tocTreeData = $ref([])
+let tocTreeData = ref([])
 let watchTreeData: TocItem[] = [] // 可视化监听数据
 const buildTocTree = (tocArray: Record<string, any>[]): TocItem[] => {
   const root: TocItem[] = []
@@ -78,7 +79,7 @@ const throttleTocTreeData = (toc: any) =>
     const curTocTreeData = buildTocTree(toc)
     if (JSON.stringify(watchTreeData) !== JSON.stringify(curTocTreeData)) {
       watchTreeData = curTocTreeData
-      tocTreeData = JSON.parse(JSON.stringify(curTocTreeData))
+      tocTreeData.value = JSON.parse(JSON.stringify(curTocTreeData))
     }
   }, 200)()
 

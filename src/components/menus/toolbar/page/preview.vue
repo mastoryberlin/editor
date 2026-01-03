@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     v-if="page.preview"
     ico="preview"
     :text="t('page.preview')"

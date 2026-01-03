@@ -1,8 +1,8 @@
 <template>
-  <menus-toolbar-tools-qrcode v-if="type === 'qrcode'" :content="content" />
-  <menus-toolbar-tools-barcode v-if="type === 'barcode'" :content="content" />
-  <menus-toolbar-tools-diagrams v-if="type === 'diagrams'" :content="content" />
-  <menus-toolbar-tools-mermaid v-if="type === 'mermaid'" :content="content" />
+  <e-menus-toolbar-tools-qrcode v-if="type === 'qrcode'" :content="content" />
+  <e-menus-toolbar-tools-barcode v-if="type === 'barcode'" :content="content" />
+  <e-menus-toolbar-tools-diagrams v-if="type === 'diagrams'" :content="content" />
+  <e-menus-toolbar-tools-mermaid v-if="type === 'mermaid'" :content="content" />
 </template>
 
 <script setup lang="ts">

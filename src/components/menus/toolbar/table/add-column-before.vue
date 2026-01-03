@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-add-column-before"
     :text="t('table.addColumnBefore')"
     :hide-text="$toolbar.mode === 'classic'"
@@ -11,5 +11,5 @@
 <script setup lang="ts">
 const editor = inject('editor')
 const options = inject('options')
-const $toolbar = useState('toolbar', options)
+const $toolbar = useEditorState('toolbar', () => options)
 </script>

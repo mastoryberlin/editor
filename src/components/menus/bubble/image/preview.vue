@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="image-preview"
     :text="t('bubbleMenu.image.preview')"
     @menu-click="openImageViewer"
@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 const imageViewer = inject('imageViewer')

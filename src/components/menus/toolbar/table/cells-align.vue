@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-cells-align"
     :text="t('table.cellAlign.text')"
     :tooltip="t('table.cellAlign.tip')"

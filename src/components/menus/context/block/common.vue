@@ -6,7 +6,7 @@
     :destroy-on-close="false"
     :popup-props="popupProps"
   >
-    <menus-button
+    <e-menus-button
       class="umo-block-menu-button"
       :menu-active="menuActive"
       ico="block-menu"
@@ -20,7 +20,7 @@
       <t-dropdown-item
         v-if="editor?.isActive('paragraph') || editor?.isActive('heading')"
       >
-        <menus-button
+        <e-menus-button
           ico="node-switch"
           :text="t('blockMenu.toogleNode')"
           :tooltip="false"
@@ -30,7 +30,7 @@
           placement="right"
         >
           <t-dropdown-item>
-            <menus-button
+            <e-menus-button
               ico="paragraph"
               :text="t('base.heading.paragraph')"
               :tooltip="false"
@@ -39,7 +39,7 @@
             />
           </t-dropdown-item>
           <t-dropdown-item>
-            <menus-button
+            <e-menus-button
               ico="heading"
               :text="t('base.heading.text')"
               :tooltip="false"
@@ -53,7 +53,7 @@
                 :key="item"
                 :disabled="editor?.isActive('heading', { level: item })"
               >
-                <menus-button
+                <e-menus-button
                   :tooltip="false"
                   :shortcut-text="`ctrl+alt+${item}`"
                   @menu-click="
@@ -64,12 +64,12 @@
                     <span class="icon-heading">H{{ item }}</span>
                     {{ t('base.heading.text', { level: item }) }}
                   </span>
-                </menus-button>
+                </e-menus-button>
               </t-dropdown-item>
             </t-dropdown-menu>
           </t-dropdown-item>
           <t-dropdown-item>
-            <menus-button
+            <e-menus-button
               ico="ordered-list-2"
               :text="t('list.ordered.text')"
               :tooltip="false"
@@ -79,7 +79,7 @@
             />
           </t-dropdown-item>
           <t-dropdown-item>
-            <menus-button
+            <e-menus-button
               ico="bullet-list-2"
               :text="t('list.bullet.text')"
               :tooltip="false"
@@ -89,7 +89,7 @@
             />
           </t-dropdown-item>
           <t-dropdown-item>
-            <menus-button
+            <e-menus-button
               ico="task-list-2"
               :text="t('list.task.text')"
               :tooltip="false"
@@ -99,7 +99,7 @@
             />
           </t-dropdown-item>
           <t-dropdown-item>
-            <menus-button
+            <e-menus-button
               ico="quote"
               :text="t('base.quote')"
               :tooltip="false"
@@ -111,7 +111,7 @@
         </t-dropdown-menu>
       </t-dropdown-item>
       <t-dropdown-item>
-        <menus-button
+        <e-menus-button
           ico="node-clear-format"
           :text="t('blockMenu.clearFormat')"
           :tooltip="false"
@@ -119,7 +119,7 @@
         />
       </t-dropdown-item>
       <t-dropdown-item divider>
-        <menus-button
+        <e-menus-button
           ico="node-duplicate"
           :text="t('blockMenu.duplicate')"
           :tooltip="false"
@@ -127,7 +127,7 @@
         />
       </t-dropdown-item>
       <t-dropdown-item>
-        <menus-button
+        <e-menus-button
           ico="node-copy"
           :text="t('blockMenu.copy')"
           :tooltip="false"
@@ -135,7 +135,7 @@
         />
       </t-dropdown-item>
       <t-dropdown-item>
-        <menus-button
+        <e-menus-button
           ico="node-cut"
           :text="t('blockMenu.cut')"
           :tooltip="false"
@@ -143,7 +143,7 @@
         />
       </t-dropdown-item>
       <t-dropdown-item class="umo-delete-node">
-        <menus-button
+        <e-menus-button
           ico="node-delete-2"
           :text="t('blockMenu.delete')"
           :tooltip="false"
@@ -155,6 +155,7 @@
 </template>
 
 <script setup lang="ts">
+
 import type { Level } from '@tiptap/extension-heading'
 import type { Node } from '@tiptap/pm/model'
 
@@ -170,19 +171,19 @@ const container = inject('container')
 const editor = inject('editor')
 const blockMenu = inject('blockMenu')
 
-let menuActive = $ref(false)
+let menuActive = ref(false)
 
 const popupProps = {
   attach: `${container} .umo-main-container`,
   onVisibleChange(visible: boolean) {
     editor.value.commands.focus()
     blockMenu.value = visible
-    menuActive = visible
+    menuActive.value = visible
     emits('dropdownVisible', visible)
   },
 }
 
-const headings = $ref<number[]>([1, 2, 3, 4, 5, 6])
+const headings = ref<number[]>([1, 2, 3, 4, 5, 6])
 
 const toggleNodeType = (
   type: string,

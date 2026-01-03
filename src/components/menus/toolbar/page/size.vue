@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="page-size"
     :text="t('page.size.text')"
     menu-type="dropdown"
@@ -30,14 +30,15 @@
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
-    <page-options :visible="dialogVisible" @close="dialogVisible = false" />
-  </menus-button>
+    <e-page-options :visible="dialogVisible" @close="dialogVisible = false" />
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 const page = inject('page')
 const options = inject('options')
-const dialogVisible = $ref(false)
+const dialogVisible = ref(false)
 </script>
 
 <style lang="less">

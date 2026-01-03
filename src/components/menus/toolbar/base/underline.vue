@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="underline"
     :text="t('base.underline')"
     shortcut="Ctrl+U"

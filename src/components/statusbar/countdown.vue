@@ -11,7 +11,7 @@
     <template #content>
       <div class="umo-preview-countdown">
         <div class="umo-preview-countdown-title">
-          <icon name="time" /> {{ t('preview.countdown.title') }}
+          <EIcon name="time" /> {{ t('preview.countdown.title') }}
         </div>
         <t-form label-align="left" label-width="75px" @submit="startCountdown">
           <t-form-item
@@ -80,7 +80,7 @@
           <t-form-item>
             <t-space size="small">
               <t-button theme="primary" type="submit">
-                <icon name="time" /> {{ t('preview.countdown.start') }}
+                <EIcon name="time" /> {{ t('preview.countdown.start') }}
               </t-button>
               <t-button theme="default" variant="base" @click="cancelCountdown">
                 {{ t('preview.countdown.cancel') }}
@@ -94,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -115,11 +116,11 @@ const popperOptions = {
     },
   ],
 }
-const selectValue = $ref(null)
-let hours = $ref(null)
-let minutes = $ref(null)
-let seconds = $ref(null)
-const whenEnd = $ref('showEndMessage')
+const selectValue = ref(null)
+let hours = ref(null)
+let minutes = ref(null)
+let seconds = ref(null)
+const whenEnd = ref('showEndMessage')
 
 const options = [
   { label: t('preview.countdown.1hour'), value: 60 },
@@ -132,17 +133,17 @@ const options = [
 ]
 
 const countdownSelect = (value: number) => {
-  minutes = value
+  minutes.value = value
 }
 
-let countdownInfo = $ref('')
+let countdownInfo = ref('')
 let messageBox: ReturnType<typeof useMessage> = null
 let countdownInterval: ReturnType<typeof setInterval> | null = null
 const resetCountdown = () => {
-  hours = null
-  minutes = null
-  seconds = null
-  countdownInfo = ''
+  hours.value = null
+  minutes.value = null
+  seconds.value = null
+  countdownInfo.value = ''
 }
 const startCountdown = async () => {
   messageBox?.close()
@@ -150,7 +151,7 @@ const startCountdown = async () => {
     clearInterval(countdownInterval)
   }
   const totalSeconds =
-    (hours ?? 0) * 3600 + (minutes ?? 0) * 60 + (seconds ?? 0)
+    (hours.value ?? 0) * 3600 + (minutes.value ?? 0) * 60 + (seconds.value ?? 0)
 
   if (totalSeconds <= 0) {
     messageBox = await useMessage('error', {
@@ -169,8 +170,8 @@ const startCountdown = async () => {
       if (countdownInterval !== null) {
         clearInterval(countdownInterval)
       }
-      if (whenEnd === 'showEndMessage') {
-        countdownInfo = ''
+      if (whenEnd.value === 'showEndMessage') {
+        countdownInfo.value = ''
         messageBox = await useMessage('error', {
           attach: container,
           content: t('preview.countdown.endCountdown'),
@@ -178,13 +179,13 @@ const startCountdown = async () => {
           closeBtn: true,
         })
       }
-      if (whenEnd === 'exitPreview') {
+      if (whenEnd.value === 'exitPreview') {
         emits('exit-preivew')
       }
       return
     }
     remainingTime--
-    countdownInfo = `${t('preview.countdown.remaining')}: ${String(Math.floor(remainingTime / 3600)).padStart(2, '0')}:${String(Math.floor((remainingTime % 3600) / 60)).padStart(2, '0')}:${String(remainingTime % 60).padStart(2, '0')}`
+    countdownInfo.value = `${t('preview.countdown.remaining')}: ${String(Math.floor(remainingTime / 3600)).padStart(2, '0')}:${String(Math.floor((remainingTime % 3600) / 60)).padStart(2, '0')}:${String(remainingTime % 60).padStart(2, '0')}`
   }, 1000)
 
   emits('close')
@@ -199,7 +200,7 @@ const cancelCountdown = () => {
 }
 
 watch(
-  () => countdownInfo,
+  () => countdownInfo.value,
   (value: string) => {
     emits('countdown-change', value)
   },

@@ -91,10 +91,12 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import prettyBytes from 'pretty-bytes'
 
-import { getFileExtname, getFileIcon } from '@/utils/file'
+import { getFileExtname, getFileIcon } from '~~/editor/src/utils/file'
 
 import { updateAttributesWithoutHistory } from './'
 
@@ -107,7 +109,7 @@ const containerRef = ref(null)
 
 // FIXME: 保存刷新后预览失效
 
-const nodeStyle = $computed(() => {
+const nodeStyle = computed(() => {
   const { nodeAlign, margin } = node.attrs
   const marginTop =
     margin?.top && margin?.top !== '' ? `${margin.top}px` : undefined
@@ -120,12 +122,12 @@ const nodeStyle = $computed(() => {
   }
 })
 
-const fileIcon = $computed(() => {
+const fileIcon = computed(() => {
   return `${options.value.cdnUrl}/icons/file/${getFileIcon(node.attrs.name)}.svg`
 })
 
-let previewModal = $ref(false)
-let previewURL = $ref(null)
+let previewModal = ref(false)
+let previewURL = ref(null)
 const setPreviewURL = (fileName: string) => {
   const { preview } = options.value.file
   const extname = getFileExtname(fileName)
@@ -133,7 +135,7 @@ const setPreviewURL = (fileName: string) => {
     (item: any) => extname && item.extensions.includes(extname),
   )
   if (match?.url.includes('{url}')) {
-    previewURL = match.url
+    previewURL.value = match.url
       .replace(/{{url}}/g, encodeURIComponent(node.attrs.url))
       .replace(/{url}/g, node.attrs.url)
   }
@@ -162,13 +164,13 @@ onMounted(async () => {
   setPreviewURL(node.attrs.name)
 })
 
-const supportPreview = $computed(() => {
+const supportPreview = computed(() => {
   const supportNodes = ['image', 'video', 'audio']
-  return supportNodes.includes(node.attrs.previewType) || previewURL !== null
+  return supportNodes.includes(node.attrs.previewType) || previewURL.value !== null
 })
 const togglePreview = () => {
-  if (previewURL !== null) {
-    previewModal = true
+  if (previewURL.value !== null) {
+    previewModal.value = true
     return
   }
   const { attrs } = node

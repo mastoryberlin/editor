@@ -26,7 +26,7 @@
         :visible="popupVisible"
       >
         <div class="arrow" @click="popupVisible = !popupVisible">
-          <icon name="arrow-down" />
+          <EIcon name="arrow-down" />
         </div>
         <template #content>
           <div ref="popupContentRef" class="umo-heading-container">
@@ -48,7 +48,7 @@
       </t-popup>
     </div>
   </div>
-  <menus-button
+  <e-menus-button
     v-else
     :text="t('base.heading.tip')"
     hide-text
@@ -68,22 +68,24 @@
     >
       <div class="heading-size" :class="item.desc">{{ item.label }}</div>
     </t-option>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+import { onClickOutside } from "@vueuse/core"
+
 const { popupVisible } = usePopup()
 const container = inject('container')
 const editor = inject('editor')
-const $toolbar = useState('toolbar', inject('options'))
+const $toolbar = useEditorState('toolbar', () => inject('options'))
 const popupContentRef = ref(null)
 
-const options = $ref([
+const options = ref([
   { label: t('base.heading.paragraph'), desc: 'text', value: 'paragraph' },
 ])
 for (const i of Array.from({ length: 6 }).keys()) {
   const level = i + 1
-  options.push({
+  options.value.push({
     label: `${t('base.heading.text', { level })}`,
     desc: `h${level}`,
     value: level,

@@ -1,5 +1,5 @@
 <template>
-  <menus-button text="Word" ico="word" huge />
+  <e-menus-button text="Word" ico="word" huge />
 </template>
 
 <script setup lang="ts"></script>

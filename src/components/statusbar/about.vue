@@ -1,12 +1,12 @@
 <template>
-  <modal
+  <e-modal
     :visible="visible"
     width="300px"
     :footer="false"
     @close="emits('close')"
   >
     <template #header>
-      <icon name="about" />
+      <EIcon name="about" />
       {{ t('about.title') }}
     </template>
     <div
@@ -19,7 +19,7 @@
       "
     >
       <a href="https://www.umodoc.com" target="_blank">
-        <img src="@/assets/images/logo.svg" width="160" style="display: flex" />
+        <img src="../../assets/images/logo.svg" width="160" style="display: flex" />
       </a>
       <p>
         {{ t('about.version') }}: v{{ version }} ({{ t('about.openSource') }})
@@ -72,11 +72,11 @@
         <a href="https://github.com/Mikasa33" target="_blank">Mikasa33</a>
       </p>
     </div>
-  </modal>
+  </e-modal>
 </template>
 
 <script setup>
-import { version } from '@/utils/copyright'
+import { version } from '~~/editor/src/utils/copyright'
 
 const props = defineProps({
   visible: {

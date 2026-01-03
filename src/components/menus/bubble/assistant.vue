@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="assistant"
     :text="t('assistant.text')"
     @menu-click="openAssistant"

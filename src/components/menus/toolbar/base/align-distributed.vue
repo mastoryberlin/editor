@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="align-distributed"
     :text="t('base.align.distributed')"
     shortcut="Ctrl+Shift+D"

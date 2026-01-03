@@ -1,4 +1,4 @@
-import type { UmoEditorOptions } from '@/types'
+import type { UmoEditorOptions } from '~~/editor/types'
 
 import App from './app.vue'
 import { useUmoEditor } from './components'

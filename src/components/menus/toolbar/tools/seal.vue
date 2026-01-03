@@ -1,12 +1,12 @@
 <template>
-  <menus-button
+  <e-menus-button
     v-if="hasRemoveBackgroundFunction"
     ico="seal"
     :text="t('tools.seal.text')"
     huge
     @menu-click="dialogVisible = true"
   >
-    <modal
+    <e-modal
       :visible="dialogVisible"
       width="480px"
       :confirm-btn="t('tools.seal.insert')"
@@ -14,7 +14,7 @@
       @close="dialogVisible = false"
     >
       <template #header>
-        <icon name="seal" />
+        <EIcon name="seal" />
         {{ t('tools.seal.title') }}
       </template>
       <div class="umo-seal-container" @click="selectImage">
@@ -26,26 +26,27 @@
           <img v-else class="umo-seal-img" :src="sealImg" />
         </div>
       </div>
-    </modal>
-  </menus-button>
+    </e-modal>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import { removeBackground } from '@imgly/background-removal'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 const hasRemoveBackgroundFunction = typeof removeBackground === 'function'
 
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 const editor = inject('editor')
 const options = inject('options')
 const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
 
-let sealImg = $ref<string | null>(null)
-let converting = $ref<string | null>(null)
-let file = $ref<File | null>(null)
+let sealImg = ref<string | null>(null)
+let converting = ref<string | null>(null)
+let file = ref<File | null>(null)
 
 const selectImage = () => {
   const { open, onChange } = useFileDialog({
@@ -60,40 +61,40 @@ const selectImage = () => {
     if (!files) {
       return
     }
-    ;[file] = files
-    if (!file) {
+    ;[file.value] = files
+    if (!file.value) {
       return
     }
     try {
-      sealImg = null
-      converting = t('tools.seal.converting1')
-      const img = await removeBackground(file, {
+      sealImg.value = null
+      converting.value = t('tools.seal.converting1')
+      const img = await removeBackground(file.value, {
         publicPath: `${options.value.cdnUrl}/libs/imgly/background-removal-data/`,
         progress: (key, current, total) => {
           if (key.startsWith('fetch')) {
-            converting = t('tools.seal.converting2', {
+            converting.value = t('tools.seal.converting2', {
               ppercentage: ((current / total) * 100).toFixed(1),
             })
           } else {
-            converting = t('tools.seal.converting3')
+            converting.value = t('tools.seal.converting3')
           }
         },
       })
-      sealImg = URL.createObjectURL(img)
+      sealImg.value = URL.createObjectURL(img)
     } catch {
       useMessage('error', {
         attach: container,
         content: t('tools.seal.convertError'),
       })
-      sealImg = null
+      sealImg.value = null
     } finally {
-      converting = null
+      converting.value = null
     }
   })
 }
 
 const setSeal = async () => {
-  if (!sealImg) {
+  if (!sealImg.value) {
     useMessage('error', {
       attach: container,
       content: t('tools.seal.notEmpty'),
@@ -102,7 +103,7 @@ const setSeal = async () => {
   }
   const id = shortId(10)
   const name = `seal-${id}.png`
-  const file = await fetch(sealImg)
+  const file = await fetch(sealImg.value)
     .then((res) => res.blob())
     .then((blob) => new File([blob], name, { type: blob.type }))
   uploadFileMap.value.set(id, file)
@@ -115,16 +116,16 @@ const setSeal = async () => {
       type: 'seal',
       name,
       size: file.size,
-      src: sealImg,
+      src: sealImg.value,
       width: 150,
       draggable: true,
       rotatable: true,
       previewType: null,
     })
     .run()
-  dialogVisible = false
-  sealImg = null
-  converting = null
+  dialogVisible.value = false
+  sealImg.value = null
+  converting.value = null
 }
 </script>
 

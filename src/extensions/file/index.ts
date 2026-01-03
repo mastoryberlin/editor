@@ -1,7 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { type Editor, VueNodeViewRenderer } from '@tiptap/vue-3'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 import NodeView from './node-view.vue'
 

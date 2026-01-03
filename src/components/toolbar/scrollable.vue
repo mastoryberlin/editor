@@ -12,7 +12,7 @@
       class="umo-scrollable-control scrollable-left"
       @click="scrollLeft"
     >
-      <icon name="arrow-down" />
+      <EIcon name="arrow-down" />
     </div>
     <div ref="contentRef" class="umo-scrollable-content">
       <slot />
@@ -22,32 +22,34 @@
       class="umo-scrollable-control scrollable-right"
       @click="scrollRight"
     >
-      <icon name="arrow-down" />
+      <EIcon name="arrow-down" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useResizeObserver } from "@vueuse/core";
+
 const wraperRef = ref<HTMLDivElement | null>(null)
-const contentRef = $ref<HTMLDivElement | null>(null)
-let hidePrev = $ref(true)
-let hideNext = $ref(true)
+const contentRef = ref<HTMLDivElement | null>(null)
+let hidePrev = ref(true)
+let hideNext = ref(true)
 
 const checkScrollPosition = () => {
-  const { scrollLeft = 0, scrollWidth = 0, clientWidth = 0 } = contentRef ?? {}
-  hidePrev = scrollLeft === 0
-  hideNext = scrollLeft + clientWidth + 100 >= scrollWidth
+  const { scrollLeft = 0, scrollWidth = 0, clientWidth = 0 } = contentRef.value ?? {}
+  hidePrev.value = scrollLeft === 0
+  hideNext.value = scrollLeft + clientWidth + 100 >= scrollWidth
 }
 
 const scrollLeft = () => {
-  if (contentRef?.scrollLeft || contentRef.scrollLeft === 0) {
-    contentRef.scrollLeft -= contentRef.offsetWidth - 10 || 100
+  if (contentRef.value?.scrollLeft || contentRef.value.scrollLeft === 0) {
+    contentRef.value.scrollLeft -= contentRef.value.offsetWidth - 10 || 100
   }
 }
 
 const scrollRight = () => {
-  if (contentRef?.scrollLeft || contentRef.scrollLeft === 0) {
-    contentRef.scrollLeft += contentRef.offsetWidth - 10 || 100
+  if (contentRef.value?.scrollLeft || contentRef.value.scrollLeft === 0) {
+    contentRef.value.scrollLeft += contentRef.value.offsetWidth - 10 || 100
   }
 }
 
@@ -58,15 +60,15 @@ useResizeObserver(wraperRef, () => {
 
 //
 onMounted(() => {
-  contentRef?.addEventListener('scroll', checkScrollPosition)
+  contentRef.value?.addEventListener('scroll', checkScrollPosition)
 })
 
 // 更新
 const update = () => {
-  if (contentRef) {
-    contentRef.scrollLeft = 0
+  if (contentRef.value) {
+    contentRef.value.scrollLeft = 0
   }
-  hideNext = true
+  hideNext.value = true
   checkScrollPosition()
 }
 

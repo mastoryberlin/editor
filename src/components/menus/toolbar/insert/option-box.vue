@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="checkbox"
     :text="t('insert.option.text')"
     menu-type="popup"
@@ -32,7 +32,7 @@
               size="small"
               @click="addOption"
             >
-              <icon class="umo-option-box-button-svg-icon" name="block-add" />
+              <EIcon class="umo-option-box-button-svg-icon" name="block-add" />
               {{ t('insert.option.add') }}
             </t-button>
             <t-checkbox
@@ -70,7 +70,7 @@
                 class="umo-option-box-container-delete"
                 @click="deleteOption(box)"
               >
-                <icon class="umo-option-box-svg-icon" name="close" />
+                <EIcon class="umo-option-box-svg-icon" name="close" />
               </t-button>
             </div>
           </div>
@@ -85,15 +85,16 @@
         </div>
       </div>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { shortId } from '@/utils/short-id'
+
+import { shortId } from '~~/editor/src/utils/short-id'
 const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
 const editor = inject('editor')
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 
 const props = defineProps({
   toEdit: {
@@ -102,42 +103,42 @@ const props = defineProps({
   },
 })
 
-let boxData = $ref([])
-let boxType = $ref('checkbox')
-let showCheckAll = $ref(false)
+let boxData = ref([])
+let boxType = ref('checkbox')
+let showCheckAll = ref(false)
 // 初始化界面上的数据值
 const initData = () => {
-  boxData = []
-  boxType = 'checkbox'
-  showCheckAll = false
+  boxData.value = []
+  boxType.value = 'checkbox'
+  showCheckAll.value = false
 }
 
 // 初始化计算值
 const initCalData = () => {
   // 加载前先处理数据 1.key不允许重复 2.boxType为radio时，checked 只能一个true 3.label 为空的去掉
-  for (let i = boxData.length - 1; i >= 0; i--) {
-    if (!boxData[i].label && boxData[i].label === '') {
-      boxData.splice(i, 1)
+  for (let i = boxData.value.length - 1; i >= 0; i--) {
+    if (!boxData.value[i].label && boxData.value[i].label === '') {
+      boxData.value.splice(i, 1)
       continue
     }
-    if (boxType === 'radio') {
-      if (boxData[i].checked) {
-        for (let j = 0; j < boxData.length; j++) {
+    if (boxType.value === 'radio') {
+      if (boxData.value[i].checked) {
+        for (let j = 0; j < boxData.value.length; j++) {
           if (j !== i) {
-            boxData[j].checked = false
+            boxData.value[j].checked = false
           }
         }
       }
     }
-    boxData[i].key ??= shortId()
+    boxData.value[i].key ??= shortId()
   }
 }
 
 const initDefaultBoxData = () => {
-  if (boxData?.length > 0) {
+  if (boxData.value?.length > 0) {
     return
   }
-  boxData.push(
+  boxData.value.push(
     {
       label: t('insert.option.text1'),
       key: shortId(),
@@ -152,15 +153,15 @@ const initDefaultBoxData = () => {
 }
 // 当单选时 1.当前选项为checked 为true时，首先变味false 2.当选选项为false时,其他选项为false 自己变为true
 const radioClick = (box, i) => {
-  if (boxData[i].checked) {
-    boxData[i].checked = false
+  if (boxData.value[i].checked) {
+    boxData.value[i].checked = false
   } else {
-    for (const item of boxData) {
+    for (const item of boxData.value) {
       if (item.checked) {
         item.checked = false
       }
     }
-    boxData[i].checked = true
+    boxData.value[i].checked = true
   }
 }
 const addOption = () => {
@@ -169,7 +170,7 @@ const addOption = () => {
     key: shortId(),
     checked: false,
   }
-  boxData.push(newOption)
+  boxData.value.push(newOption)
   // 添加时，自动定位到末尾
   nextTick(() => {
     const container = document.querySelector('.umo-option-box-container-bottom')
@@ -179,9 +180,9 @@ const addOption = () => {
   })
 }
 const deleteOption = (box) => {
-  for (let i = boxData.length - 1; i >= 0; i--) {
-    if (boxData[i].key === box.key) {
-      boxData.splice(i, 1)
+  for (let i = boxData.value.length - 1; i >= 0; i--) {
+    if (boxData.value[i].key === box.key) {
+      boxData.value.splice(i, 1)
       break
     }
   }
@@ -194,7 +195,7 @@ const cancelClick = () => {
   togglePopup(false)
 }
 const confirmClick = () => {
-  const noEmptyData = boxData.filter(
+  const noEmptyData = boxData.value.filter(
     (item) => item.label && item.label.trim()?.length > 0,
   )
   if (noEmptyData?.length === 0) {
@@ -208,10 +209,10 @@ const confirmClick = () => {
   }
   const _optionData = {
     dataType: 'optionBox',
-    boxType: boxType === 'checkbox' ? 'checkbox' : 'radio',
+    boxType: boxType.value === 'checkbox' ? 'checkbox' : 'radio',
     boxOptions: JSON.parse(JSON.stringify(noEmptyData)),
     boxChecked: _checkAll,
-    boxShowCheckAll: showCheckAll === true ? true : false,
+    boxShowCheckAll: showCheckAll.value === true ? true : false,
   }
 
   if (props.toEdit) {
@@ -234,15 +235,15 @@ watch(
           ? getSelectionNode(editor.value)
           : null
         if (optionConfig?.type?.name === 'option-box' && optionConfig?.attrs) {
-          boxData = JSON.parse(
+          boxData.value = JSON.parse(
             JSON.stringify(optionConfig?.attrs?.boxOptions ?? []),
           )
-          boxType = optionConfig?.attrs?.boxType ?? 'checkbox'
-          showCheckAll = optionConfig?.attrs?.boxShowCheckAll ?? false
+          boxType.value = optionConfig?.attrs?.boxType ?? 'checkbox'
+          showCheckAll.value = optionConfig?.attrs?.boxShowCheckAll ?? false
           initCalData()
         }
       }
-      if (boxData?.length === 0) {
+      if (boxData.value?.length === 0) {
         initDefaultBoxData()
       }
     } else {
@@ -255,7 +256,7 @@ watch(
 </script>
 
 <style lang="less" scoped>
-@import '@/assets/styles/_mixins.less';
+@import '~~/editor/src/assets/styles/_mixins.less';
 
 .umo-insert-option-box {
   user-select: none;

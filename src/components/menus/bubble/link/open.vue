@@ -1,9 +1,9 @@
 <template>
-  <menus-button :text="t('insert.link.open')" @menu-click="menuClick">
+  <e-menus-button :text="t('insert.link.open')" @menu-click="menuClick">
     <a class="umo-link" :href="editor.storage.link.meta.href" target="_blank"
-      ><icon name="link" /> {{ t('insert.link.open') }}</a
+      ><EIcon name="link" /> {{ t('insert.link.open') }}</a
     >
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">

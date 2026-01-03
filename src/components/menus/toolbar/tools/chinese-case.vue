@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="chinese-case"
     :text="t('tools.chineseCase.text')"
     :tooltip="t('tools.chineseCase.tip')"
@@ -22,13 +22,14 @@
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
+
 import nzh from 'nzh/cn'
 
-import { getSelectionText } from '@/extensions/selection'
+import { getSelectionText } from '~~/editor/src/extensions/selection'
 
 const editor = inject('editor')
 const container = inject('container')
@@ -94,12 +95,12 @@ const options: {
   },
 ]
 
-let selectionText = $ref('')
+let selectionText = ref('')
 onMounted(() => {
   editor.value.on('selectionUpdate', () => {
     const throttleFn = useThrottleFn(() => {
       const text = getSelectionText(editor.value)
-      selectionText = text
+      selectionText.value = text
     }, 200)
     void throttleFn()
   })
@@ -109,12 +110,12 @@ const setChineseCase = (func: (text: string) => string) => {
   if (!editor.value) {
     return
   }
-  if (selectionText === '') {
+  if (selectionText.value === '') {
     return
   }
   let content = ''
   try {
-    content = func(selectionText)
+    content = func(selectionText.value)
   } catch {
     useMessage('error', {
       attach: container,

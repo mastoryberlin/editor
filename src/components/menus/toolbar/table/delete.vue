@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-delete"
     :text="t('table.delete.text')"
     huge

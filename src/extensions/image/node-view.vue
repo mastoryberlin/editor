@@ -90,11 +90,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 import { base64ToFile } from 'file64'
 
-import { shortId } from '@/utils/short-id'
+import { shortId } from '~~/editor/src/utils/short-id'
 
 import { updateAttributesWithoutHistory } from '../file'
 
@@ -107,12 +109,12 @@ const options = inject('options')
 const { isLoading, error } = useImage({ src: node.attrs.src })
 
 const containerRef = ref(null)
-const imageRef = $ref<HTMLImageElement | null>(null)
-let selected = $ref(false)
-let maxWidth = $ref(0)
-let maxHeight = $ref(0)
+const imageRef = ref<HTMLImageElement | null>(null)
+let selected = ref(false)
+let maxWidth = ref(0)
+let maxHeight = ref(0)
 
-const nodeStyle = $computed(() => {
+const nodeStyle = computed(() => {
   const { nodeAlign, margin } = node.attrs
   const marginTop =
     margin?.top && margin?.top !== '' ? `${margin.top}px` : undefined
@@ -122,7 +124,7 @@ const nodeStyle = $computed(() => {
     justifyContent: nodeAlign,
     marginTop,
     marginBottom,
-    zIndex: selected ? 100 : node.attrs.draggable ? 95 : 0,
+    zIndex: selected.value ? 100 : node.attrs.draggable ? 95 : 0,
   }
 })
 
@@ -156,15 +158,15 @@ const uploadImage = async () => {
 const onLoad = async () => {
   // updateAttributes({ error: false })
   if (node.attrs.width === null) {
-    const { clientWidth = 1, clientHeight = 1 } = imageRef ?? {}
+    const { clientWidth = 1, clientHeight = 1 } = imageRef.value ?? {}
     const ratio = clientWidth / clientHeight
-    maxWidth = containerRef.value?.$el.clientWidth
-    maxHeight = maxWidth / ratio
-    updateAttributes({ width: maxWidth })
+    maxWidth.value = containerRef.value?.$el.clientWidth
+    maxHeight.value = maxWidth.value / ratio
+    updateAttributes({ width: maxWidth.value })
   }
   if ([null, 'auto', 0].includes(node.attrs.height)) {
     await nextTick()
-    const { height } = imageRef?.getBoundingClientRect() ?? {}
+    const { height } = imageRef.value?.getBoundingClientRect() ?? {}
     updateAttributes({ height: Number(height.toFixed(2)) })
   }
 }
@@ -179,20 +181,20 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
   })
 }
 
-const dragRef = $ref<HTMLDivElement | null>(null)
-let isMousedown = $ref(false)
+const dragRef = ref<HTMLDivElement | null>(null)
+let isMousedown = ref(false)
 const onMousedown = (e: MouseEvent) => {
   if (!node.attrs.draggable) {
     return
   }
-  isMousedown = true
+  isMousedown.value = true
 
   // 记录按下的位置
   const downX = e.clientX
   const downY = e.clientY
 
   // 鼠标在盒子里的位置
-  const elRect = dragRef.$el!.getBoundingClientRect()
+  const elRect = dragRef.value.$el!.getBoundingClientRect()
   const mouseX = downX - elRect.left
   const mouseY = downY - elRect.top
 
@@ -202,7 +204,7 @@ const onMousedown = (e: MouseEvent) => {
     updateAttributes({ left, top })
   }
   const onMouseup = (_e: MouseEvent) => {
-    isMousedown = false
+    isMousedown.value = false
     // 移除document事件
     document.removeEventListener('mousemove', onMousemove)
     document.removeEventListener('mouseup', onMouseup)
@@ -214,7 +216,7 @@ const onMousedown = (e: MouseEvent) => {
 }
 
 onClickOutside(containerRef, () => {
-  selected = false
+  selected.value = false
 })
 
 const openImageViewer = async () => {
@@ -240,10 +242,10 @@ watch(
   () => node.attrs.equalProportion,
   async (equalProportion: boolean) => {
     await nextTick()
-    const width = imageRef?.offsetWidth ?? 1
-    const height = imageRef?.offsetHeight ?? 1
+    const width = imageRef.value?.offsetWidth ?? 1
+    const height = imageRef.value?.offsetHeight ?? 1
     updateAttributes({ width, height })
-    maxHeight = equalProportion ? maxWidth / (width / height) : 0
+    maxHeight.value = equalProportion ? maxWidth.value / (width / height) : 0
   },
 )
 watch(

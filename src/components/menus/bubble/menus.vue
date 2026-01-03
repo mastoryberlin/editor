@@ -8,22 +8,22 @@
       editor?.getAttributes('image').error
     "
   >
-    <!-- <menus-bubble-node-delete /> -->
+    <!-- <e-menus-bubble-node-delete /> -->
   </template>
   <template v-else>
     <template
       v-if="editor?.isActive('image') && !editor?.getAttributes('image').error"
     >
-      <menus-toolbar-base-align-left />
-      <menus-toolbar-base-align-center />
-      <menus-toolbar-base-align-right />
+      <e-menus-toolbar-base-align-left />
+      <e-menus-toolbar-base-align-center />
+      <e-menus-toolbar-base-align-right />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-image-flip />
-      <menus-bubble-image-proportion />
-      <menus-bubble-image-draggable />
-      <menus-bubble-image-reset />
+      <e-menus-bubble-image-flip />
+      <e-menus-bubble-image-proportion />
+      <e-menus-bubble-image-draggable />
+      <e-menus-bubble-image-reset />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-image-remove-background
+      <e-menus-bubble-image-remove-background
         v-if="
           editor?.getAttributes('image')?.type.startsWith('image') ||
           ['image/png', 'image/jpeg'].includes(
@@ -31,7 +31,7 @@
           )
         "
       />
-      <menus-bubble-image-preview
+      <e-menus-bubble-image-preview
         v-if="
           editor?.getAttributes('image')?.type.startsWith('image') ||
           ['image/png', 'image/jpeg'].includes(
@@ -39,22 +39,22 @@
           )
         "
       />
-      <menus-bubble-image-edit />
-      <menus-bubble-image-open />
-      <menus-bubble-node-duplicate
+      <e-menus-bubble-image-edit />
+      <e-menus-bubble-image-open />
+      <e-menus-bubble-node-duplicate
         v-if="
           editor?.isActive('image') && editor?.getAttributes('image').draggable
         "
       />
-      <menus-bubble-node-tofile
+      <e-menus-bubble-node-tofile
         v-if="
           editor?.getAttributes('image').previewType !== null &&
           editor?.getAttributes('image').type.startsWith('image')
         "
       />
-      <menus-bubble-image-convert />
+      <e-menus-bubble-image-convert />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-node-delete />
+      <e-menus-bubble-node-delete />
     </template>
     <template
       v-else-if="
@@ -62,14 +62,14 @@
         !editor?.getAttributes('inlineImage').error
       "
     >
-      <menus-toolbar-base-align-left />
-      <menus-toolbar-base-align-center />
-      <menus-toolbar-base-align-right />
+      <e-menus-toolbar-base-align-left />
+      <e-menus-toolbar-base-align-center />
+      <e-menus-toolbar-base-align-right />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-image-flip />
-      <menus-bubble-image-proportion />
+      <e-menus-bubble-image-flip />
+      <e-menus-bubble-image-proportion />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-image-remove-background
+      <e-menus-bubble-image-remove-background
         v-if="
           editor?.getAttributes('inlineImage')?.type.startsWith('image') ||
           ['image/png', 'image/jpeg'].includes(
@@ -77,7 +77,7 @@
           )
         "
       />
-      <menus-bubble-image-preview
+      <e-menus-bubble-image-preview
         v-if="
           editor?.getAttributes('inlineImage')?.type.startsWith('image') ||
           ['image/png', 'image/jpeg'].includes(
@@ -85,10 +85,10 @@
           )
         "
       />
-      <menus-bubble-image-open />
+      <e-menus-bubble-image-open />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-image-convert />
-      <menus-bubble-node-delete />
+      <e-menus-bubble-image-convert />
+      <e-menus-bubble-node-delete />
     </template>
     <template
       v-else-if="
@@ -98,84 +98,84 @@
         editor?.isActive('iframe')
       "
     >
-      <menus-toolbar-base-align-left />
-      <menus-toolbar-base-align-center />
-      <menus-toolbar-base-align-right />
+      <e-menus-toolbar-base-align-left />
+      <e-menus-toolbar-base-align-center />
+      <e-menus-toolbar-base-align-right />
       <div class="umo-bubble-menu-divider"></div>
       <template v-if="editor?.isActive('iframe')">
-        <menus-bubble-webpage-clickable />
-        <menus-toolbar-insert-web-page
+        <e-menus-bubble-webpage-clickable />
+        <e-menus-toolbar-insert-web-page
           v-if="!disableMenu('web-page')"
           ico="edit"
           :page-type="editor?.getAttributes('iframe')?.type"
           :page-url="editor?.getAttributes('iframe')?.src"
         />
-        <menus-bubble-webpage-open />
+        <e-menus-bubble-webpage-open />
         <div class="umo-bubble-menu-divider"></div>
       </template>
-      <menus-bubble-file-download
+      <e-menus-bubble-file-download
         v-if="
           editor?.isActive('file') ||
           editor?.isActive('video') ||
           editor?.isActive('audio')
         "
       />
-      <menus-bubble-node-tofile
+      <e-menus-bubble-node-tofile
         v-if="editor?.isActive('video') || editor?.isActive('audio')"
       />
-      <menus-bubble-node-delete />
+      <e-menus-bubble-node-delete />
     </template>
     <template v-else-if="editor?.isActive('table')">
-      <menus-toolbar-table-cells-align />
-      <menus-toolbar-table-cells-background />
-      <!-- <menus-toolbar-table-border-color  /> -->
+      <e-menus-toolbar-table-cells-align />
+      <e-menus-toolbar-table-cells-background />
+      <!-- <e-menus-toolbar-table-border-color  /> -->
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-table-add-row-before />
-      <menus-toolbar-table-add-row-after />
-      <menus-toolbar-table-add-column-before />
-      <menus-toolbar-table-add-column-after />
+      <e-menus-toolbar-table-add-row-before />
+      <e-menus-toolbar-table-add-row-after />
+      <e-menus-toolbar-table-add-column-before />
+      <e-menus-toolbar-table-add-column-after />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-table-delete-row />
-      <menus-toolbar-table-delete-column />
+      <e-menus-toolbar-table-delete-row />
+      <e-menus-toolbar-table-delete-column />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-table-merge-cells />
-      <menus-toolbar-table-split-cell />
+      <e-menus-toolbar-table-merge-cells />
+      <e-menus-toolbar-table-split-cell />
     </template>
     <template v-else-if="editor?.isActive('tag')">
-      <menus-bubble-tag-input />
-      <menus-bubble-tag-builtin />
+      <e-menus-bubble-tag-input />
+      <e-menus-bubble-tag-builtin />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-tag-color />
-      <menus-bubble-tag-background />
+      <e-menus-bubble-tag-color />
+      <e-menus-bubble-tag-background />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-tag-delete />
+      <e-menus-bubble-tag-delete />
     </template>
     <template v-else-if="editor?.isActive('echarts')">
-      <menus-toolbar-base-align-left />
-      <menus-toolbar-base-align-center />
-      <menus-toolbar-base-align-right />
+      <e-menus-toolbar-base-align-left />
+      <e-menus-toolbar-base-align-center />
+      <e-menus-toolbar-base-align-right />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-tools-echarts ico="setting" />
-      <menus-bubble-node-delete />
+      <e-menus-toolbar-tools-echarts ico="setting" />
+      <e-menus-bubble-node-delete />
     </template>
     <template v-else-if="editor?.isActive('optionBox')">
-      <menus-toolbar-base-font-size :select="false" />
-      <menus-toolbar-base-bold />
-      <menus-toolbar-base-italic />
+      <e-menus-toolbar-base-font-size :select="false" />
+      <e-menus-toolbar-base-bold />
+      <e-menus-toolbar-base-italic />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-base-color />
-      <menus-toolbar-base-background-color />
+      <e-menus-toolbar-base-color />
+      <e-menus-toolbar-base-background-color />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-insert-option-box :to-edit="true" />
+      <e-menus-toolbar-insert-option-box :to-edit="true" />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-bubble-node-delete />
+      <e-menus-bubble-node-delete />
     </template>
     <template v-else>
       <template v-if="options.ai?.assistant?.enabled">
-        <menus-bubble-assistant />
+        <e-menus-bubble-assistant />
         <div class="umo-bubble-menu-divider"></div>
       </template>
-      <menus-toolbar-base-font-size :select="false" />
+      <e-menus-toolbar-base-font-size :select="false" />
       <div
         v-if="
           !disableMenu('font-size-increase') ||
@@ -183,24 +183,24 @@
         "
         class="umo-bubble-menu-divider"
       ></div>
-      <menus-toolbar-base-bold />
-      <menus-toolbar-base-italic />
-      <menus-toolbar-base-underline />
-      <menus-toolbar-base-strike />
+      <e-menus-toolbar-base-bold />
+      <e-menus-toolbar-base-italic />
+      <e-menus-toolbar-base-underline />
+      <e-menus-toolbar-base-strike />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-base-align-dropdown />
-      <menus-toolbar-insert-link v-if="!disableMenu('link')" />
+      <e-menus-toolbar-base-align-dropdown />
+      <e-menus-toolbar-insert-link v-if="!disableMenu('link')" />
       <div class="umo-bubble-menu-divider"></div>
-      <menus-toolbar-base-color />
+      <e-menus-toolbar-base-color />
       <template v-if="!editor?.isActive('textBox')">
-        <menus-toolbar-base-background-color />
-        <menus-toolbar-base-highlight v-if="!disableMenu('highlight')" />
+        <e-menus-toolbar-base-background-color />
+        <e-menus-toolbar-base-highlight v-if="!disableMenu('highlight')" />
       </template>
       <template v-else>
-        <menus-bubble-text-box-border />
-        <menus-bubble-text-box-background />
+        <e-menus-bubble-text-box-border />
+        <e-menus-bubble-text-box-background />
         <div class="umo-bubble-menu-divider"></div>
-        <menus-bubble-node-delete />
+        <e-menus-bubble-node-delete />
       </template>
     </template>
     <template v-if="editor?.state?.selection">

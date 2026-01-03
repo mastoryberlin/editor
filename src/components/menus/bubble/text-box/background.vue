@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="table-cells-background"
     :text="t('bubbleMenu.textBox.background')"
     menu-type="popup"
@@ -8,13 +8,13 @@
     @toggle-popup="togglePopup"
   >
     <template #content>
-      <picker-color default-color="transparent" @change="colorChange" />
+      <e-picker-color default-color="transparent" @change="colorChange" />
     </template>
-  </menus-button>
+  </e-menus-button>
 </template>
 
 <script setup lang="ts">
-import { getSelectionNode } from '@/extensions/selection'
+import { getSelectionNode } from '~~/editor/src/extensions/selection'
 const emits = defineEmits(['change'])
 
 const { popupVisible, togglePopup } = usePopup()

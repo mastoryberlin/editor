@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="align-left"
     :text="t('base.align.left')"
     shortcut="Ctrl+Shift+L"

@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     v-if="select"
     :text="t('base.fontSize.text')"
     menu-type="select"
@@ -16,15 +16,15 @@
     filterable
     @menu-click="setFontSize"
   >
-  </menus-button>
-  <menus-button
+  </e-menus-button>
+  <e-menus-button
     v-if="!disableMenu('font-size-increase')"
     ico="font-size-increase"
     :text="t('base.fontSize.increase')"
     hide-text
     @menu-click="increaseFontSize"
   />
-  <menus-button
+  <e-menus-button
     v-if="!disableMenu('font-size-decrease')"
     ico="font-size-decrease"
     :text="t('base.fontSize.decrease')"

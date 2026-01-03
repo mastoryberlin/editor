@@ -24,10 +24,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import type { ReactiveVariable } from '@vue-macros/reactivity-transform/macros'
 
-import { mediaPlayer } from '@/utils/player'
+import { mediaPlayer } from '~~/editor/src/utils/player'
 
 import { updateAttributesWithoutHistory } from '../file'
 
@@ -37,11 +39,11 @@ const editor = inject('editor')
 const uploadFileMap = inject('uploadFileMap')
 
 const containerRef = ref<HTMLElement | null>(null)
-const audiorRef = $ref<ReactiveVariable<HTMLAudioElement> | null>(null)
-let player = $ref<Plyr | null>(null)
-let selected = $ref(false)
+const audiorRef = ref<ReactiveVariable<HTMLAudioElement> | null>(null)
+let player = ref<Plyr | null>(null)
+let selected = ref(false)
 
-const nodeStyle = $computed(() => {
+const nodeStyle = computed(() => {
   const { nodeAlign, margin } = node.attrs
   const marginTop =
     margin?.top && margin?.top !== '' ? `${margin.top}px` : undefined
@@ -55,7 +57,7 @@ const nodeStyle = $computed(() => {
 })
 
 onMounted(async () => {
-  player = mediaPlayer(audiorRef)
+  player.value = mediaPlayer(audiorRef.value)
   if (node.attrs.uploaded || !node.attrs.id) {
     return
   }
@@ -78,13 +80,13 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
-  if (player) {
-    player?.destroy()
+  if (player.value) {
+    player.value?.destroy()
   }
 })
 
 onClickOutside(containerRef, () => {
-  selected = false
+  selected.value = false
 })
 </script>
 

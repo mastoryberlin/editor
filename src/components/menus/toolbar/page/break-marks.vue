@@ -1,5 +1,5 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="break-marks"
     :text="t('page.breakMarks')"
     huge

@@ -1,6 +1,6 @@
-import 'virtual:svg-icons-register'
+// import 'virtual:svg-icons-register'
 
-import type { UmoEditorOptions } from '@/types'
+import type { UmoEditorOptions } from '~~/editor/types'
 
 import UmoEditor from './index.vue'
 import UmoMenuButton from './menus/button.vue'

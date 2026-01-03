@@ -1,11 +1,11 @@
 <template>
-  <menus-button
+  <e-menus-button
     ico="embed"
     :text="t('export.embed.text')"
     huge
     @menu-click="dialogVisible = true"
   />
-  <modal
+  <e-modal
     :visible="dialogVisible"
     width="460px"
     :confirm-btn="t('export.embed.copy')"
@@ -13,7 +13,7 @@
     @close="dialogVisible = false"
   >
     <template #header>
-      <icon name="embed" />
+      <EIcon name="embed" />
       {{ t('export.embed.title') }}
     </template>
     <div class="umo-embed-container">
@@ -25,13 +25,14 @@
         autosize
       ></t-textarea>
     </div>
-  </modal>
+  </e-modal>
 </template>
 
 <script setup lang="ts">
+
 const options = inject('options')
 const container = inject('container')
-let dialogVisible = $ref(false)
+let dialogVisible = ref(false)
 
 const embedValue = computed(() => {
   return `<iframe src="${options.value.shareUrl}" width="100%" height="720px" frameborder="0" allowfullscreen="true"></iframe>`
@@ -44,7 +45,7 @@ const copyEmbed = () => {
     attach: container,
     content: t('export.embed.copied'),
   })
-  dialogVisible = false
+  dialogVisible.value = false
 }
 </script>
 
