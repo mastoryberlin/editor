@@ -1,8 +1,8 @@
 <template>
   <e-menus-button
     ico="table-cells-background"
-    :text="t('table.cellBgColor.text')"
-    :tooltip="t('table.cellBgColor.tip')"
+    :text="$t('table.cellBgColor.text')"
+    :tooltip="$t('table.cellBgColor.tip')"
     menu-type="popup"
     huge
     :disabled="!editor?.can().setCellAttribute('background', '')"

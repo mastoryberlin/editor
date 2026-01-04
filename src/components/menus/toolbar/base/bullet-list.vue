@@ -38,6 +38,7 @@
 
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
+const { t, locale } = useI18n()
 
 const options = [
   { label: t('list.bullet.disc'), value: 'disc' },

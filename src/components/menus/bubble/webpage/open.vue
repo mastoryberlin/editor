@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="new-window"
-    :text="t('bubbleMenu.webpage.open')"
+    :text="$t('bubbleMenu.webpage.open')"
     @menu-click="openWebpage"
   />
 </template>

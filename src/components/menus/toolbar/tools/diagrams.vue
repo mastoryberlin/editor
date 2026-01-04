@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     :ico="content ? 'edit' : 'diagrams'"
-    :text="content ? t('tools.diagrams.edit') : t('tools.diagrams.text')"
+    :text="content ? $t('tools.diagrams.edit') : $t('tools.diagrams.text')"
     huge
     @menu-click="dialogVisible = true"
   >
@@ -15,10 +15,10 @@
     >
       <template #header>
         <EIcon name="diagrams" />
-        {{ content ? t('tools.diagrams.edit') : t('tools.diagrams.text') }}
+        {{ content ? $t('tools.diagrams.edit') : $t('tools.diagrams.text') }}
       </template>
       <div v-if="loading" class="umo-diagrams-loading">
-        <t-loading :text="t('tools.diagrams.loading')" size="small" />
+        <t-loading :text="$t('tools.diagrams.loading')" size="small" />
       </div>
       <div class="umo-diagrams-container"></div>
     </e-modal>

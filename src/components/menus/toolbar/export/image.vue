@@ -18,6 +18,7 @@ const container = inject('container')
 const exportFile = inject('exportFile')
 const page = inject('page')
 const options = inject('options')
+const { t, locale } = useI18n()
 
 const formats = [
   { content: t('export.image.png'), value: 'png' },

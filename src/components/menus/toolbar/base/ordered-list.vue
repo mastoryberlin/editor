@@ -56,6 +56,7 @@
 
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
+const { t, locale } = useI18n()
 
 const options = [
   { label: t('list.ordered.decimal'), value: 'decimal' },

@@ -13,6 +13,8 @@ const emits = defineEmits(['hide-bubble'])
 const container = inject('container')
 const editor = inject('editor')
 
+const { t } = useI18n()
+
 const copyLink = () => {
   const { meta } = editor.value.storage.link
   const { copy } = useClipboard({

@@ -50,7 +50,7 @@
             variant="outline"
             theme="default"
             @click="insertCommand(item)"
-            v-text="l(item.label)"
+            v-text="l(item.label, locale)"
           ></t-button>
         </div>
       </div>
@@ -124,6 +124,7 @@
 <script setup lang="ts">
 
 import { isString } from '@tool-belt/type-predicates'
+import { l } from '~~/editor/src/composables/i18n'
 
 import { getSelectionText, setSelectionText } from '~~/editor/src/extensions/selection'
 import type {
@@ -146,14 +147,14 @@ const result = ref<AssistantResult>({
   error: false,
 })
 const generating = ref<boolean>(false)
+  
+const { t, locale } = useI18n()
 
 const send = async () => {
   generating.value = true
   result.value.error = false
   result.value.prompt = ''
   result.value.content = ''
-
-  const { locale } = useI18n()
 
   const payload: AssistantPayload = {
     lang: locale.value,
@@ -223,8 +224,8 @@ const send = async () => {
 }
 
 const insertCommand = ({ value, autoSend }: CommandItem) => {
-  command.value = l(value ?? '') ?? ''
-  result.value.command = l(value ?? '') ?? ''
+  command.value = l(value ?? '', locale) ?? ''
+  result.value.command = l(value ?? '', locale) ?? ''
   result.value.content = ''
   inputRef.value?.focus()
   if (autoSend !== false) {

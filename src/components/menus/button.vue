@@ -104,7 +104,7 @@
               <span class="umo-button-icon-arrow umo-button-handle">
                 <EIcon name="arrow-down" />
               </span>
-              <slot v-if="!selectOptions" name="dropmenu" />
+              <slot v-if="!selectOptions" name="dropmenu" ></slot>
             </t-dropdown>
           </t-button>
         </template>
@@ -165,7 +165,7 @@
                 <EIcon name="arrow-down" />
               </span>
             </t-button>
-            <slot v-if="!selectOptions" name="dropmenu" />
+            <slot v-if="!selectOptions" name="dropmenu" ></slot>
           </t-dropdown>
         </template>
       </template>
@@ -241,7 +241,7 @@
               </span>
               <template #content>
                 <div ref="popupContentRef" class="umo-popup-content">
-                  <slot name="content" />
+                  <slot name="content" ></slot>
                 </div>
               </template>
               <span
@@ -309,7 +309,7 @@
             </t-button>
             <template #content>
               <div ref="popupContentRef" class="umo-popup-content">
-                <slot name="content" />
+                <slot name="content" ></slot>
               </div>
             </template>
           </t-popup>

@@ -1,8 +1,8 @@
 <template>
   <e-menus-button
     ico="chinese-case"
-    :text="t('tools.chineseCase.text')"
-    :tooltip="t('tools.chineseCase.tip')"
+    :text="$t('tools.chineseCase.text')"
+    :tooltip="$t('tools.chineseCase.tip')"
     :disabled="selectionText === ''"
     menu-type="dropdown"
     huge

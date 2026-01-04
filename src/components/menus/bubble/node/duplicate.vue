@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="node-duplicate"
-    :text="t('blockMenu.duplicate')"
+    :text="$t('blockMenu.duplicate')"
     @menu-click="duplicateNode"
   />
 </template>

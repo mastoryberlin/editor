@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="code-block"
-    :text="t('insert.codeBlock')"
+    :text="$t('insert.codeBlock')"
     shortcut="Ctrl+Alt+C"
     huge
     @menu-click="editor?.chain().focus().setCodeBlock().run()"

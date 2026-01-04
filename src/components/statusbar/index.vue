@@ -339,7 +339,7 @@ import type { DropdownOption } from 'tdesign-vue-next'
 
 import { getShortcut } from '~~/editor/src/utils/shortcut'
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 const container = inject('container')
 const editor = inject('editor')
 const page = inject('page')

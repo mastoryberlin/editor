@@ -1,8 +1,8 @@
 <template>
   <e-menus-button
     ico="table"
-    :text="t('table.insert.text')"
-    :tooltip="t('table.insert.tip')"
+    :text="$t('table.insert.text')"
+    :tooltip="$t('table.insert.tip')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"
@@ -24,7 +24,7 @@
       <div class="umo-table-custom">
         <div
           class="umo-table-custom-title"
-          v-text="t('table.insert.property')"
+          v-text="$t('table.insert.property')"
         ></div>
         <t-input-number
           v-model="selected.rows"
@@ -32,7 +32,7 @@
           align="right"
           :max="1000"
           :min="0"
-          :label="t('table.insert.rows')"
+          :label="$t('table.insert.rows')"
         />
         <t-input-number
           v-model="selected.cols"
@@ -40,10 +40,10 @@
           align="right"
           :max="30"
           :min="0"
-          :label="t('table.insert.cols')"
+          :label="$t('table.insert.cols')"
         />
         <t-checkbox v-model="withHeaderRow">
-          {{ t('table.insert.withHeader') }}
+          {{ $t('table.insert.withHeader') }}
         </t-checkbox>
         <t-button
           class="umo-insert-button"
@@ -51,7 +51,7 @@
           theme="primary"
           variant="base"
           @click="insertTable"
-          v-text="t('table.insert.create')"
+          v-text="$t('table.insert.create')"
         >
         </t-button>
       </div>

@@ -7,7 +7,7 @@
     placement="top-left"
     :popper-options="popperOptions"
   >
-    <slot />
+    <slot ></slot>
     <template #content>
       <div class="umo-preview-countdown">
         <div class="umo-preview-countdown-title">
@@ -105,6 +105,7 @@ const props = defineProps({
 const emits = defineEmits(['countdown-change', 'exit-preivew', 'close'])
 
 const container = inject('container')
+const { t, locale } = useI18n()
 
 const popperOptions = {
   modifiers: [

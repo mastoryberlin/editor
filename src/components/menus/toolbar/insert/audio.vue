@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="audio"
-    :text="t('insert.audio')"
+    :text="$t('insert.audio')"
     huge
     @menu-click="
       editor

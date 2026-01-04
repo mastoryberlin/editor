@@ -1,4 +1,4 @@
-export const timeAgo = (timestamp: string | number | Date) => {
+export const timeAgo = (timestamp: string | number | Date, t: ReturnType<typeof useI18n>['t']) => {
   const messages = {
     justNow: t('time.justNow'),
     past: (n: string | number | Date) =>

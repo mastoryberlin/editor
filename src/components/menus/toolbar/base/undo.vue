@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="undo"
-    :text="t('base.undo')"
+    :text="$t('base.undo')"
     shortcut="Ctrl+Z"
     hide-text
     :disabled="historyRecords.done.length === 0"

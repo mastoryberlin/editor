@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="color"
-    :text="t('bubbleMenu.tag.color')"
+    :text="$t('bubbleMenu.tag.color')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"

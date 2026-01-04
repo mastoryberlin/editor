@@ -1,4 +1,4 @@
-// import 'virtual:svg-icons-register'
+import 'virtual:svg-icons-register'
 
 import type { UmoEditorOptions } from '~~/editor/types'
 

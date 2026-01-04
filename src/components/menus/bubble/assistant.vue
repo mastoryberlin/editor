@@ -13,6 +13,8 @@ const openAssistant = () => {
   assistant.value = true
   editor.value?.commands.focus()
 }
+
+const { t } = useI18n()
 </script>
 
 <style lang="less" scoped></style>

@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="break-marks"
-    :text="t('page.breakMarks')"
+    :text="$t('page.breakMarks')"
     huge
     :menu-active="page.showBreakMarks"
     @menu-click="toggleInvisibleCharacters"

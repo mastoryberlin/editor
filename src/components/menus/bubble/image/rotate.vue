@@ -1,11 +1,11 @@
 <template>
   <e-menus-button
     ico="image-rotate"
-    :text="t('bubbleMenu.image.rotateCC')"
+    :text="$t('bubbleMenu.image.rotateCC')"
     @menu-click="setRotate(-90)"
   />
   <e-menus-button
-    :text="t('bubbleMenu.image.rotateC')"
+    :text="$t('bubbleMenu.image.rotateC')"
     @menu-click="setRotate(90)"
   >
     <EIcon name="image-rotate" style="transform: rotateY(180deg)" />

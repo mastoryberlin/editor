@@ -44,6 +44,7 @@ const props = defineProps({
 const editor = inject('editor')
 const options = inject('options')
 const typeWriterIsRunning = inject('typeWriterIsRunning')
+const { t } = useI18n()
 
 const disableMenu = (name: string) => {
   return options.value.disableExtensions.includes(name)

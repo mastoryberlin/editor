@@ -7,7 +7,7 @@
         size="small"
         block
         @click="selectColor(color)"
-        v-text="t('colorPicker.default')"
+        v-text="$t('colorPicker.default')"
       >
       </t-button>
     </div>
@@ -22,7 +22,7 @@
     </div>
     <div
       class="umo-color-picker-group-title"
-      v-text="t('colorPicker.standard')"
+      v-text="$t('colorPicker.standard')"
     ></div>
     <div class="umo-color-picker-group">
       <div
@@ -36,7 +36,7 @@
     <div
       v-if="$recent.colors.length > 0"
       class="umo-color-picker-group-title"
-      v-text="t('colorPicker.recent')"
+      v-text="$t('colorPicker.recent')"
     ></div>
     <div v-if="$recent.colors.length > 0" class="umo-color-picker-group">
       <div
@@ -57,7 +57,7 @@
       <div class="umo-color-picker-more" :class="{ active: moreColorPicker }">
         <div class="umo-color-picker-more-menu">
           <EIcon name="palette-color" />
-          <span v-text="t('colorPicker.more')"></span>
+          <span v-text="$t('colorPicker.more')"></span>
         </div>
         <div class="umo-color-picker-more-arrow">
           <EIcon name="arrow-down" />

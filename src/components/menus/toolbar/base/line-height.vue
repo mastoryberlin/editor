@@ -10,15 +10,18 @@
 </template>
 
 <script setup lang="ts">
+import { l } from '~~/editor/src/composables/i18n'
+
 const editor = inject('editor')
 const options = inject('options')
+const { t, locale } = useI18n()
 
 const lineHeights = computed(() => {
   return options.value.dicts?.lineHeights.map((item: any) => {
     return {
       content: item.default
-        ? l(item.label) + t('base.lineHeight.default')
-        : l(item.label),
+        ? l(item.label, locale) + t('base.lineHeight.default')
+        : l(item.label, locale),
       value: item.value,
       active: editor.value?.isActive({ lineHeight: item.value }),
     }

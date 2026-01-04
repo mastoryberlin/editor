@@ -71,7 +71,7 @@
           <e-menus-toolbar-base-print v-if="!disableMenu('print')" />
         </div>
         <div class="virtual-group is-slot">
-          <slot name="toolbar_base" toolbar-mode="classic" />
+          <slot name="toolbar_base" toolbar-mode="classic" ></slot>
         </div>
       </template>
       <template v-if="currentMenu === 'insert'">
@@ -108,7 +108,7 @@
           <e-menus-toolbar-insert-web-page v-if="!disableMenu('web-page')" />
         </div>
         <div class="virtual-group is-slot">
-          <slot name="toolbar_insert" toolbar-mode="classic" />
+          <slot name="toolbar_insert" toolbar-mode="classic" ></slot>
         </div>
       </template>
       <template v-if="currentMenu === 'table'">
@@ -148,7 +148,7 @@
           <e-menus-toolbar-table-delete />
         </div>
         <div class="virtual-group is-slot">
-          <slot name="toolbar_table" toolbar-mode="classic" />
+          <slot name="toolbar_table" toolbar-mode="classic" ></slot>
         </div>
       </template>
       <template v-if="currentMenu === 'tools'">
@@ -172,7 +172,7 @@
           />
         </div>
         <div class="virtual-group is-slot">
-          <slot name="toolbar_tools" toolbar-mode="classic" />
+          <slot name="toolbar_tools" toolbar-mode="classic" ></slot>
         </div>
       </template>
       <template v-if="currentMenu === 'page'">
@@ -195,7 +195,7 @@
           <e-menus-toolbar-page-preview v-if="!disableMenu('preview')" />
         </div>
         <div class="virtual-group is-slot">
-          <slot name="toolbar_page" toolbar-mode="classic" />
+          <slot name="toolbar_page" toolbar-mode="classic" ></slot>
         </div>
       </template>
       <template v-if="currentMenu === 'export'">
@@ -209,7 +209,7 @@
           <e-menus-toolbar-export-embed v-if="!disableMenu('embed')" />
         </div>
         <div class="virtual-group is-slot">
-          <slot name="toolbar_export" toolbar-mode="classic" />
+          <slot name="toolbar_export" toolbar-mode="classic" ></slot>
         </div>
       </template>
     </div>

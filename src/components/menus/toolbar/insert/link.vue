@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="link"
-    :text="t('insert.link.text')"
+    :text="$t('insert.link.text')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"
@@ -10,33 +10,33 @@
     <template #content>
       <div class="umo-link-container">
         <t-form label-align="top">
-          <t-form-item :label="t('insert.link.hrefText')">
+          <t-form-item :label="$t('insert.link.hrefText')">
             <t-input
               v-model.trim="text"
               :status="error.text ? 'error' : 'default'"
-              :placeholder="t('insert.link.hrefTextTip')"
+              :placeholder="$t('insert.link.hrefTextTip')"
               clearable
             />
           </t-form-item>
-          <t-form-item :label="t('insert.link.href')">
+          <t-form-item :label="$t('insert.link.href')">
             <t-input
               v-model="href"
               :status="error.href ? 'error' : 'default'"
               type="url"
               clearable
-              :placeholder="t('insert.link.hrefTip')"
+              :placeholder="$t('insert.link.hrefTip')"
             />
           </t-form-item>
           <t-form-item>
             <t-button theme="primary" type="submit" @click="insertLink">{{
-              t('insert.link.insert')
+              $t('insert.link.insert')
             }}</t-button>
             <t-button
               theme="default"
               variant="text"
               style="margin-left: 10px"
               @click="removeLink"
-              >{{ t('insert.link.remove') }}</t-button
+              >{{ $t('insert.link.remove') }}</t-button
             >
           </t-form-item>
         </t-form>

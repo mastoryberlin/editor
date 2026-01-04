@@ -95,6 +95,8 @@ import { getSelectionText } from '~~/editor/src/extensions/selection'
 const editor = inject('editor')
 const searchReplace = inject('searchReplace')
 
+const { t, locale } = useI18n()
+
 let searchText = ref<string>('')
 let replaceText = ref<string>('')
 const caseSensitive = ref<boolean>(false)

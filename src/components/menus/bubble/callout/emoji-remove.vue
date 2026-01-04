@@ -13,6 +13,8 @@ const emits = defineEmits(['change'])
 
 const editor = inject('editor')
 
+const { t } = useI18n()
+
 const removeEmoji = () => {
   const callout = editor.value ? getSelectionNode(editor.value) : null
   if (callout) {

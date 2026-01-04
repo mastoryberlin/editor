@@ -1,6 +1,6 @@
 <template>
   <e-menus-button
-    :text="t('base.align.center')"
+    :text="$t('base.align.center')"
     ico="align-center"
     shortcut="Ctrl+Shift+E"
     hide-text

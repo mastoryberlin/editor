@@ -8,7 +8,7 @@
     <div class="umo-heading-container">
       <template v-for="(item, index) in options" :key="item.value">
         <div
-          v-if="index < 4"
+          v-if="index as number < 4"
           class="card"
           :class="{ active: item.value === currentValue && editor?.isEditable }"
           @click="setHeading(item.value)"
@@ -32,7 +32,7 @@
           <div ref="popupContentRef" class="umo-heading-container">
             <template v-for="(item, index) in options" :key="item.value">
               <div
-                v-if="index >= 4"
+                v-if="index as number >= 4"
                 class="card"
                 :class="{
                   active: item.value === currentValue && editor?.isEditable,
@@ -77,6 +77,9 @@ import { onClickOutside } from "@vueuse/core"
 const { popupVisible } = usePopup()
 const container = inject('container')
 const editor = inject('editor')
+
+const { t, locale } = useI18n()
+
 const $toolbar = useEditorState('toolbar', () => inject('options'))
 const popupContentRef = ref(null)
 

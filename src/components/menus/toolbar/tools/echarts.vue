@@ -236,6 +236,7 @@ const { mode } = defineProps({
 const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
+const { t, locale } = useI18n()
 
 // 弹窗口显示隐藏 true 显示 默认隐藏
 let dialogVisible = ref(false)

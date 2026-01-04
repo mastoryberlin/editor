@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="outdent"
-    :text="t('base.outdent')"
+    :text="$t('base.outdent')"
     shortcut="Shift+Tab"
     hide-text
     @menu-click="editor?.chain().focus().outdent().run()"

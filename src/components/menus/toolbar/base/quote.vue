@@ -1,6 +1,6 @@
 <template>
   <e-menus-button
-    :text="t('base.quote')"
+    :text="$t('base.quote')"
     ico="quote"
     shortcut="Ctrl+Shift+B"
     hide-text

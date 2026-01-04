@@ -23,11 +23,11 @@
         :key="item.value ?? ''"
         class="umo-font-family-item"
         :value="item.value ?? ''"
-        :label="l(item.label)"
+        :label="l(item.label, locale)"
       >
         <span
           :style="{ fontFamily: item.value ?? undefined }"
-          v-text="l(item.label)"
+          v-text="l(item.label, locale)"
         ></span>
         <span
           v-if="!fontDetect(item.value ?? '')"
@@ -46,6 +46,9 @@ import { isString } from '@tool-belt/type-predicates'
 
 const editor = inject('editor')
 const options = inject('options')
+
+const { t, locale } = useI18n()
+
 const $toolbar = useEditorState('toolbar', () => options)
 const $recent = useEditorState('recent', () => options)
 const typeWriterIsRunning = inject('typeWriterIsRunning')

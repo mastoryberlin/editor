@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="align-right"
-    :text="t('base.align.right')"
+    :text="$t('base.align.right')"
     shortcut="Ctrl+Shift+R"
     hide-text
     :menu-active="

@@ -13,6 +13,7 @@ const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
 const $toolbar = useEditorState('toolbar', () => options)
+const { t, locale } = useI18n()
 
 const deleteColumn = () => {
   const dialog = useConfirm({

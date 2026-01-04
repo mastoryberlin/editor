@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="watermark"
-    :text="t('page.watermark.text')"
+    :text="$t('page.watermark.text')"
     huge
     menu-type="popup"
     :popup-visible="popupVisible"
@@ -12,7 +12,7 @@
         <div class="umo-watermark-toolbar">
           <e-menus-button
             style="width: 140px"
-            :tooltip="t('page.watermark.fontFamily')"
+            :tooltip="$t('page.watermark.fontFamily')"
             menu-type="select"
             :select-options="fonts ?? []"
             :select-value="page.watermark?.fontFamily"
@@ -24,7 +24,7 @@
           ></e-menus-button>
           <e-menus-button
             menu-type="input"
-            :tooltip="t('page.watermark.fontSize')"
+            :tooltip="$t('page.watermark.fontSize')"
           >
             <t-input-number
               v-if="page.watermark"
@@ -45,7 +45,7 @@
           </e-menus-button>
           <e-menus-toolbar-base-color
             v-if="page.watermark"
-            :text="t('page.watermark.fontColor')"
+            :text="$t('page.watermark.fontColor')"
             :default-color="page.watermark?.fontColor"
             modeless
             @change="
@@ -70,12 +70,12 @@
           :value="page.watermark.text"
           maxlength="30"
           clearable
-          :placeholder="t('page.watermark.content')"
+          :placeholder="$t('page.watermark.content')"
           @change="(newText) => updateWatermark({ text: newText })"
         />
         <div
           class="umo-watermark-type-title"
-          v-text="t('page.watermark.type')"
+          v-text="$t('page.watermark.type')"
         ></div>
         <div class="umo-watermark-type">
           <div
@@ -85,7 +85,7 @@
             @click="updateWatermark({ type: 'compact' })"
           >
             <div class="bg"></div>
-            <span v-text="t('page.watermark.compact')"></span>
+            <span v-text="$t('page.watermark.compact')"></span>
           </div>
           <div
             v-if="page.watermark"
@@ -94,7 +94,7 @@
             @click="updateWatermark({ type: 'spacious' })"
           >
             <div class="bg"></div>
-            <span v-text="t('page.watermark.spacious')"></span>
+            <span v-text="$t('page.watermark.spacious')"></span>
           </div>
         </div>
         <t-button
@@ -103,7 +103,7 @@
           block
           variant="outline"
           @click="clearWatermark"
-          v-text="t('page.watermark.clear')"
+          v-text="$t('page.watermark.clear')"
         ></t-button>
       </div>
     </template>
@@ -111,14 +111,17 @@
 </template>
 
 <script setup lang="ts">
+import { l } from '~~/editor/src/composables/i18n'
+
 const { popupVisible, togglePopup } = usePopup()
 
 const page = inject('page')
 const options = inject('options')
+const { locale } = useI18n()
 
 const fonts = options.value.dicts?.fonts.map((item: any) => {
   return {
-    label: l(item.label),
+    label: l(item.label, locale),
     value: item.value ?? '',
   }
 })

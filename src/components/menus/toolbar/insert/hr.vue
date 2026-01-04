@@ -57,6 +57,7 @@
 const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
 const editor = inject('editor')
+const { t, locale } = useI18n()
 
 const options = [
   { label: t('insert.hr.signle'), value: 'signle' },

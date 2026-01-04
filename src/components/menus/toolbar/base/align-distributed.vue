@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="align-distributed"
-    :text="t('base.align.distributed')"
+    :text="$t('base.align.distributed')"
     shortcut="Ctrl+Shift+D"
     hide-text
     :menu-active="editor?.isActive({ textAlign: 'distributed' })"

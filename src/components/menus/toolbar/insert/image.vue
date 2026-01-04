@@ -35,6 +35,7 @@ const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
 const editor = inject('editor')
 const uploadFileMap = inject('uploadFileMap')
+const { t, locale } = useI18n()
 
 const imageOptions = [
   {
@@ -49,7 +50,7 @@ const imageOptions = [
   },
 ]
 
-const menuClick = (type) => {
+const menuClick = (type: string) => {
   editor.value
     ?.chain()
     .focus()

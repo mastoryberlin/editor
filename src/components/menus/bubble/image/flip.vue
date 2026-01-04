@@ -1,12 +1,12 @@
 <template>
   <e-menus-button
     ico="image-flip"
-    :text="t('bubbleMenu.image.flipX')"
+    :text="$t('bubbleMenu.image.flipX')"
     :menu-active="flipYActive"
     @menu-click="setFlip('flipY')"
   />
   <e-menus-button
-    :text="t('bubbleMenu.image.flipY')"
+    :text="$t('bubbleMenu.image.flipY')"
     :menu-active="flipXActive"
     @menu-click="setFlip('flipX')"
   >

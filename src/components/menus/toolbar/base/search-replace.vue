@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="search-replace"
-    :text="t('search.text')"
+    :text="$t('search.text')"
     shortcut="Ctrl+F"
     huge
     @menu-click="searchReplace = true"

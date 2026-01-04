@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     :ico="`align-${textAlign}`"
-    :text="t('base.align.title')"
+    :text="$t('base.align.title')"
     menu-type="popup"
     hide-text
     :disabled="!editor?.can().chain().focus().setTextAlign('center').run()"

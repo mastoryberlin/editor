@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="task-list"
-    :text="t('list.task.text')"
+    :text="$t('list.task.text')"
     shortcut="Ctrl+Shift+9"
     menu-type="dropdown"
     popup-handle="arrow"
@@ -15,19 +15,19 @@
           :disabled="!editor?.can().splitListItem('taskItem')"
           @click="editor?.chain().focus().splitListItem('taskItem').run()"
         >
-          {{ t('list.task.split') }}
+          {{ $t('list.task.split') }}
         </t-dropdown-item>
         <t-dropdown-item
           :disabled="!editor?.can().sinkListItem('taskItem')"
           @click="editor?.chain().focus().sinkListItem('taskItem').run()"
         >
-          {{ t('list.task.sink') }}
+          {{ $t('list.task.sink') }}
         </t-dropdown-item>
         <t-dropdown-item
           :disabled="!editor?.can().liftListItem('taskItem')"
           @click="editor?.chain().focus().liftListItem('taskItem').run()"
         >
-          {{ t('list.task.lift') }}
+          {{ $t('list.task.lift') }}
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>

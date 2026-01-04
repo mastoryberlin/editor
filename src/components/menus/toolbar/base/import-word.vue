@@ -14,6 +14,7 @@ const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
 const $options = options.value.importWord
+const { t, locale } = useI18n()
 
 // 动态导入 mammoth.js
 onMounted(async () => {

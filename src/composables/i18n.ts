@@ -1,20 +1,12 @@
 import { isRecord } from '@tool-belt/type-predicates'
 
-import { i18n } from '../i18n'
-
-const { global } = i18n
-
-// @ts-ignore
-export const { t } = global
-
-export const l = (data: string | Record<string, string>) => {
+export const l = (data: string | Record<string, string>, locale: ReturnType<typeof useI18n>['locale'] | ReturnType<typeof useI18n>['locale']['value']) => {
   if (typeof data === 'string') {
     return data
   }
 
   if (isRecord(data)) {
-    return data[global.locale.value.replace('-', '_')]
+    const loc = typeof locale === 'string' ? locale : locale.value
+    return data[loc.replace('-', '_')]
   }
 }
-
-export const useI18n = () => global

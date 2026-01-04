@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="underline"
-    :text="t('base.underline')"
+    :text="$t('base.underline')"
     shortcut="Ctrl+U"
     hide-text
     :menu-active="editor?.isActive('underline')"

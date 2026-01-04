@@ -37,6 +37,7 @@ import { getShortcut } from '~~/editor/src/utils/shortcut'
 
 const options = inject('options')
 const $document = useEditorState('document', () => options)
+const { t, locale } = useI18n()
 
 const shortcuts = ref<
   {

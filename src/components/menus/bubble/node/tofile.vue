@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="file-view"
-    :text="t('bubbleMenu.toFile')"
+    :text="$t('bubbleMenu.toFile')"
     @menu-click="ndoeTofile"
   />
 </template>

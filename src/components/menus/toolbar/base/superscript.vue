@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="superscript"
-    :text="t('base.superscript')"
+    :text="$t('base.superscript')"
     shortcut="Ctrl+."
     hide-text
     :menu-active="editor?.isActive('superscript')"

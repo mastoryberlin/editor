@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="table"
-    :text="t('table.borderColor')"
+    :text="$t('table.borderColor')"
     menu-type="popup"
     huge
     :disabled="!editor?.can().setCellAttribute('borderColor', '')"

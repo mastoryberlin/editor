@@ -9,7 +9,7 @@
       v-if="options?.document?.enableBubbleMenu && !assistant"
     >
       <template #bubble_menu="props">
-        <slot name="bubble_menu" v-bind="props" />
+        <slot name="bubble_menu" v-bind="props" ></slot>
       </template>
     </e-menus-bubble-menus>
     <e-ai-assistant-input v-if="options?.ai?.assistant?.enabled && assistant" />

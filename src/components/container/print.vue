@@ -11,6 +11,8 @@ const exportFile = inject('exportFile')
 const page = inject('page')
 const options = inject('options')
 
+const { t, locale } = useI18n()
+
 const iframeRef = ref<HTMLIFrameElement | null>(null)
 let iframeCode = ref('')
 const getStylesHtml = () => {

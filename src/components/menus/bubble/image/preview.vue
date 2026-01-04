@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="image-preview"
-    :text="t('bubbleMenu.image.preview')"
+    :text="$t('bubbleMenu.image.preview')"
     @menu-click="openImageViewer"
   />
 </template>

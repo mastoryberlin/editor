@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="columns"
-    :text="t('insert.columns')"
+    :text="$t('insert.columns')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"

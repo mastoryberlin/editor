@@ -1,6 +1,7 @@
 import type { DialogOptions, MessageOptions } from 'tdesign-vue-next'
 import { DialogPlugin, MessagePlugin } from 'tdesign-vue-next'
 
+ //TODOU
 export const useAlert = (
   parmas: Omit<DialogOptions, 'placement' | 'cancelBtn'>,
 ) => {
@@ -13,7 +14,7 @@ export const useConfirm = (parmas: DialogOptions) => {
   return DialogPlugin.confirm({
     placement: 'center',
     preventScrollThrough: false,
-    cancelBtn: t('dialog.cancel'),
+    cancelBtn: 'Cancel'/* t('dialog.cancel') */,
     ...parmas,
   })
 }

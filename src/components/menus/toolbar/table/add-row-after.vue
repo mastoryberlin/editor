@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="table-add-row-after"
-    :text="t('table.addRowAfter')"
+    :text="$t('table.addRowAfter')"
     :hide-text="$toolbar.mode === 'classic'"
     :disabled="!editor?.can().addRowAfter()"
     @menu-click="editor?.chain().focus().addRowAfter().run()"

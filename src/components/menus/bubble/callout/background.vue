@@ -21,6 +21,8 @@ const emits = defineEmits(['change'])
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 
+const { t } = useI18n()
+
 const colorChange = (color: any) => {
   popupVisible.value = false
   const backgroundColor = color === '' ? null : color

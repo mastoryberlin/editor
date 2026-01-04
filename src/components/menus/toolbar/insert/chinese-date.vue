@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="date"
-    :text="t('insert.date')"
+    :text="$t('insert.date')"
     menu-type="dropdown"
     huge
     :select-options="options"

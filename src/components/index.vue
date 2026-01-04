@@ -32,14 +32,14 @@
             :key="item"
             #[`toolbar_${item}`]="slotProps"
           >
-            <slot :name="`toolbar_${item}`" v-bind="slotProps" />
+            <slot :name="`toolbar_${item}`" v-bind="slotProps" ></slot>
           </template>
         </EToolbar>
       </header>
       <main class="umo-main">
         <EContainerPage>
           <template #bubble_menu="slotProps">
-            <slot name="bubble_menu" v-bind="slotProps" />
+            <slot name="bubble_menu" v-bind="slotProps" ></slot>
           </template>
         </EContainerPage>
       </main>
@@ -70,7 +70,6 @@ import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
 
 import { getSelectionNode, getSelectionText } from '~~/editor/src/extensions/selection'
 import { getTypewriterRunState } from '~~/editor/src/extensions/type-writer'
-import { i18n } from '~~/editor/src/i18n'
 import { propsOptions } from '~~/editor/src/options'
 import type {
   InsterContentOptions,
@@ -96,6 +95,7 @@ import {
 import { getOpitons } from '~~/editor/src/utils/options'
 import { shortId } from '~~/editor/src/utils/short-id'
 import { useStorage } from '@vueuse/core'
+import { l } from '../composables/i18n'
 
 const { toBlob, toJpeg, toPng } = domToImage
 
@@ -468,7 +468,6 @@ watch(
 // i18n Setup
 // @ts-ignore
 const { t, locale, mergeLocaleMessage } = useI18n()
-const l = t
 const $locale = useStorage('umo-editor:locale', options.value.locale)
 locale.value = $locale.value
 consoleCopyright()
@@ -573,11 +572,11 @@ const setPage = (params: {
     }
     const size = options.value.dicts?.pageSizes.find(
       (item: any) =>
-        item.label === params.size || l(item.label) === params.size,
+        item.label === params.size || l(item.label, locale) === params.size,
     )
     if (!size) {
       throw new Error(
-        `"params.size" must be one of ${options.value.dicts?.pageSizes.map((item: any) => l(item.label))}.`,
+        `"params.size" must be one of ${options.value.dicts?.pageSizes.map((item: any) => l(item.label, locale))}.`,
       )
     }
     page.value.size = size
@@ -833,7 +832,6 @@ const setLocale = (params: SupportedLocale) => {
 }
 
 const getLocale = () => locale.value
-const getI18n = () => i18n
 
 // Export Methods
 const getImage = async (format: 'blob' | 'jpeg' | 'png' = 'blob') => {
@@ -1290,7 +1288,6 @@ defineExpose({
   setCurrentNodeSelection: () =>
     editor.value?.commands.setCurrentNodeSelection() as boolean | undefined,
   getLocale,
-  getI18n,
   setReadOnly(readOnly = true) {
     if (options.value.document) {
       options.value.document.readOnly = readOnly

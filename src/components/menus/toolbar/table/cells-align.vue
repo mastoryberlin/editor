@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 const editor = inject('editor')
+const { t, locale } = useI18n()
 
 const alignments = [
   { content: t('table.cellAlign.lt'), value: 'left-top' },

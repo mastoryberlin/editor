@@ -223,6 +223,7 @@
 
 import JsBarcode from 'jsbarcode'
 import svg64 from 'svg64'
+import { l } from '~~/editor/src/composables/i18n';
 
 import { shortId } from '~~/editor/src/utils/short-id'
 
@@ -240,6 +241,7 @@ const container = inject('container')
 const editor = inject('editor')
 const options = inject('options')
 const uploadFileMap = inject('uploadFileMap')
+const { t, locale } = useI18n()
 
 // 工具栏
 const formats = [
@@ -261,7 +263,7 @@ const formats = [
 ]
 const fonts = options.value.dicts?.fonts.map((item: any) => {
   return {
-    label: l(item.label),
+    label: l(item.label, locale),
     value: item.value ?? '',
   }
 })

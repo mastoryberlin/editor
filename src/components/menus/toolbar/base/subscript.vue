@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="subscript"
-    :text="t('base.subscript')"
+    :text="$t('base.subscript')"
     shortcut="Ctrl+,"
     hide-text
     :menu-active="editor?.isActive('subscript')"

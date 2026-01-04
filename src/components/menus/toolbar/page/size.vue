@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="page-size"
-    :text="t('page.size.text')"
+    :text="$t('page.size.text')"
     menu-type="dropdown"
     overlay-class-name="umo-page-size-dropdown"
   >
@@ -19,14 +19,14 @@
           :min-column-width="150"
           @click="page.size = item"
         >
-          <div class="label" v-text="l(item.label)"></div>
+          <div class="label" v-text="l(item.label, locale)"></div>
           <div class="desc">
-            {{ item.width + t('page.size.cm') }} ×
-            {{ item.height + t('page.size.cm') }}
+            {{ item.width + $t('page.size.cm') }} ×
+            {{ item.height + $t('page.size.cm') }}
           </div>
         </t-dropdown-item>
         <t-dropdown-item @click="dialogVisible = true">
-          <div class="label" v-text="t('page.size.custom')"></div>
+          <div class="label" v-text="$t('page.size.custom')"></div>
         </t-dropdown-item>
       </t-dropdown-menu>
     </template>
@@ -39,6 +39,7 @@
 const page = inject('page')
 const options = inject('options')
 const dialogVisible = ref(false)
+const { locale } = useI18n()
 </script>
 
 <style lang="less">

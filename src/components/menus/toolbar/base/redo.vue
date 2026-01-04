@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="redo"
-    :text="t('base.redo')"
+    :text="$t('base.redo')"
     shortcut="Ctrl+Y / Ctrl+Shift+Z"
     hide-text
     :disabled="historyRecords.undone.length === 0"

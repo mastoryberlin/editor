@@ -7,7 +7,7 @@
     :show-arrow="false"
     destroy-on-close
   >
-    <slot />
+    <slot ></slot>
   </t-tooltip>
 </template>
 

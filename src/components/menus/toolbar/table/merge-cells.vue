@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="table-merge-cell"
-    :text="t('table.mergeCells')"
+    :text="$t('table.mergeCells')"
     :hide-text="$toolbar.mode === 'classic'"
     :disabled="!editor?.can().mergeCells()"
     @menu-click="editor?.chain().focus().mergeCells().run()"

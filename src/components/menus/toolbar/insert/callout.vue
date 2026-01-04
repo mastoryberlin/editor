@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="callout"
-    :text="t('insert.callout')"
+    :text="$t('insert.callout')"
     huge
     @menu-click="editor?.chain().focus().insertCallout().run()"
   />

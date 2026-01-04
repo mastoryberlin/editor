@@ -102,6 +102,7 @@ const props = defineProps({
     default: false,
   },
 })
+const { t, locale } = useI18n()
 
 let boxData = ref([])
 let boxType = ref('checkbox')

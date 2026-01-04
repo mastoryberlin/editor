@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="clear-format"
-    :text="t('base.clearFormat')"
+    :text="$t('base.clearFormat')"
     hide-text
     @menu-click="editor?.chain().focus().unsetAllMarks().run()"
   />

@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="video"
-    :text="t('insert.video')"
+    :text="$t('insert.video')"
     huge
     @menu-click="
       editor

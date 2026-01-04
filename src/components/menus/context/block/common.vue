@@ -15,14 +15,14 @@
     />
     <t-dropdown-menu>
       <t-dropdown-item class="umo-block-menu-group-name" disabled>
-        {{ t('blockMenu.common') }}
+        {{ $t('blockMenu.common') }}
       </t-dropdown-item>
       <t-dropdown-item
         v-if="editor?.isActive('paragraph') || editor?.isActive('heading')"
       >
         <e-menus-button
           ico="node-switch"
-          :text="t('blockMenu.toogleNode')"
+          :text="$t('blockMenu.toogleNode')"
           :tooltip="false"
         />
         <t-dropdown-menu
@@ -32,7 +32,7 @@
           <t-dropdown-item>
             <e-menus-button
               ico="paragraph"
-              :text="t('base.heading.paragraph')"
+              :text="$t('base.heading.paragraph')"
               :tooltip="false"
               shortcut-text="ctrl+alt+0"
               @menu-click="toggleNodeType('paragraph')"
@@ -41,7 +41,7 @@
           <t-dropdown-item>
             <e-menus-button
               ico="heading"
-              :text="t('base.heading.text')"
+              :text="$t('base.heading.text')"
               :tooltip="false"
             />
             <t-dropdown-menu
@@ -62,7 +62,7 @@
                 >
                   <span class="umo-heading">
                     <span class="icon-heading">H{{ item }}</span>
-                    {{ t('base.heading.text', { level: item }) }}
+                    {{ $t('base.heading.text', { level: item }) }}
                   </span>
                 </e-menus-button>
               </t-dropdown-item>
@@ -71,7 +71,7 @@
           <t-dropdown-item>
             <e-menus-button
               ico="ordered-list-2"
-              :text="t('list.ordered.text')"
+              :text="$t('list.ordered.text')"
               :tooltip="false"
               shortcut-text="Ctrl+Shift+7"
               :menu-active="editor?.isActive('orderedList')"
@@ -81,7 +81,7 @@
           <t-dropdown-item>
             <e-menus-button
               ico="bullet-list-2"
-              :text="t('list.bullet.text')"
+              :text="$t('list.bullet.text')"
               :tooltip="false"
               shortcut-text="Ctrl+Shift+8"
               :menu-active="editor?.isActive('bulletList')"
@@ -91,7 +91,7 @@
           <t-dropdown-item>
             <e-menus-button
               ico="task-list-2"
-              :text="t('list.task.text')"
+              :text="$t('list.task.text')"
               :tooltip="false"
               shortcut-text="Ctrl+Shift+9"
               :menu-active="editor?.isActive('taskList')"
@@ -101,7 +101,7 @@
           <t-dropdown-item>
             <e-menus-button
               ico="quote"
-              :text="t('base.quote')"
+              :text="$t('base.quote')"
               :tooltip="false"
               shortcut-text="Ctrl+Shift+B"
               :menu-active="editor?.isActive('blockquote')"
@@ -113,7 +113,7 @@
       <t-dropdown-item>
         <e-menus-button
           ico="node-clear-format"
-          :text="t('blockMenu.clearFormat')"
+          :text="$t('blockMenu.clearFormat')"
           :tooltip="false"
           @menu-click="clearTextFormatting"
         />
@@ -121,7 +121,7 @@
       <t-dropdown-item divider>
         <e-menus-button
           ico="node-duplicate"
-          :text="t('blockMenu.duplicate')"
+          :text="$t('blockMenu.duplicate')"
           :tooltip="false"
           @menu-click="duplicateNode"
         />
@@ -129,7 +129,7 @@
       <t-dropdown-item>
         <e-menus-button
           ico="node-copy"
-          :text="t('blockMenu.copy')"
+          :text="$t('blockMenu.copy')"
           :tooltip="false"
           @menu-click="copyNodeToClipboard"
         />
@@ -137,7 +137,7 @@
       <t-dropdown-item>
         <e-menus-button
           ico="node-cut"
-          :text="t('blockMenu.cut')"
+          :text="$t('blockMenu.cut')"
           :tooltip="false"
           @menu-click="cutNodeToClipboard"
         />
@@ -145,7 +145,7 @@
       <t-dropdown-item class="umo-delete-node">
         <e-menus-button
           ico="node-delete-2"
-          :text="t('blockMenu.delete')"
+          :text="$t('blockMenu.delete')"
           :tooltip="false"
           @menu-click="deleteNode"
         />

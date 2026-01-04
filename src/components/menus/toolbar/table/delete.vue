@@ -11,6 +11,7 @@
 <script setup lang="ts">
 const container = inject('container')
 const editor = inject('editor')
+const { t, locale } = useI18n()
 
 const deleteTable = () => {
   const dialog = useConfirm({

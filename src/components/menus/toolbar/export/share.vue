@@ -33,6 +33,7 @@
 const options = inject('options')
 const container = inject('container')
 let dialogVisible = ref(false)
+const { t, locale } = useI18n()
 
 const copyLink = () => {
   const { copy } = useClipboard({ source: options.value.shareUrl })

@@ -69,6 +69,7 @@
 const container = inject('container')
 const editor = inject('editor')
 const page = inject('page')
+const { t, locale } = useI18n()
 
 // 弹窗口显示隐藏 true显示 默认隐藏
 let dialogVisible = ref(false)

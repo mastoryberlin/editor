@@ -55,6 +55,8 @@ const { popupVisible, togglePopup } = usePopup()
 const container = inject('container')
 const page = inject('page')
 const options = inject('options')
+const { t, locale } = useI18n()
+
 const backgrounds = [
   { label: t('page.bg.default'), value: options.value.page.defaultBackground },
   { label: t('page.bg.color1'), value: 'rgb(233, 246, 227)' },

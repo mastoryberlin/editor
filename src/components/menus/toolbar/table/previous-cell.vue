@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="table-previous-cell"
-    :text="t('table.prevCell')"
+    :text="$t('table.prevCell')"
     shortcut="Shift+Tab"
     :hide-text="$toolbar.mode === 'classic'"
     :disabled="!editor?.can().goToPreviousCell()"

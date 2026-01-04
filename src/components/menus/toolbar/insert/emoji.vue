@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="emoji"
-    :text="t('insert.emoji')"
+    :text="$t('insert.emoji')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"
@@ -10,7 +10,7 @@
     <template #content>
       <div class="umo-emojis-container narrow-scrollbar">
         <template v-for="(group, index) in options.dicts?.emojis" :key="index">
-          <div class="umo-emojis-group-title" v-text="l(group.label)"></div>
+          <div class="umo-emojis-group-title" v-text="l(group.label, locale)"></div>
           <div class="umo-emojis-group-container">
             <div
               v-for="(item, i) in group.items.split(' ')"
@@ -34,6 +34,8 @@ const props = defineProps({
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 const options = inject('options')
+
+const { locale } = useI18n()
 
 const selectEmoji = (emoji: string) => {
   if (props.onSelectEmoji) {

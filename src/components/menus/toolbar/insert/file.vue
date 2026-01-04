@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="file"
-    :text="t('insert.file')"
+    :text="$t('insert.file')"
     huge
     @menu-click="
       editor

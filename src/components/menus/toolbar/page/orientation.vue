@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 const page = inject('page')
+const { t, locale } = useI18n()
 
 const orientations = [
   { label: t('page.orientation.landscape'), value: 'landscape' },

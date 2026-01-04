@@ -1,6 +1,6 @@
 <template>
   <e-menus-button
-    :text="t('base.indent')"
+    :text="$t('base.indent')"
     ico="indent"
     shortcut="Tab"
     hide-text

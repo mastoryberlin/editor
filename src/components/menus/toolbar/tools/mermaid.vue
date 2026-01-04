@@ -57,6 +57,7 @@ let dialogVisible = ref(false)
 const editor = inject('editor')
 const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
+const { t, locale } = useI18n()
 
 //  初始化 Mermaid
 const mermaidInit = () => {

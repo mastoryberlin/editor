@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="page-break"
-    :text="t('page.break')"
+    :text="$t('page.break')"
     shortcut="Ctrl+Enter"
     huge
     @menu-click="setPageBreak"

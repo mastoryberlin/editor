@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="mention"
-    :text="t('insert.mention')"
+    :text="$t('insert.mention')"
     huge
     @menu-click="editor?.chain().focus().insertMention().run()"
   />

@@ -52,7 +52,7 @@
           <div class="umo-page-node-content">
             <EEditor>
               <template #bubble_menu="props">
-                <slot name="bubble_menu" v-bind="props" />
+                <slot name="bubble_menu" v-bind="props" ></slot>
               </template>
             </EEditor>
           </div>

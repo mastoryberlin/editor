@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="node-delete"
-    :text="t('bubbleMenu.tag.delete')"
+    :text="$t('bubbleMenu.tag.delete')"
     @menu-click="editor?.chain().focus().deleteSelection().run()"
   />
 </template>

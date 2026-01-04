@@ -2,7 +2,7 @@
   <e-menus-button
     v-if="options.templates && options.templates.length"
     ico="template"
-    :text="t('insert.template')"
+    :text="$t('insert.template')"
     menu-type="dropdown"
     huge
     overlay-class-name="umo-templates-dropdown"

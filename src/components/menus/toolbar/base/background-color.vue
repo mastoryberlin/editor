@@ -1,6 +1,6 @@
 <template>
   <e-menus-button
-    :text="text || t('base.bgColor')"
+    :text="text || $t('base.bgColor')"
     menu-type="popup"
     popup-handle="arrow"
     hide-text

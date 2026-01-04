@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="margin"
-    :text="t('base.margin.text')"
+    :text="$t('base.margin.text')"
     menu-type="popup"
     popup-handle="arrow"
     hide-text
@@ -16,8 +16,8 @@
           theme="column"
           align="left"
           size="small"
-          :label="`↥${t('base.margin.top')}:`"
-          :placeholder="t('base.margin.default')"
+          :label="`↥${$t('base.margin.top')}:`"
+          :placeholder="$t('base.margin.default')"
           :input-props="{ clearable: true }"
           :max="500"
           :min="0"
@@ -28,15 +28,15 @@
           theme="column"
           align="left"
           size="small"
-          :label="`↧${t('base.margin.bottom')}:`"
-          :placeholder="t('base.margin.default')"
+          :label="`↧${$t('base.margin.bottom')}:`"
+          :placeholder="$t('base.margin.default')"
           :input-props="{ clearable: true }"
           :max="500"
           :min="0"
           @change="setMargin"
         />
         <t-button variant="outline" size="small" @click="resetMargin">
-          {{ t('base.margin.reset') }}
+          {{ $t('base.margin.reset') }}
         </t-button>
       </div>
     </template>

@@ -24,18 +24,18 @@
       >
         <e-menus-button
           ico="assistant"
-          :text="t('assistant.text')"
+          :text="$t('assistant.text')"
           :tooltip="false"
           @menu-click="openAssistant"
         />
       </t-dropdown-item>
       <t-dropdown-item class="umo-block-menu-group-name" disabled>
-        {{ t('blockMenu.insert') }}
+        {{ $t('blockMenu.insert') }}
       </t-dropdown-item>
       <t-dropdown-item>
         <e-menus-button
           ico="table"
-          :text="t('table.insert.text')"
+          :text="$t('table.insert.text')"
           :tooltip="false"
           @menu-click="editor?.chain().focus().insertTable().run()"
         />
@@ -65,7 +65,7 @@
       <t-dropdown-item v-if="!disableMenu('hr')">
         <e-menus-button
           ico="hr"
-          :text="t('insert.hr.text')"
+          :text="$t('insert.hr.text')"
           :tooltip="false"
           @menu-click="editor?.chain().focus().setHr({ type: 'signle' }).run()"
         />
@@ -107,7 +107,7 @@
       <t-dropdown-item v-if="options.templates.length > 0">
         <e-menus-button
           ico="template"
-          :text="t('blockMenu.template')"
+          :text="$t('blockMenu.template')"
           :tooltip="false"
         />
         <t-dropdown-menu

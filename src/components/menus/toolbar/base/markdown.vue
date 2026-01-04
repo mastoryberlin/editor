@@ -19,6 +19,7 @@ const container = inject('container')
 const destroyed = inject('destroyed')
 const options = inject('options')
 const $document = useEditorState('document', () => options)
+const { t, locale } = useI18n()
 
 const toggleMarkdownMode = () => {
   const dialog = useConfirm({

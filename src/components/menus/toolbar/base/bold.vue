@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="bold"
-    :text="t('base.bold')"
+    :text="$t('base.bold')"
     shortcut="Ctrl+B"
     hide-text
     :menu-active="editor?.isActive('bold')"

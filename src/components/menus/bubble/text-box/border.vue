@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="border"
-    :text="t('bubbleMenu.textBox.border')"
+    :text="$t('bubbleMenu.textBox.border')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"
@@ -21,7 +21,7 @@
           >
             <span>
               <EIcon name="palette-color" />
-              {{ t('bubbleMenu.textBox.borderColor') }}
+              {{ $t('bubbleMenu.textBox.borderColor') }}
             </span>
             <div class="arrow">
               <EIcon name="arrow-down" />
@@ -42,7 +42,7 @@
           <div class="umo-textbox-border-dropdown-item">
             <span>
               <EIcon name="border" size="16" />
-              {{ t('bubbleMenu.textBox.borderStyle') }}
+              {{ $t('bubbleMenu.textBox.borderStyle') }}
             </span>
             <div class="arrow">
               <EIcon name="arrow-down" />
@@ -66,7 +66,7 @@
         <div class="umo-textbox-border-dropdown-item" @click="noBorder">
           <span>
             <EIcon name="border-none" size="16" />
-            {{ t('bubbleMenu.textBox.noBorder') }}
+            {{ $t('bubbleMenu.textBox.noBorder') }}
           </span>
         </div>
       </div>

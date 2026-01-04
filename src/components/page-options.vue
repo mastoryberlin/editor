@@ -39,15 +39,15 @@
             @change="selectPageSize as any"
           >
             <template #valueDisplay>
-              {{ l(pageOptions.size?.label) }}
+              {{ l(pageOptions.size?.label, locale) }}
             </template>
             <t-option
               v-for="(item, index) in options.dicts?.pageSizes"
               :key="index"
               :value="index"
-              :title="`${l(item.label)} (${item.width}×${item.height}${t('page.size.cm')})`"
+              :title="`${l(item.label, locale)} (${item.width}×${item.height}${t('page.size.cm')})`"
             >
-              <div class="label" v-text="l(item.label)"></div>
+              <div class="label" v-text="l(item.label, locale)"></div>
               <div class="desc">
                 {{ item.width }}{{ t('page.size.cm') }} × {{ item.height
                 }}{{ t('page.size.cm') }}
@@ -249,6 +249,8 @@ const emits = defineEmits(['close'])
 const container = inject('container')
 const page = inject('page')
 const options = inject('options')
+
+const { t, locale } = useI18n()
 
 let pageOptions = ref({})
 watch(

@@ -8,6 +8,7 @@ import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
 import History from '@tiptap/extension-history'
 import Mathematics from '@tiptap/extension-mathematics'
+import { NodeRange } from '@tiptap/extension-node-range'
 import Placeholder from '@tiptap/extension-placeholder'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
@@ -134,7 +135,7 @@ export const getDefaultExtensions = ({
       history: false,
     }),
     Placeholder.configure({
-      placeholder: () => String(l(doc?.placeholder ?? '')),
+      placeholder: () => '' /* String(l(doc?.placeholder ?? '')) */, //TODOU
     }),
     History.extend({
       addKeyboardShortcuts() {
@@ -160,6 +161,7 @@ export const getDefaultExtensions = ({
     Indent,
     TextAlign,
     NodeAlign,
+    NodeRange,
     SearchReplace.configure({
       searchResultClass: 'umo-search-result',
     }),

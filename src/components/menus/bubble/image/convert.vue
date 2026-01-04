@@ -3,8 +3,8 @@
     ico="image-inline"
     :text="
       menuActive
-        ? t('bubbleMenu.image.convertToNode')
-        : t('bubbleMenu.image.convertToInline')
+        ? $t('bubbleMenu.image.convertToNode')
+        : $t('bubbleMenu.image.convertToInline')
     "
     :menu-active="menuActive"
     @menu-click="convertPosition"

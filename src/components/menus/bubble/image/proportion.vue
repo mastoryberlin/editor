@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="equal-proportion"
-    :text="t('bubbleMenu.image.proportion')"
+    :text="$t('bubbleMenu.image.proportion')"
     :menu-active="proportionActive"
     @menu-click="toggleEqualProportion"
   />

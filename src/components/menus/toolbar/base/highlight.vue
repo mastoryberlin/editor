@@ -42,6 +42,7 @@
 <script setup lang="ts">
 
 const editor = inject('editor')
+const { t, locale } = useI18n()
 
 interface HighlightOption {
   label: string
@@ -73,7 +74,7 @@ const options: HighlightOption[] = [
 let highlight = ref<HighlightOption | undefined>()
 const highlightChange = (item: HighlightOption) => {
   if (!item) {
-    highlightChange(options[0])
+    highlightChange(options[0]!)
     return
   }
   if (item.bgcolor) {

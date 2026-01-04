@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="strike"
-    :text="t('base.strike')"
+    :text="$t('base.strike')"
     shortcut="Ctrl+Shift+X"
     hide-text
     :menu-active="editor?.isActive('strike')"

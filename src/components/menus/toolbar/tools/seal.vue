@@ -43,6 +43,7 @@ const editor = inject('editor')
 const options = inject('options')
 const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
+const { t, locale } = useI18n()
 
 let sealImg = ref<string | null>(null)
 let converting = ref<string | null>(null)

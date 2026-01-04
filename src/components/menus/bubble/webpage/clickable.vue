@@ -2,7 +2,7 @@
   <e-menus-button
     :menu-active="editor?.getAttributes('iframe')?.clickable"
     ico="clickable"
-    :text="t('bubbleMenu.webpage.clickable')"
+    :text="$t('bubbleMenu.webpage.clickable')"
     @menu-click="toggleClickable"
   />
 </template>

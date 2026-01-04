@@ -2,7 +2,7 @@
   <e-menus-button
     v-if="editor?.getAttributes('file')?.uploaded"
     ico="download"
-    :text="t('bubbleMenu.file.download')"
+    :text="$t('bubbleMenu.file.download')"
     @menu-click="downloadFile"
   />
 </template>

@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="color"
-    :text="text || t('base.color')"
+    :text="text || $t('base.color')"
     menu-type="popup"
     popup-handle="arrow"
     hide-text

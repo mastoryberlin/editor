@@ -78,6 +78,7 @@ const container = inject('container')
 const uploadFileMap = inject('uploadFileMap')
 let dialogVisible = ref(false)
 let openSmooth = ref(false)
+const { t, locale } = useI18n()
 
 const lineWidthOptions = ref([
   { content: '2', value: 2 },

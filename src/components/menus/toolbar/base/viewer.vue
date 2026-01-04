@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="viewer"
-    :text="t('base.viewer')"
+    :text="$t('base.viewer')"
     huge
     @menu-click="viewer = true"
   />

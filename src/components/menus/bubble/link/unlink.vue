@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="node-delete"
-    :text="t('insert.link.remove')"
+    :text="$t('insert.link.remove')"
     hide-text
     @menu-click="unsetLink"
   />

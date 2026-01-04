@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="toc"
-    :text="t('insert.toc')"
+    :text="$t('insert.toc')"
     huge
     @menu-click="editor?.chain().focus().addTableOfContents().run()"
   />

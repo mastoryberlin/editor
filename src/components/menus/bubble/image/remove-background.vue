@@ -2,8 +2,8 @@
   <e-menus-button
     :text="
       converting
-        ? t('bubbleMenu.image.removingBg')
-        : t('bubbleMenu.image.removeBg')
+        ? $t('bubbleMenu.image.removingBg')
+        : $t('bubbleMenu.image.removeBg')
     "
     :disabled="converting"
     @menu-click="removeBg"

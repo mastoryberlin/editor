@@ -34,6 +34,8 @@ const container = inject('container')
 const editor = inject('editor')
 const page = inject('page')
 
+const { t, locale } = useI18n()
+
 defineEmits(['close'])
 
 interface TocItem {
@@ -59,14 +61,14 @@ const buildTocTree = (tocArray: Record<string, any>[]): TocItem[] => {
     }
     while (
       stack.length > 0 &&
-      stack[stack.length - 1].level >= item.originalLevel
+      stack[stack.length - 1]!.level >= item.originalLevel
     ) {
       stack.pop()
     }
     if (stack.length === 0) {
       root.push(node)
     } else {
-      stack[stack.length - 1].children!.push(node)
+      stack[stack.length - 1]!.children!.push(node)
     }
     stack.push(node)
   }

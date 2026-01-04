@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="symbol"
-    :text="t('insert.symbol')"
+    :text="$t('insert.symbol')"
     menu-type="popup"
     huge
     :popup-visible="popupVisible"
@@ -10,7 +10,7 @@
     <template #content>
       <div class="umo-symbols-container narrow-scrollbar">
         <template v-for="(group, index) in options.dicts?.symbols" :key="index">
-          <div class="umo-symbols-group-title" v-text="l(group.label)"></div>
+          <div class="umo-symbols-group-title" v-text="l(group.label, locale)"></div>
           <div class="umo-symbols-group-container">
             <div
               v-for="(item, i) in group.items.split('')"
@@ -31,6 +31,7 @@
 const { popupVisible, togglePopup } = usePopup()
 const editor = inject('editor')
 const options = inject('options')
+const { locale } = useI18n()
 
 const selectSymbol = (char: string) => {
   editor.value?.chain().focus().insertContent(char).run()

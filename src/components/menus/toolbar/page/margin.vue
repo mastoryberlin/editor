@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="page-margin"
-    :text="t('page.margin')"
+    :text="$t('page.margin')"
     huge
     @menu-click="dialogVisible = true"
   >

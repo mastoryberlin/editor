@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="table-header-row"
-    :text="t('table.toggleHeaderRow')"
+    :text="$t('table.toggleHeaderRow')"
     :hide-text="$toolbar.mode === 'classic'"
     :disabled="!editor?.can().toggleHeaderRow()"
     @menu-click="editor?.chain().focus().toggleHeaderRow().run()"

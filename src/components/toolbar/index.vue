@@ -11,7 +11,7 @@
         :key="item"
         #[`toolbar_${item}`]="props"
       >
-        <slot :name="`toolbar_${item}`" v-bind="props" />
+        <slot :name="`toolbar_${item}`" v-bind="props" ></slot>
       </template>
     </e-toolbar-ribbon>
     <e-toolbar-classic
@@ -25,7 +25,7 @@
         :key="item"
         #[`toolbar_${item}`]="props"
       >
-        <slot :name="`toolbar_${item}`" v-bind="props" />
+        <slot :name="`toolbar_${item}`" v-bind="props" ></slot>
       </template>
     </e-toolbar-classic>
     <div class="umo-toolbar-actions" :class="$toolbar.mode">
@@ -53,7 +53,7 @@
             <span class="umo-status-saved button-text">
               <span
                 v-if="savedAt"
-                v-text="t('save.savedAtText', { time: timeAgo(savedAt) })"
+                v-text="t('save.savedAtText', { time: timeAgo(savedAt, t) })"
               ></span>
               <span v-else class="unsaved" v-text="t('save.unsaved')"></span>
             </span>
@@ -69,7 +69,7 @@
               {{ t('save.savedAt') }}
               <span
                 v-if="savedAt"
-                v-text="t('save.savedAtText', { time: timeAgo(savedAt) })"
+                v-text="t('save.savedAtText', { time: timeAgo(savedAt, t) })"
               ></span>
               <span v-else v-text="t('save.unsaved')"></span>
             </div>
@@ -139,7 +139,7 @@ import { useOnline } from '@vueuse/core'
 
 import { timeAgo } from '~~/editor/src/utils/time-ago'
 const emits = defineEmits(['menu-change'])
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const container = inject('container')
 const editor = inject('editor')
@@ -164,7 +164,7 @@ if (options.value.toolbar?.menus) {
     (item: any) => defaultToolbarMenus.filter((menu) => menu.value === item)[0],
   )
 }
-let currentMenu = ref(toolbarMenus[0].value)
+let currentMenu = ref(toolbarMenus[0]!.value)
 const menuChange = (menu: string) => {
   currentMenu.value = menu
   emits('menu-change', menu)

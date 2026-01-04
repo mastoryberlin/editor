@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="node-delete"
-    :text="t('bubbleMenu.delete')"
+    :text="$t('bubbleMenu.delete')"
     shortcut="Backspace"
     @menu-click="editor?.chain().focus().deleteSelectionNode().run()"
   />

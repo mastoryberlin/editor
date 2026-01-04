@@ -15,7 +15,7 @@
       <EIcon name="arrow-down" />
     </div>
     <div ref="contentRef" class="umo-scrollable-content">
-      <slot />
+      <slot ></slot>
     </div>
     <div
       v-if="!hideNext"

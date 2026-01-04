@@ -1,7 +1,7 @@
 <template>
   <e-menus-button
     ico="text-box"
-    :text="t('insert.textBox')"
+    :text="$t('insert.textBox')"
     huge
     @menu-click="editor?.chain().focus().setTextBox({}).run()"
   />

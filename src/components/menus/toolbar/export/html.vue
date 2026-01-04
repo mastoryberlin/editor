@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver'
 
 const editor = inject('editor')
 const options = inject('options')
+const { t, locale } = useI18n()
 
 const saveHtmlFile = () => {
   if (!editor.value) {

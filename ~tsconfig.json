@@ -23,7 +23,6 @@
     "types": [
       "vue",
       "unplugin-vue-macros/macros-global",
-      "@vue-macros/reactivity-transform/macros-global",
       "vite/client",
       "vitest/globals",
       "vitest",

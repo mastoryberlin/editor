@@ -1,6 +1,6 @@
 <template>
   <e-menus-button
-    :text="t('print.text')"
+    :text="$t('print.text')"
     ico="print"
     shortcut="Ctrl+P"
     :disabled="editor?.isEmpty"

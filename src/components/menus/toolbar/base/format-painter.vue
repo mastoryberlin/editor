@@ -1,8 +1,8 @@
 <template>
   <e-menus-button
     ico="format-painter"
-    :text="t('base.formatPainter.text')"
-    :tooltip="t('base.formatPainter.tip')"
+    :text="$t('base.formatPainter.text')"
+    :tooltip="$t('base.formatPainter.tip')"
     :menu-active="editor?.view?.painter?.enabled"
     :disabled="editor?.state?.selection?.empty"
     hide-text

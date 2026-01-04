@@ -7,7 +7,7 @@
   >
     <template #header>
       <EIcon name="about" />
-      {{ t('about.title') }}
+      {{ $t('about.title') }}
     </template>
     <div
       style="
@@ -22,9 +22,9 @@
         <img src="../../assets/images/logo.svg" width="160" style="display: flex" />
       </a>
       <p>
-        {{ t('about.version') }}: v{{ version }} ({{ t('about.openSource') }})
+        {{ $t('about.version') }}: v{{ version }} ({{ $t('about.openSource') }})
       </p>
-      <p v-html="t('about.poweredBy')"></p>
+      <p v-html="$t('about.poweredBy')"></p>
       <p>
         <a href="https://github.com/umodoc/editor" target="_blank"> Github </a>
         |
@@ -32,14 +32,14 @@
           :href="`https://dev.umodoc.com/${locale === 'zh-CN' ? 'cn' : 'en'}/docs/editor`"
           target="_blank"
         >
-          {{ t('about.documentation') }}
+          {{ $t('about.documentation') }}
         </a>
         |
         <a href="https://www.npmjs.com/package/@umoteam/editor" target="_blank">
           NPM
         </a>
       </p>
-      <t-divider>{{ t('about.thanks') }}</t-divider>
+      <t-divider>{{ $t('about.thanks') }}</t-divider>
       <p style="text-align: center; font-size: 12px; padding: 0 10px">
         <a href="https://github.com/Cassielxd" target="_blank">Cassielxd</a>
         ·

@@ -57,6 +57,8 @@
 </template>
 
 <script setup lang="ts">
+import { l } from '~~/editor/src/composables/i18n'
+
 
 const props = defineProps({
   pageType: {
@@ -70,6 +72,7 @@ const props = defineProps({
 })
 const editor = inject('editor')
 const options = inject('options')
+const { t, locale } = useI18n()
 
 let dialogVisible = ref(false)
 
@@ -90,7 +93,7 @@ const formData = ref({
 onMounted(() => {
   if (options.value.webPages.length > 0) {
     options.value.webPages.forEach((item: any) => {
-      item.label = l(item.label)
+      item.label = l(item.label, locale)
       webPages.value.push(item)
     })
   }
