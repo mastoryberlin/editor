@@ -6,7 +6,7 @@
       <div class="umo-node-code-block-toolbar">
         <div class="umo-node-code-block-toolbar-left">
           <template v-if="editor?.isEditable && !options.document?.readOnly">
-            <menus-button
+            <e-menus-button
               :text="t('bubbleMenu.code.languages')"
               menu-type="select"
               style="width: 100px"
@@ -22,7 +22,7 @@
                 (value: string) => updateAttribute('language', value)
               "
             />
-            <menus-button
+            <e-menus-button
               :text="t('bubbleMenu.code.themes.text')"
               menu-type="select"
               style="width: 100px"
@@ -39,7 +39,7 @@
           }}</span>
         </div>
         <div class="umo-node-code-block-toolbar-right">
-          <menus-button
+          <e-menus-button
             class="umo-word-wrap-button"
             :menu-active="node.attrs.wordWrap"
             :text="t('bubbleMenu.code.wordWrap')"
@@ -48,7 +48,7 @@
             force-enabled
             @menu-click="updateAttribute('wordWrap', !node.attrs.wordWrap)"
           />
-          <menus-button
+          <e-menus-button
             class="umo-copy-button"
             ico="copy"
             :text="t('bubbleMenu.code.copy.text')"
@@ -56,7 +56,7 @@
             force-enabled
             @menu-click="copyCode"
           />
-          <menus-button
+          <e-menus-button
             v-if="editor?.isEditable && !options.document?.readOnly"
             class="umo-copy-button"
             ico="node-delete"
@@ -91,6 +91,8 @@ const container = inject('container')
 const options = inject('options')
 const editor = inject('editor')
 const containerRef = ref(null)
+
+const { t } = useI18n()
 
 const languageOptions = lowlight.listLanguages().map((item) => {
   return { label: item, value: item }

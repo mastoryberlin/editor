@@ -29,7 +29,7 @@
         :top="node.attrs.top"
         :min-width="14"
         :min-height="14"
-        :title="t('node.textBox.tip')"
+        :title="$t('node.textBox.tip')"
         :draggable="true"
         @rotate="onRotate"
         @resize="onResize"

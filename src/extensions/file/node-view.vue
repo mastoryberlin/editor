@@ -19,15 +19,15 @@
       >
         <div
           class="umo-file-name"
-          :title="node.attrs.name || t('file.unknownName')"
+          :title="node.attrs.name || $t('file.unknownName')"
         >
-          {{ node.attrs.name || t('file.unknownName') }}
+          {{ node.attrs.name || $t('file.unknownName') }}
         </div>
         <div class="umo-file-meta">
           {{
             node.attrs.size
               ? prettyBytes(node.attrs.size)
-              : t('file.unknownSize')
+              : $t('file.unknownSize')
           }}
         </div>
       </div>
@@ -35,7 +35,7 @@
         <div
           v-if="!node.attrs.uploaded && node.attrs.id !== null"
           class="umo-action-item"
-          :title="t('file.uploading')"
+          :title="$t('file.uploading')"
         >
           <icon class="loading" name="loading" />
         </div>
@@ -43,7 +43,7 @@
           <div
             v-if="supportPreview"
             class="umo-action-item"
-            :title="t('file.preview')"
+            :title="$t('file.preview')"
             :data-preview-url="previewURL"
             :data-file-icon="fileIcon"
             :data-file-name="node.attrs.name"
@@ -56,14 +56,14 @@
             :download="node.attrs.name"
             target="_blank"
             class="umo-action-item"
-            :title="t('file.download')"
+            :title="$t('file.download')"
           >
             <icon name="download" />
           </a>
         </template>
       </div>
     </div>
-    <modal
+    <e-modal
       dialog-class-name="umo-file-preview-modal"
       :visible="previewModal"
       :header="false"
@@ -72,7 +72,7 @@
     >
       <div class="umo-file-preview-modal-header">
         <img :src="fileIcon" class="file-icon" />
-        <h3>{{ node.attrs.name || t('file.unknownName') }}</h3>
+        <h3>{{ node.attrs.name || $t('file.unknownName') }}</h3>
         <t-button
           class="close-btn"
           size="small"
@@ -86,7 +86,7 @@
       <div class="umo-file-preview-modal-body">
         <iframe :src="previewURL"></iframe>
       </div>
-    </modal>
+    </e-modal>
   </node-view-wrapper>
 </template>
 

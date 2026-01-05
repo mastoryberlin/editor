@@ -24,7 +24,7 @@
         :style="{ height: `${node.attrs.height}px` }"
       >
         <icon name="loading" class="loading-icon" />
-        {{ t('node.image.loading') }}
+        {{ $t('node.image.loading') }}
       </div>
       <div
         v-else-if="node.attrs.src && error"
@@ -32,7 +32,7 @@
         :style="{ height: `${node.attrs.height}px` }"
       >
         <icon name="image-failed" class="error-icon" />
-        {{ t('node.image.error') }}
+        {{ $t('node.image.error') }}
       </div>
       <drager
         v-else

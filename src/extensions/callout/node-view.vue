@@ -29,27 +29,25 @@
           :class="{
             'umo-node-callout-empty': node.content.size <= 2,
           }"
-          :data-placeholder="t('callout.placeholder')"
+          :data-placeholder="$t('callout.placeholder')"
         />
       </div>
       <template #content>
-        <menus-bubble-callout-builtin />
+        <e-menus-bubble-callout-builtin />
         <div class="umo-bubble-menu-divider"></div>
-        <menus-toolbar-insert-emoji @select-emoji="selectEmoji" />
-        <menus-bubble-callout-emoji-remove
+        <e-menus-toolbar-insert-emoji @select-emoji="selectEmoji" />
+        <e-menus-bubble-callout-emoji-remove
           v-if="editor.getAttributes('callout').icon"
         />
-        <menus-bubble-callout-background />
+        <e-menus-bubble-callout-background />
         <div class="umo-bubble-menu-divider"></div>
-        <menus-bubble-node-delete />
+        <e-menus-bubble-node-delete />
       </template>
     </t-popup>
   </node-view-wrapper>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 

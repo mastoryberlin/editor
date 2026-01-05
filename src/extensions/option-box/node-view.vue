@@ -24,7 +24,7 @@
           :disabled="isDisabled"
           @click="handleCheckboxAll"
         ></t-checkbox>
-        <span>{{ t('insert.option.check') }}</span>
+        <span>{{ $t('insert.option.check') }}</span>
       </span>
 
       <span

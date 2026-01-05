@@ -3,7 +3,7 @@
     <div
       class="umo-node-container umo-hover-shadow umo-select-outline umo-node-toc"
     >
-      <p class="umo-node-toc-head" v-text="t('toc.title')"></p>
+      <p class="umo-node-toc-head" v-text="$t('toc.title')"></p>
       <div class="umo-node-toc-body">
         <t-tree
           class="umo-toc-tree"
@@ -12,7 +12,7 @@
             label: 'textContent',
             value: 'id',
           }"
-          :empty="t('toc.empty')"
+          :empty="$t('toc.empty')"
           :transition="false"
           activable
           hover
